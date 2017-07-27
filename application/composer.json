@@ -1,0 +1,5 @@
+{
+    "require": {
+        "zoujingli/wechat-php-sdk": "^1.3"
+    }
+}

@@ -8,7 +8,7 @@ class Login extends sczController{
         $wechatOauth=new Wechat\WechatOauth($this->config->item('weixin'));
         $callback='http://wsp.mzlicai.cn/login/code';
         $authorizeUrl=$wechatOauth->getOauthRedirect($callback, 'STATE');
-        header("Location : $authorizeUrl");
+        header("Location: $authorizeUrl");
         exit;
     }
     function code()

@@ -14,5 +14,9 @@ class Login extends sczController{
     function code()
     {
         print_r($_REQUEST);
+        $this->config->load('weixin');
+        $wechatOauth=new Wechat\WechatOauth($this->config->item('weixin'));
+        $accessToekn=$wechatOauth->getOauthAccessToken();
+        prnit_r($accessToekn);
     }
 }

@@ -4,6 +4,9 @@ class Login extends sczController{
     //授权地址  
     function index()
     { 
+        $this->config->item('weixin');
+       $result=$this->db->select('*')->from('user')->where('openId','11111')->get()->result();
+       print_r($result);exit;
         $this->config->load('weixin');
         $wechatOauth=new Wechat\WechatOauth($this->config->item('weixin'));
         $callback='http://wsp.mzlicai.cn/login/code';
@@ -13,6 +16,7 @@ class Login extends sczController{
     }
     function code()
     {
+        echo $videoId=intval($this->uri->segment(3));
         print_r($_REQUEST);
         $this->config->load('weixin');
         $wechatOauth=new Wechat\WechatOauth($this->config->item('weixin'));

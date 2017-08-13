@@ -54,7 +54,7 @@ class SczController extends CI_Controller {
             $userInfo = $wechatOauth->getOauthUserInfo($accessToekenInfo['access_token'], $accessToekenInfo['openid']);
             //静默授权获取用户信息失败 采用主动授权
             if ($userInfo == FALSE) {
-                $authorizeUrl = $wechatOauth->getOauthRedirect($this->config->item('weixin','authRedirectUrl') . '/' . $videoId, 'base', 'userInfo');
+                $authorizeUrl = $wechatOauth->getOauthRedirect($this->config->item('authRedirectUrl','weixin') . '/' . $videoId, 'base', 'userInfo');
                 header("Location: $authorizeUrl");
                 exit;
             }
@@ -93,7 +93,7 @@ class SczController extends CI_Controller {
         }
         //静默授权，拼接授权地址（设置会调地址），并跳转
         else {
-            $authorizeUrl = $wechatOauth->getOauthRedirect($this->config->item('weixin','authRedirectUrl'). '/' . $videoId, 'base', 'snsapi_base');
+            $authorizeUrl = $wechatOauth->getOauthRedirect($this->config->item('authRedirectUrl','weixin'). '/' . $videoId, 'base', 'snsapi_base');
             header("Location: $authorizeUrl");
             exit;
         }

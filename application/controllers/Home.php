@@ -8,7 +8,10 @@
 
 require_once (APPPATH.'vendor/autoload.php');
 class Home extends SczController{
-    
+        public function __construct() {
+            parent::__construct();
+            $this->load->model('redis/redisSet');
+        }
         public function publicity()
         {
             $this->snsapiWeixin();
@@ -27,5 +30,14 @@ class Home extends SczController{
             $data['publicityCover']=$video->publicityCover;
             $data['playUrl']='http://'.$_SERVER['HTTP_HOST']."/comment/index/".$videoId;
             $this->load->view('comment/publicity',$data);
+        }
+        public function getToken()
+        {
+            $userSessionData['a']=111;
+            $userSessionData['b']=111;
+            $this->redisHash->mset(redisKey::USER_INFO_HASH_ID,$userSessionData);
+//            $tToken=$_GET['tToken'];
+           print_r($this->redisSet->smembers('test'));exit;
+
         }
 }

@@ -163,7 +163,7 @@ class SczController extends CI_Controller {
      */
     public function isLogin()
     {
-        if(!isset($_REQUEST['Token']))
+        if(!isset($_REQUEST['token']))
         {
             throw new Exception("token 不存在");
         }

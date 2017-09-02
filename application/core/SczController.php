@@ -77,8 +77,8 @@ class SczController extends CI_Controller {
                     $dbUserInfo=$dbUserInfo[0];
                     log_message('error', "从数据库获取到用户信息");
                     $userInfo = array(
-                        'openId' => $dbUserInfo['openid'],
-                        'nickName' => $dbUserInfo['nickname'],
+                        'openId' => $dbUserInfo['openId'],
+                        'nickName' => $dbUserInfo['nickName'],
                         'sex' => $dbUserInfo['sex'],
                         'province' => $dbUserInfo['province'],
                         'city' => $dbUserInfo['city'],
@@ -117,8 +117,8 @@ class SczController extends CI_Controller {
             if (!empty($userInfo)) {
                 $dbUserInfo=$dbUserInfo[0];
                 $userInfo = array(
-                    'openId' => $userInfo['openid'],
-                    'nickName' => $userInfo['nickname'],
+                    'openId' => $userInfo['openId'],
+                    'nickName' => $userInfo['nickName'],
                     'sex' => $userInfo['sex'],
                     'province' => $userInfo['province'],
                     'city' => $userInfo['city'],

@@ -161,13 +161,18 @@ class SczController extends CI_Controller {
     /**
      * 获取token
      */
-    public function getToken()
+    public function isLogin()
     {
-        $token=$_GET['Token'];
+        if(!isset($_REQUEST['Token']))
+        {
+            throw new Exception("token 不存在");
+        }
+        $token=$_REQUEST['Token'];
         $userInfoJson=$this->redisString->get(redisKey::USER_TOKEN_STRING.$token);
         if(!empty($userInfoJson))
         {
             $this->userInfo= json_encode($userInfoJson,true);
+            return TRUE;
         }
         else
         {

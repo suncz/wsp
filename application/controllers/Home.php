@@ -32,5 +32,10 @@ class Home extends SczController{
             $data['playUrl']='http://'.$_SERVER['HTTP_HOST']."/comment/index/".$videoId;
             $this->load->view('comment/publicity',$data);
         }
+        public function testToken()
+        {
+            $isLogin=parent::isLogin();
+            var_dump($isLogin);
+        }
         
 }

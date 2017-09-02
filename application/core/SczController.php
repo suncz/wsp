@@ -16,6 +16,7 @@ class SczController extends CI_Controller {
         $this->load->library('session');
         $this->config->load('weixin');
         $this->load->model('redis/redisHash');
+        $this->load->model('redis/redisString');
     }
 
     public $result = ['ret' => 0, 'msg' => 'ok'];
@@ -107,8 +108,10 @@ class SczController extends CI_Controller {
                 $userInfo['tokenExpire'] = self::$tokenExpire;
                 log_message('error', '开始插入redis，userId is'.$userId);
                 log_message('error', '开始插入redis，userInfo is '.print_r($userInfo,TRUE));
-                $this->redisHash->mset(redisKey::USER_INFO_HASH_ID . $userId, $userInfo);
-                $this->redisHash->set(redisKey::USER_SESSION_ID_HASH, session_id(), $userId);
+//                $this->redisHash->mset(redisKey::USER_INFO_HASH_ID . $userId, $userInfo);
+//                $this->redisHash->set(redisKey::USER_SESSION_ID_HASH, session_id(), $userId);
+                $this->redisString->setex(RedisKey::USER_TOKEN_STRING.$userInfo['token'], json_encode($userInfo),86400*7);
+                $this->userInfo=$userInfo;
             }
         }//主动授权获取用户信息
         else if (isset($_GET['code']) && $_GET['state'] = 'userInfo') {
@@ -145,8 +148,8 @@ class SczController extends CI_Controller {
             }
             $userInfo['token'] = md5($userId . time() . rand(1, 1000));
             $userInfo['tokenExpire'] = self::$tokenExpire;
-            $this->redisHash->mset(redisKey::USER_INFO_HASH_ID . $userId, $userInfo);
-            $this->redisHash->set(redisKey::USER_SESSION_ID_HASH, session_id(), $userId);
+            $this->redisString->setex(RedisKey::USER_TOKEN_STRING.$userInfo['token'], json_encode($userInfo),self::$tokenExpire);
+            $this->userInfo=$userInfo;
         }
         //静默授权，拼接授权地址（设置会调地址），并跳转
         else {
@@ -154,6 +157,23 @@ class SczController extends CI_Controller {
             header("Location: $authorizeUrl");
             exit;
         }
+    }
+    /**
+     * 获取token
+     */
+    public function getToken()
+    {
+        $token=$_GET['Token'];
+        $userInfoJson=$this->redisString->get(redisKey::USER_TOKEN_STRING.$token);
+        if(!empty($userInfoJson))
+        {
+            $this->userInfo= json_encode($userInfoJson,true);
+        }
+        else
+        {
+            return false;
+        } 
+
     }
 
 }

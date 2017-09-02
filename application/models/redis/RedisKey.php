@@ -8,5 +8,6 @@
 class RedisKey {
     const USER_INFO_HASH_ID='user.info.';
     const USER_SESSION_ID_HASH='user.session';
+    const USER_TOKEN_STRING='user.token.';
 }
 

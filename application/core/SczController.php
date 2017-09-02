@@ -167,7 +167,7 @@ class SczController extends CI_Controller {
         {
             throw new Exception("token 不存在");
         }
-        $token=$_REQUEST['Token'];
+        $token=$_REQUEST['token'];
         $userInfoJson=$this->redisString->get(redisKey::USER_TOKEN_STRING.$token);
         if(!empty($userInfoJson))
         {

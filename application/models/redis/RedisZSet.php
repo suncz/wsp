@@ -3,7 +3,7 @@
 /**
  * Class CRedisZSet
  */
-class redisZSet extends redisBase {
+class RedisZSet extends redisBase {
 
     public function __construct() {
         parent::__construct();

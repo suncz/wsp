@@ -1,6 +1,6 @@
 <?php
 
-class redisList extends redisBase {
+class RedisList extends redisBase {
 
     public function __construct() {
         parent::__construct();

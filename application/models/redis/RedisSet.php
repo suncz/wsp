@@ -1,6 +1,6 @@
 <?php
 
-class redisSet extends redisBase {
+class RedisSet extends redisBase {
 
     public function __construct() {
         parent::__construct();

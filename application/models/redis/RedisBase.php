@@ -1,5 +1,5 @@
 <?php
-require_once 'redisKey.php';
+require_once 'RedisKey.php';
 /**
  * CodeIgniter
  *
@@ -47,7 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author	   Anton Lindqvist <anton@qvister.se>
  * @link
  */
-class redisBase {
+class RedisBase {
 
     /**
      * Default config

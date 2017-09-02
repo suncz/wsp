@@ -1,6 +1,6 @@
 <?php
 
-class redisMulti extends redisBase {
+class RedisMulti extends redisBase {
 
     public function __construct() {
         parent::__construct();

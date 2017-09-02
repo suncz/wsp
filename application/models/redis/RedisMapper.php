@@ -1,6 +1,6 @@
 <?php
 
-class redisMapper extends redisBase {
+class RedisMapper extends redisBase {
 
     public function __construct() {
         parent::__construct();

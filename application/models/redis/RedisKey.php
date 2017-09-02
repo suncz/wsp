@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-class redisKey {
+class RedisKey {
     const USER_INFO_HASH_ID='user.info.';
     const USER_SESSION_ID_HASH='user.session';
 }

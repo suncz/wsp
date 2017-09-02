@@ -33,7 +33,7 @@
                 <!-- <div id="temp"><?= $userId ?></div> -->
             <ul class="kinerNav">
                 <li class="active">聊天互动</li>
-                <li>联系方式</li>
+                <li>活动简介</li>
                 <!-- 		        <li>直播详情</li>         -->
             </ul>
             <div class="box">

@@ -34,9 +34,9 @@ class Home extends SczController{
         }
         public function getToken()
         {
-            log_message('error', 'Some variable did not contain a value.');
+             log_message('error', 'Some variable did not contain a value.');
               $dbUserInfo = $this->db->select('*')->from('user')->where('openId', 'o4GSVjm7AeAe-3_8HiXzqqSczA2g')->get()->result_array();
-            var_dump($dbUserInfo);
+              var_dump($dbUserInfo);
             $userSessionData['a']=111;
             $userSessionData['b']=111;
             $this->redisHash->mset(redisKey::USER_INFO_HASH_ID,$userSessionData);

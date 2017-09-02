@@ -41,7 +41,6 @@ class SczController extends CI_Controller {
      */
     public function snsapiWeixin() {
         log_message('error', 'session Id is:'.session_id());
-        log_message('error', 'session Id is:'.session_id());
         $userId = $this->redisHash->get(redisKey::USER_SESSION_ID_HASH, session_id());
         if ($userId) {
             log_message('error', '从redis中查找到了userId');
@@ -108,9 +107,9 @@ class SczController extends CI_Controller {
                 $userInfo['tokenExpire'] = self::$tokenExpire;
                 log_message('error', '开始插入redis，userId is'.$userId);
                 log_message('error', '开始插入redis，userInfo is '.print_r($userInfo,TRUE));
-//                $this->redisHash->mset(redisKey::USER_INFO_HASH_ID . $userId, $userInfo);
-//                $this->redisHash->set(redisKey::USER_SESSION_ID_HASH, session_id(), $userId);
-                $this->redisString->setex(RedisKey::USER_TOKEN_STRING.$userInfo['token'], json_encode($userInfo),86400*7);
+                $this->redisHash->mset(redisKey::USER_INFO_HASH_ID . $userId, $userInfo);
+                $this->redisHash->set(redisKey::USER_SESSION_ID_HASH, session_id(), $userId);
+//                $this->redisString->setex(RedisKey::USER_TOKEN_STRING.$userInfo['token'], json_encode($userInfo),86400*7);
                 $this->userInfo=$userInfo;
             }
         }//主动授权获取用户信息
@@ -148,7 +147,9 @@ class SczController extends CI_Controller {
             }
             $userInfo['token'] = md5($userId . time() . rand(1, 1000));
             $userInfo['tokenExpire'] = self::$tokenExpire;
-            $this->redisString->setex(RedisKey::USER_TOKEN_STRING.$userInfo['token'], json_encode($userInfo),self::$tokenExpire);
+            $this->redisHash->mset(redisKey::USER_INFO_HASH_ID . $userId, $userInfo);
+            $this->redisHash->set(redisKey::USER_SESSION_ID_HASH, session_id(), $userId);
+//            $this->redisString->setex(RedisKey::USER_TOKEN_STRING.$userInfo['token'], json_encode($userInfo),self::$tokenExpire);
             $this->userInfo=$userInfo;
         }
         //静默授权，拼接授权地址（设置会调地址），并跳转

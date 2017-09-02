@@ -23,6 +23,8 @@ class Home extends SczController{
             $url= strtolower('http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
 //            print_r($video);
             $data['jsSign']=$wechatScript->getJsSign($url);
+            log_message("error", "开始记录返回jsSign");
+            log_message("error", print_r($data['jsSign'],TRUE));
             $data['videoId']=$videoId;
             $data['share']['shareTitle']=$video->shareTitle;
             $data['share']['shareContent']=$video->shareContent;

@@ -99,6 +99,9 @@ class WechatScript extends Common {
             "noncestr"     => '' . empty($noncestr) ? Tools::createNoncestr(16) : $noncestr,
             "url"          => trim($url),
         );
+        log_message("error", "开始记录jsSign");
+        
+        log_message("error", print_r($data,TRUE));
         return array(
             "url"       => $url,
             'debug'     => false,

@@ -46,7 +46,7 @@ class SczController extends CI_Controller {
             log_message('error', '从redis中查找到了userId');
             $this->userInfo = $this->redisHash->all(redisKey::USER_INFO_HASH_ID . $userId);
 //            var_dump($this->userInfo);exit;
-            log_message('error', print_r($this->userInfo));
+            log_message('error', print_r($this->userInfo,TRUE));
             if (time()-$this->userInfo['tokenExpire'] > self::$tokenExpire) {
                 log_message('error', 'redis的用户信息'.print_r($this->userInfo,TRUE));
                 return;

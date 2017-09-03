@@ -19,8 +19,8 @@ function printf_info($data)
 
 //①、获取用户openid
 $tools = new JsApiPay();
-//$openId = $tools->GetOpenid();
-$openId='o4GSVjm7AeAe-3_8HiXzqqSczA2g';
+$openId = $tools->GetOpenid();
+//$openId='o4GSVjm7AeAe-3_8HiXzqqSczA2g';
 //②、统一下单
 $input = new WxPayUnifiedOrder();
 $input->SetBody("test");
@@ -30,7 +30,7 @@ $input->SetTotal_fee("1");
 $input->SetTime_start(date("YmdHis"));
 $input->SetTime_expire(date("YmdHis", time() + 600));
 $input->SetGoods_tag("test");
-$input->SetNotify_url("http://paysdk.weixin.qq.com/example/notify.php");
+$input->SetNotify_url("http://wsp.mzlicai.cn/WxpayAPI/example/notify.php");
 $input->SetTrade_type("JSAPI");
 $input->SetOpenid($openId);
 $order = WxPayApi::unifiedOrder($input);

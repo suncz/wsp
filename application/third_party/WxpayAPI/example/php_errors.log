@@ -1,0 +1,21 @@
+[16-May-2017 17:25:21 Asia/Shanghai] PHP Fatal error:  Uncaught exception 'WxPayException' with message 'curl出错，错误码:60' in E:\weixinPay\WxpayAPI_php_v3\lib\WxPay.Api.php:564
+Stack trace:
+#0 E:\weixinPay\WxpayAPI_php_v3\lib\WxPay.Api.php(62): WxPayApi::postXmlCurl('<xml><appid><![...', 'https://api.mch...', false, 6)
+#1 E:\weixinPay\WxpayAPI_php_v3\example\WxPay.NativePay.php(52): WxPayApi::unifiedOrder(Object(WxPayUnifiedOrder))
+#2 E:\weixinPay\WxpayAPI_php_v3\example\native.php(41): NativePay->GetPayUrl(Object(WxPayUnifiedOrder))
+#3 {main}
+  thrown in E:\weixinPay\WxpayAPI_php_v3\lib\WxPay.Api.php on line 564
+[16-May-2017 17:28:10 Asia/Shanghai] PHP Fatal error:  Uncaught exception 'WxPayException' with message 'curl出错，错误码:60' in E:\weixinPay\WxpayAPI_php_v3\lib\WxPay.Api.php:564
+Stack trace:
+#0 E:\weixinPay\WxpayAPI_php_v3\lib\WxPay.Api.php(62): WxPayApi::postXmlCurl('<xml><appid><![...', 'https://api.mch...', false, 6)
+#1 E:\weixinPay\WxpayAPI_php_v3\example\WxPay.NativePay.php(52): WxPayApi::unifiedOrder(Object(WxPayUnifiedOrder))
+#2 E:\weixinPay\WxpayAPI_php_v3\example\native.php(41): NativePay->GetPayUrl(Object(WxPayUnifiedOrder))
+#3 {main}
+  thrown in E:\weixinPay\WxpayAPI_php_v3\lib\WxPay.Api.php on line 564
+[16-May-2017 17:29:47 Asia/Shanghai] PHP Fatal error:  Uncaught exception 'WxPayException' with message 'curl出错，错误码:60' in E:\weixinPay\WxpayAPI_php_v3\lib\WxPay.Api.php:564
+Stack trace:
+#0 E:\weixinPay\WxpayAPI_php_v3\lib\WxPay.Api.php(62): WxPayApi::postXmlCurl('<xml><appid><![...', 'https://api.mch...', false, 6)
+#1 E:\weixinPay\WxpayAPI_php_v3\example\WxPay.NativePay.php(52): WxPayApi::unifiedOrder(Object(WxPayUnifiedOrder))
+#2 E:\weixinPay\WxpayAPI_php_v3\example\native.php(41): NativePay->GetPayUrl(Object(WxPayUnifiedOrder))
+#3 {main}
+  thrown in E:\weixinPay\WxpayAPI_php_v3\lib\WxPay.Api.php on line 564

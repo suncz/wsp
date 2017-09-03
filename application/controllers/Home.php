@@ -10,7 +10,7 @@ require_once (APPPATH.'vendor/autoload.php');
 class Home extends SczController{
         public function __construct() {
             parent::__construct();
-            $this->load->model('redis/redisSet');
+            $this->load->model('redis/redisString');
         }
         public function publicity()
         {
@@ -38,6 +38,7 @@ class Home extends SczController{
         }
         public function testToken()
         {
+            print_r($_SERVER);exit;
             $isLogin=parent::isLogin();
             var_dump($isLogin);
         }

@@ -17,6 +17,7 @@ class SczController extends CI_Controller {
         $this->config->load('weixin');
         $this->load->model('redis/redisHash');
         $this->load->model('redis/redisString');
+        $_REQUEST= array_merge($_GET,$_POST,$_REQUEST);
     }
 
     public $result = ['ret' => 0, 'msg' => 'ok'];
@@ -163,20 +164,23 @@ class SczController extends CI_Controller {
      * 获取token
      */
     public function isLogin()
-    {
-        if(!isset($_REQUEST['token']))
+    { 
+        if(!isset($_REQUEST['token'])||!isset($_REQUEST['userId']))
         {
-            throw new Exception("token 不存在");
+            
+            $this->result['ret']=1001;
+            $this->result['msg']="参数错误";
+            return false;
         }
-        $token=$_REQUEST['token'];
-        $userInfoJson=$this->redisString->get(redisKey::USER_TOKEN_STRING.$token);
-        if(!empty($userInfoJson))
+         $this->userInfo = $this->redisHash->all(redisKey::USER_INFO_HASH_ID . $_REQUEST['userId']);
+        if(!empty( $this->userInfo)&& $this->userInfo['token']==$_REQUEST['token'])
         {
-            $this->userInfo= json_encode($userInfoJson,true);
             return TRUE;
         }
         else
         {
+            $this->result['ret']=1000;
+            $this->result['msg']="登录失效,请重新登录";
             return false;
         } 
 

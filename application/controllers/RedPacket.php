@@ -8,16 +8,17 @@
 
 require_once (APPPATH . 'vendor/autoload.php');
 
-class Home extends SczController {
+class RedPacket extends SczController {
 
     public function __construct() {
         parent::__construct();
         $this->load->model('redis/redisString');
     }
-/**
+
+    /**
      * 红包派发页面
      */
-    public function redPacketReceive() {
+    public function redPacketReceivePage() {
         $isLogin = parent::isLogin();
         if ($isLogin === false) {
             $this->jsonOutput();
@@ -105,11 +106,11 @@ class Home extends SczController {
         if ($isRedPacketHostUser) {
             //普通红包
             if ($redPackInfo['type'] == 1) {
-                 //红包派发完了
+                //红包派发完了
                 if ($receivedNum == $redPackInfo['num']) {
                     $displayWord = $redPackInfo['num'] . '个红包共' . ($redPackInfo['money'] / 100) . '元';
                 } else {
-                    $displayWord = '已领取' . $receivedNum . '/' . $redPackInfo['num'] . '个红包共' . ($totalReceiveMoney/ 100) . '/' . ($redPackInfo['money'] / 100) . '元';
+                    $displayWord = '已领取' . $receivedNum . '/' . $redPackInfo['num'] . '个红包共' . ($totalReceiveMoney / 100) . '/' . ($redPackInfo['money'] / 100) . '元';
                 }
             }
             //人气红包
@@ -118,20 +119,19 @@ class Home extends SczController {
                 if ($receivedNum == $redPackInfo['num']) {
                     $displayWord = $redPackInfo['num'] . '个红包共' . ($redPackInfo['money'] / 100) . '元，已全部被抢光';
                 } else {
-                    $displayWord = '已领取' . $receivedNum . '/' . $redPackInfo['num'] . '个红包共' . ($totalReceiveMoney/ 100) . '/' . ($redPackInfo['money'] / 100) . '元';
+                    $displayWord = '已领取' . $receivedNum . '/' . $redPackInfo['num'] . '个红包共' . ($totalReceiveMoney / 100) . '/' . ($redPackInfo['money'] / 100) . '元';
                 }
             }
         }
         //红包发放者不是登陆者本人
-        else
-        {
+        else {
             //普通红包
             if ($redPackInfo['type'] == 1) {
-                 //红包派发完了
+                //红包派发完了
                 if ($receivedNum == $redPackInfo['num']) {
                     $displayWord = $redPackInfo['num'] . '个红包共' . ($redPackInfo['money'] / 100) . '元';
                 } else {
-                    $displayWord = '已领取' . $receivedNum . '/' . $redPackInfo['num'] . '个红包共' . ($totalReceiveMoney/ 100) . '/' . ($redPackInfo['money'] / 100) . '元';
+                    $displayWord = '已领取' . $receivedNum . '/' . $redPackInfo['num'] . '个红包共' . ($totalReceiveMoney / 100) . '/' . ($redPackInfo['money'] / 100) . '元';
                 }
             }
             //人气红包
@@ -140,7 +140,7 @@ class Home extends SczController {
                 if ($receivedNum == $redPackInfo['num']) {
                     $displayWord = $redPackInfo['num'] . '个红包共，已全部被抢光';
                 } else {
-                    $displayWord = '已领取' . $receivedNum . '/' . $redPackInfo['num'] . '个红包' ;
+                    $displayWord = '已领取' . $receivedNum . '/' . $redPackInfo['num'] . '个红包';
                 }
             }
         }
@@ -149,14 +149,84 @@ class Home extends SczController {
         $this->result['data']['redPacketLogList'] = $redPacketLogList;
         $this->jsonOutput();
     }
+
     /**
      * 用户发放红包
      */
-    public function sendRedPacket()
-    {
-           $type=$_POST['type'];
-           $num=$_POST['num'];
-           $money=$_POST['money'];
-           
+    public function sendRedPacket() {
+        $type = $_POST['type'];
+        $num = $_POST['num'];
+        $money = $_POST['money'];
     }
+
+    /**
+     * 抢红包
+     */
+    public function grabRedPacket() {
+        parent::isLogin();
+        $redPacketId = $_POST['redPacketId'];
+        $userId = $this->userInfo['userId'];
+        $redPackInfos = $this->db->select('*')->from('redPacket')->where('id', $redPacketId)->get()->result_array();
+        if (count($redPackInfos) == 0) {
+            $this->result['ret'] = 1001;
+            $this->result['msg'] = '参数错误';
+            $this->jsonOutput();
+            return;
+        }
+        $this->result['data']['grabRedPacketMoney'] = 0;
+        $redPackInfo = $redPackInfos[0];
+
+        if (strtotime($redPackInfo['createTime']) < time() - 86400) {
+            $this->result['data']['grabStatus'] = 1; //抢红包失败，红包已过期
+            $this->result['data']['failReason'] = '红包已过期';
+            $this->jsonOutput();
+            return;
+        }
+        if ($redPackInfo['num'] == $redPackInfo['receivedNum']) {
+            $this->result['data']['grabStatus'] = 2; //抢红包失败，红包被抢光了
+            $this->result['data']['failReason'] = '手慢了，红包已经领完了，';
+            $this->jsonOutput();
+            return;
+        }
+        $sql = "select id,receiveMoney from redPacketLog where redPacketId=$redPacketId and ReceiverUserId=$userId";
+        $userRedPacketLog = $this->db->query($sql)->row_array();
+        if (count($userRedPacketLog) > 0) {
+            $this->result['data']['grabStatus'] = 3; //抢红包失败，您已经抢过红包了
+            $this->result['data']['failReason'] = '您已经抢过红包了';
+            $this->jsonOutput();
+        }
+        $sql = "select id,receiveMoney from redPacketLog where redPacketId=$redPacketId and ReceiverUserId=0 order by rand() limit 1";
+        $receiveRedPacket = $this->db->query($sql)->row_array();
+        if (empty($receiveRedPacket)) {
+            $this->result['data']['grabStatus'] = 4; //抢红包失败，红包被抢光了
+            $this->result['data']['failReason'] = '手慢了，红包已经领完了，';
+
+            $this->jsonOutput();
+            return;
+        }
+        try {
+            $updateSql = 'update redPacketLog set receiverUserId=' . $userId . ', receiverUserNickName=' ."'".
+                    $this->userInfo['nickName'] . "'".',receiverUserheadImgUrl =' . "'".$this->userInfo['headimgurl']."'"
+                    ."where id=$receiveRedPacket[id]";
+
+            $rows = $this->db->query($updateSql);
+            $updateRedPacketSql = "update redPacket set receivedNum=receivedNum+1 where id=$redPacketId";
+            $rows1 = $this->db->query($updateRedPacketSql);
+       
+            if ($rows==false  || $rows1==false) {
+                throw new Exception("网络繁忙", 5);
+            }
+        } catch (Exception $exc) {
+            $this->result['data']['grabStatus'] =$exc->getCode(); //抢红包失败，网络繁忙
+            $this->result['data']['failReason'] = $exc->getMessage();
+            $this->jsonOutput();
+            return ;
+        }
+
+        $this->result['data']['grabStatus'] = 0; //抢红包成功
+        $this->result['data']['failReason'] = '';
+        $this->result['data']['grabRedPacketMoney'] = $receiveRedPacket['receiveMoney'];
+        $this->jsonOutput();
+    }
+
 }

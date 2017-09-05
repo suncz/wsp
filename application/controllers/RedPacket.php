@@ -13,6 +13,7 @@ class RedPacket extends SczController {
     public function __construct() {
         parent::__construct();
         $this->load->model('redis/redisString');
+        $this->load->library('redPacketAlgorithm');
     }
 
     /**
@@ -154,9 +155,53 @@ class RedPacket extends SczController {
      * 用户发放红包
      */
     public function sendRedPacket() {
-        $type = $_POST['type'];
-        $num = $_POST['num'];
-        $money = $_POST['money'];
+        $type = $_POST['type'];//红包类型
+        $num = $_POST['num'];//红包数量
+        $money = $_POST['money'];//红包金额 单位分
+        $codeWord = $_POST['codeWord'];//红包文案
+        if(!$type ||!$num ||!$money)
+        {
+            $this->result['ret'] = 1001;
+            $this->result['msg'] = '参数错误';
+            $this->jsonOutput();
+            return;
+        }
+        if($num>100)
+        {
+            $this->result['ret'] = 2001;
+            $this->result['msg'] = '红包数量不得超过100个';
+            $this->jsonOutput();
+            return;
+        }
+        if($money<$num)
+        {
+            $this->result['ret'] = 2002;
+            $this->result['msg'] = '金额至少为1元';
+            $this->jsonOutput();
+            return;
+        }
+        //生成红包
+         $data = array(
+            'userId'=>$this->userInfo['userId'],
+            'nickName'=>$this->userInfo['nickName'],
+            'headImgUrl'=>$this->userInfo['headimgurl'],
+            'num' => $num,
+            'receivedNum' => 0,
+            'money'=> $money*100,
+            'codeWord'=> $codeWord,
+            'type'=> $type
+        );
+        $this->db->insert('redpacket', $data); 
+        $redpacketId=$this->db->insert_id();
+        //生成红包记录
+        
+        $pay['redPacketId'] = $redpacketId;
+        $pay['userId'] = $this->userInfo['userId'];
+        $pay['way']=1;
+        $this->db->insert('pay', $data); 
+        $this->result['data']['redpacketId'] = $redpacketId;
+        $this->jsonOutput();
+        
     }
 
     /**

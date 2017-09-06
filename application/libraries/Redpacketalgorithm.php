@@ -6,8 +6,11 @@
  * and open the template in the editor.
  */
 
-class redPacketAlgorithm {
+class Redpacketalgorithm {
 
+     function __construct() {
+         ;
+     }
     /**
      * 求一个数的平方 
      * @param $n 
@@ -41,13 +44,11 @@ class redPacketAlgorithm {
 
         $a = $average - $bonus_min;
         $b = $bonus_max - $bonus_min;
-
         //  
         //这样的随机数的概率实际改变了，产生大数的可能性要比产生小数的概率要小。  
         //这样就实现了大部分红包的值在平均数附近。大红包和小红包比较少。  
         $range1 = $this->sqr($average - $bonus_min);
         $range2 = $this->sqr($bonus_max - $average);
-
         for ($i = 0; $i < $bonus_count; $i++) {
             //因为小红包的数量通常是要比大红包的数量要多的，因为这里的概率要调换过来。  
             //当随机数>平均值，则产生小红包  
@@ -59,7 +60,7 @@ class redPacketAlgorithm {
                 $bonus_total -= $temp;
             } else {
                 // 在平均线上加钱  
-                $temp = $bonus_max - $this->$this->xRandom($average, $bonus_max);
+                $temp = $bonus_max - $this->xRandom($average, $bonus_max);
                 $result[$i] = $temp;
                 $bonus_total -= $temp;
             }

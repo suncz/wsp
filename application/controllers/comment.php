@@ -1,4 +1,5 @@
 <?php
+require_once (APPPATH.'vendor/autoload.php');
 class Comment extends CI_Controller{
 
 	private $videoId;
@@ -7,10 +8,23 @@ class Comment extends CI_Controller{
 
 	//初始化加载
 	public function index($state=''){
+            if(isset($_GET['state']))
+            {
+                $isCallback=200;
+            }
+            else
+            {
+                $isCallback=0;
+            }
+            if(isset($_SESSION['userId'])&&$_SESSION['userId']>0)
+            {
+                $this->userId=$_SESSION['userId'];
+            }
 		$videoId=intval($this->uri->segment(3));
 		if($videoId==0){
 			if($state!=''){
-				$videoId=$state;
+                            $videoId=$state;
+				
 			}else{
 				$videoId=1;
 			}
@@ -18,12 +32,25 @@ class Comment extends CI_Controller{
 
 		$video=$this->db->select('*')->from('video')->where('id',$videoId)->get()->result()[0];	//获取视频
 		$addr = $this->wx_oauth->authorize_addr($video->id);//获取微信登录地址
+             
 		$data=array(
 				'video'=>$video,
 				'codeUrl'=>$addr,
 				'commentCounts'=>$this->getMsgCount($videoId),
 				'userId'=>$this->userId
 		);
+                 $wechatScript = new \Wechat\WechatScript($this->config->item('wx'));
+                $url= strtolower('http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+    //            print_r($video);
+                $data['jsSign']=$wechatScript->getJsSign($url);
+                $data['videoId']=$videoId;
+                $data['isCallback']=$isCallback;
+                $data['share']['shareTitle']=$video->shareTitle;
+                $data['share']['shareContent']=$video->shareContent;
+                $data['share']['shareIcon']=$video->shareIcon;
+                $data['share']['shareLink']='http://'.$_SERVER['HTTP_HOST']."/comment/publicity/".$videoId;
+                $data['publicityCover']=$video->publicityCover;
+                $data['playUrl']='http://'.$_SERVER['HTTP_HOST']."/comment/index/".$videoId;
 		$this-> load -> view('comment/index',$data);
 	}
 
@@ -38,6 +65,8 @@ class Comment extends CI_Controller{
 		//echo '<br>[access_token]='.$r->access_token.'<br>[openid]='.$r->openid;
 		$res = $this->userInfo($r->access_token, $r->openid);
 		$this->userId=$this->addUser($res);
+                $_SESSION['userId']=$this->userId;
+//                header("Location : http://".$_SERVER['HTTP_HOST']."/comment/index/".$state);
 		$this-> index($state);
 	}
 
@@ -147,4 +176,24 @@ class Comment extends CI_Controller{
 			echo $bool;
 		}
 	}
+        
+        public function publicity()
+        {
+            $videoId=intval($this->uri->segment(3));
+            
+            $video=$this->db->select('*')->from('video')->where('id',$videoId)->get()->result()[0];	//获取视频
+           
+            $wechatScript = new \Wechat\WechatScript($this->config->item('wx'));
+            $url= strtolower('http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+//            print_r($video);
+            $data['jsSign']=$wechatScript->getJsSign($url);
+            $data['videoId']=$videoId;
+            $data['share']['shareTitle']=$video->shareTitle;
+            $data['share']['shareContent']=$video->shareContent;
+            $data['share']['shareIcon']=$video->shareIcon;
+            $data['share']['shareLink']='http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+            $data['publicityCover']=$video->publicityCover;
+            $data['playUrl']='http://'.$_SERVER['HTTP_HOST']."/comment/index/".$videoId;
+            $this->load->view('comment/publicity',$data);
+        }
 }

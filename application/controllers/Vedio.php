@@ -33,6 +33,20 @@ class Vedio extends SczController {
         $this->result['data'] = $data;
         $this->jsonOutput();
     }
+    
+    public function like()
+    {
+        $videoId=intval($this->input->post('videoId'));
+        $sql="update video set praiseNum = praiseNum + 1 WHERE id = $videoId";
+        $bool=$this->db->query($sql);
+        if($bool){
+                $video=$this->db->select('*')->from('video')->where('id',$videoId)->get()->result()[0];	//获取视频
+                $this->result['data']['praiseNum'] = $video->praiseNum;
+        }else{
+                 $this->result['data']['praiseNum'] = 0;
+        }
+        $this->jsonOutput();
+    }
 
   
 

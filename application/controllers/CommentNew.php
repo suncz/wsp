@@ -68,6 +68,7 @@ class CommentNew extends SczController {
         );
         
         $this->db->insert('comment', $data); 
+        $this->jsonOutput();
     }
 
 }

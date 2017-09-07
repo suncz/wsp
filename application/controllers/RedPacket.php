@@ -146,6 +146,7 @@ class RedPacket extends SczController {
             }
         }
         $this->result['data']['userReceiveMoney'] = $userReceiveMoney;
+        $this->result['data']['displayWord'] = $displayWord;
         $this->result['data']['redPackInfo'] = $redPackInfo;
         $this->result['data']['redPacketLogList'] = $redPacketLogList;
         $this->jsonOutput();

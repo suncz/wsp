@@ -1,5 +1,8 @@
 <?php
 require APPPATH.'vendor/autoload.php';
+require APPPATH.'vendor/php-sdk-7.2.1/autoload.php';
+use Qiniu\Auth;
+use Qiniu\Storage\UploadManager;
 class Login extends sczController{
     //授权地址  
     function index()
@@ -35,5 +38,15 @@ class Login extends sczController{
         //获取用户信息
         $userInfo=$wechatOauth->getOauthUserInfo($accessToekenInfo['access_token'], $accessToekenInfo['openid']);
         print_r($userInfo);
+    }
+    
+    /**
+     * 图片上传
+     */
+    public function testQiniu()
+    {
+        
+        
+        
     }
 }

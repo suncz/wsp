@@ -25,7 +25,8 @@ class SczController extends CI_Controller {
     public function jsonOutput($isExit = true) {
         $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
         $allow_origin = array(
-            'http://www.baidu.com'
+            'http://www.baidu.com',
+            'http://localhost:8000'
         );
         if (in_array($origin, $allow_origin)) {
             $this->output->set_header('Access-Control-Allow-Origin:' . $origin);

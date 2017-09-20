@@ -211,7 +211,7 @@ class RedPacket extends SczController {
         $this->result['data']['redpacketId'] = $redpacketId;
         $this->jsonOutput();
     }
-
+    
     /**
      * 抢红包
      */
@@ -289,6 +289,20 @@ class RedPacket extends SczController {
             $this->result['msg'] = $exc->getMessage();
             $this->jsonOutput();
             return;
+        }
+        $this->jsonOutput();
+    }
+    /**
+     * 红包是否支付
+     */
+    function isPayed()
+    {
+        $redPacketId=(int)$_GET['redPacketId'];
+        $redPackeInfo=$this->db->from('redpacket')->where('id',$redPacketId)->where('payStatus',2)->get()->row();
+        $this->result['data']['isPayed']=1;
+        if($redPackeInfo==NULL)
+        {
+            $this->result['data']['isPayed']=0;
         }
         $this->jsonOutput();
     }

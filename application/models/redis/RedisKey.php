@@ -10,5 +10,7 @@ class RedisKey {
     const USER_SESSION_ID_HASH='user.session';
     const USER_TOKEN_STRING='user.token.';
     const RED_PACKET_RANDOM_LIST_ID='red.packet.random.list.id.';
+    const REWARD_RANK_DAY='reward.rank.day.';
+    const INVITE_RANK_DAY='invite.rank.day.';
 }
 

@@ -55,6 +55,8 @@ class SczController extends CI_Controller {
             }
         }
         $videoId = intval($this->uri->segment(3));
+        $fromUserId = intval($this->uri->segment(4));
+        
         $wechatOauth = new Wechat\WechatOauth($this->config->item('weixin'));
         //code
         //静默授权的回调地址，获取到code
@@ -67,7 +69,7 @@ class SczController extends CI_Controller {
             //静默授权获取用户信息失败 采用主动授权
             if ($weixinUserInfo == FALSE) {
                 log_message('error', '静默授权没有获取到微信的基本信息，改为主动授权');
-                $authorizeUrl = $wechatOauth->getOauthRedirect($this->config->item('authRedirectUrl', 'weixin') . '/' . $videoId, 'base', 'snsapi_userinfo');
+                $authorizeUrl = $wechatOauth->getOauthRedirect($this->config->item('authRedirectUrl', 'weixin') . '/' . $videoId.'/'.$fromUserId, 'base', 'snsapi_userinfo');
                 header("Location: $authorizeUrl");
                 exit;
             } else {
@@ -86,7 +88,8 @@ class SczController extends CI_Controller {
                         'city' => $dbUserInfo['city'],
                         'headimgurl' => $dbUserInfo['headimgurl'],
                         'unionid' => $dbUserInfo['unionid'],
-                        'userId' => $dbUserInfo['id']
+                        'userId' => $dbUserInfo['id'],
+                        'videoId' => $dbUserInfo['videoId'],
                     );
                     log_message('error', print_r($userInfo,TRUE));
                     $userId = $dbUserInfo['id'];
@@ -100,6 +103,7 @@ class SczController extends CI_Controller {
                         'city' => $weixinUserInfo['city'],
                         'headimgurl' => $weixinUserInfo['headimgurl'],
                         'unionid' => isset($weixinUserInfo['unionid']) ? $weixinUserInfo['unionid'] : '',
+                        'videoId' => $videoId,
                     );
                     $this->db->insert('user', $userInfo);
                     $userId = $this->db->insert_id();
@@ -128,7 +132,8 @@ class SczController extends CI_Controller {
                     'city' => $userInfo['city'],
                     'headimgurl' => $userInfo['headimgurl'],
                     'unionid' => isset($userInfo['unionid']) ? $userInfo['unionid'] : '',
-                    'userId' => $userInfo['id']
+                    'userId' => $userInfo['id'],
+                    'videoId' => $userInfo['videoId']
                 );
                 $userId = $userInfo['id'];
             } else {
@@ -141,6 +146,7 @@ class SczController extends CI_Controller {
                     'city' => $weixinUserInfo['city'],
                     'headimgurl' => $weixinUserInfo['headimgurl'],
                     'unionid' => isset($weixinUserInfo['unionid']) ? $weixinUserInfo['unionid'] : '',
+                    'videoId' => $videoId,
                 );
 
                 $this->db->insert('user', $userInfo);
@@ -156,7 +162,8 @@ class SczController extends CI_Controller {
         }
         //静默授权，拼接授权地址（设置会调地址），并跳转
         else {
-            $authorizeUrl = $wechatOauth->getOauthRedirect($this->config->item('authRedirectUrl', 'weixin') . '/' . $videoId, 'base', 'snsapi_base');
+            
+            $authorizeUrl = $wechatOauth->getOauthRedirect($this->config->item('authRedirectUrl', 'weixin') . '/' . $videoId.'/'.$fromUserId, 'base', 'snsapi_base');
             header("Location: $authorizeUrl");
             exit;
         }

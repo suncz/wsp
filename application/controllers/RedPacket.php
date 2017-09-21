@@ -14,6 +14,7 @@ class RedPacket extends SczController {
         parent::__construct();
         $this->load->model('redis/redisString');
         $this->load->model('redis/redisList');
+        $this->load->model('redis/redisZSet');
         $this->load->library('redPacketAlgorithm');
     }
 
@@ -158,10 +159,11 @@ class RedPacket extends SczController {
      */
     public function sendRedPacket() {
         parent::isLogin();
-        $type = $_POST['type']; //红包类型
+        $type = $_POST['type']; //红包类型 人气 普通
         $num = $_POST['num']; //红包数量
         $money = $_POST['money']; //红包金额 单位分
         $codeWord = $_POST['codeWord']; //红包文案
+        $vedioId = $_POST['vedioId']; //红包文案
         if (!$type || !$num || !$money) {
             $this->result['ret'] = 1001;
             $this->result['msg'] = '参数错误';
@@ -183,6 +185,7 @@ class RedPacket extends SczController {
 //        print_r($this->userInfo);exit;
         //生成红包
         $data = array(
+            'vedioId' => $vedioId,
             'userId' => $this->userInfo['userId'],
             'nickName' => $this->userInfo['nickName'],
             'headImgUrl' => $this->userInfo['headimgurl'],
@@ -208,10 +211,24 @@ class RedPacket extends SczController {
         foreach ($randomMoney as $v) {
             $this->redisList->lpush(RedisKey::RED_PACKET_RANDOM_LIST_ID . $redpacketId, $v);
         }
+        //插入comment表
+        $insertComment = [
+            'vedioId' => $vedioId,
+            'userId' => $this->userInfo['userId'],
+            'userNickName' => $this->userInfo['nickName'],
+            'userHeadImgUrl' => $this->userInfo['headimgurl'],
+            'redPacketId' => $redpacketId,
+            'redPacketLogId' => 0,
+            'redPacketUserId' => $this->userInfo['userId'],
+            'redPacketUserNickName' => $this->userInfo['nickName'],
+            'type' => 3,
+            'status' => 0,
+        ];
+        $this->db->insert('comment', $insertComment);
         $this->result['data']['redpacketId'] = $redpacketId;
         $this->jsonOutput();
     }
-    
+
     /**
      * 抢红包
      */
@@ -277,8 +294,24 @@ class RedPacket extends SczController {
                 'receiveMoney' => $money
             );
             $this->db->insert('redPacketLog', $data);
+            $redPacketLogInsertId = $this->db->insert_id();
             $updateRedPacketSql = "update redPacket set receivedNum=receivedNum+1 where id=$redPacketId";
-            $rows=$this->db->query($updateRedPacketSql);
+            $rows = $this->db->query($updateRedPacketSql);
+            //插入comment表
+            $insertComment = [
+                'vedioId' => $redPackInfo['vedioId'],
+                'userId' => $this->userInfo['userId'],
+                'userNickName' => $this->userInfo['nickName'],
+                'userHeadImgUrl' => $this->userInfo['headimgurl'],
+                'redPacketId' => $redPackInfo['id'],
+                'redPacketId' => $redPackInfo['id'],
+                'redPacketLogId' => $redPacketLogInsertId,
+                'redPacketUserId' => $redPackInfo['userId'],
+                'redPacketUserNickName' => $redPackInfo['nickName'],
+                'redPacketUserNickName' => $redPackInfo['nickName'],
+                'type' => 4,
+            ];
+            $this->db->insert('comment', $insertComment);
 
             if ($rows == 0) {
                 throw new Exception("网络繁忙", 1002);
@@ -292,18 +325,126 @@ class RedPacket extends SczController {
         }
         $this->jsonOutput();
     }
+
     /**
      * 红包是否支付
      */
-    function isPayed()
-    {
-        $redPacketId=(int)$_GET['redPacketId'];
-        $redPackeInfo=$this->db->from('redpacket')->where('id',$redPacketId)->where('payStatus',2)->get()->row();
-        $this->result['data']['isPayed']=1;
-        if($redPackeInfo==NULL)
-        {
-            $this->result['data']['isPayed']=0;
+    function isPayed() {
+        $isLogin = parent::isLogin();
+        if ($isLogin == false) {
+            $this->jsonOutput();
         }
+        $redPacketId = (int) $_GET['redPacketId'];
+        $redPackeInfo = $this->db->from('redpacket')->where('id', $redPacketId)->where('payStatus', 2)->get()->row();
+        $this->result['data']['isPayed'] = 1;
+        if ($redPackeInfo == NULL) {
+            $this->result['data']['isPayed'] = 0;
+        }
+        $this->jsonOutput();
+    }
+
+    /**
+     * 获取打赏榜
+     */
+    public function getRewardRank() {
+        $isLogin = parent::isLogin();
+        if ($isLogin == false) {
+            $this->jsonOutput();
+        }
+        $rewardRankKey = RedisKey::REWARD_RANK_DAY . date('Y-m-d', time());
+        $list = $this->redisZSet->zRevRange($rewardRankKey, 0, 10, true);
+
+//        exit;
+        if (count($list) == 0) {
+            $this->result['data'] = [];
+        } else {
+            $userRankList = [];
+            $myselfRankInfo = [];
+            $userIds = array_keys($list);
+            if (array_key_exists($this->userInfo['userId'], $list) == false) {
+                $myselfRank = $this->redisZSet->zRevRank($rewardRankKey, $this->userInfo['userId']);
+                //无排名
+                if ($myselfRank == false) {
+                    
+                } else {
+                    $money = $this->redisZSet->score($rewardRankKey, $this->userInfo['userId']);
+                    $myselfRankInfo['rank'] = $myselfRank;
+                    $myselfRankInfo['money'] = $money;
+                    $myselfRankInfo['userId'] = $this->userInfo['userId'];
+                    $myselfRankInfo['headImgUrl'] = $this->userInfo['headimgurl'];
+                    $myselfRankInfo['nickname'] = $this->userInfo['nickName'];
+                }
+            }
+//            print_r($userIds);exit;
+            $userInfos = $this->db->select("id as userId,headimgurl as headImgUrl,nickname")->from("user")->where_in('id', $userIds)->get()->result_array();
+
+            foreach ($userInfos as $userInfo) {
+                $newUserInfos[$userInfo['userId']] = $userInfo;
+            }
+            $i = 1;
+            foreach ($list as $userId => $money) {
+                $userInfo['userId'] = $userId;
+                $userInfo['headImgUrl'] = $newUserInfos[$userId]['headImgUrl'];
+                $userInfo['nickname'] = $newUserInfos[$userId]['nickname'];
+                $userInfo['money'] = $money;
+                $userInfo['rank'] = $i;
+                $userRankList[] = $userInfo;
+                $i++;
+            }
+        }
+        $this->result['userRankList'] = $userRankList;
+        $this->result['myselfRankInfo'] = $myselfRankInfo;
+        $this->jsonOutput();
+    }
+
+    function getInviteRank() {
+        $isLogin = parent::isLogin();
+        if ($isLogin == false) {
+            $this->jsonOutput();
+        }
+        $rewardRankKey = RedisKey::INVITE_RANK_DAY . date('Y-m-d', time());
+        $list = $this->redisZSet->zRevRange($rewardRankKey, 0, 10, true);
+
+//        exit;
+        if (count($list) == 0) {
+            $this->result['data'] = [];
+        } else {
+            $userRankList = [];
+            $myselfRankInfo = [];
+            $userIds = array_keys($list);
+            if (array_key_exists($this->userInfo['userId'], $list) == false) {
+                $myselfRank = $this->redisZSet->zRevRank($rewardRankKey, $this->userInfo['userId']);
+                //无排名
+                if ($myselfRank == false) {
+                    
+                } else {
+                    $num = $this->redisZSet->score($rewardRankKey, $this->userInfo['userId']);
+                    $myselfRankInfo['rank'] = $myselfRank;
+                    $myselfRankInfo['num'] = $num;
+                    $myselfRankInfo['userId'] = $this->userInfo['userId'];
+                    $myselfRankInfo['headImgUrl'] = $this->userInfo['headimgurl'];
+                    $myselfRankInfo['nickname'] = $this->userInfo['nickName'];
+                }
+            }
+//            print_r($userIds);exit;
+            $userInfos = $this->db->select("id as userId,headimgurl as headImgUrl,nickname")->from("user")->where_in('id', $userIds)->get()->result_array();
+
+            foreach ($userInfos as $userInfo) {
+                $newUserInfos[$userInfo['userId']] = $userInfo;
+            }
+            $i = 1;
+            foreach ($list as $userId => $num) {
+                $userInfo['userId'] = $userId;
+                $userInfo['headImgUrl'] = $newUserInfos[$userId]['headImgUrl'];
+                $userInfo['nickname'] = $newUserInfos[$userId]['nickname'];
+                $userInfo['num'] = $num;
+                $userInfo['rank'] = $i;
+                $userRankList[] = $userInfo;
+                $i++;
+            }
+        }
+        $this->result['userRankList'] = $userRankList;
+        $this->result['myselfRankInfo'] = $myselfRankInfo;
         $this->jsonOutput();
     }
 

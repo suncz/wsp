@@ -11,6 +11,7 @@ class Home extends SczController{
         public function __construct() {
             parent::__construct();
             $this->load->model('redis/redisString');
+            $this->load->model('redis/redisZSet');
         }
         public function publicity()
         {
@@ -21,7 +22,23 @@ class Home extends SczController{
                 header("Location: $home");
             }
             $videoId=intval($this->uri->segment(3));
-     
+            $fromUserId=intval($this->uri->segment(4));
+            //视频邀请列表
+            $inviteUser=$this->db->from('inviteUser')->where('videoId',$videoId)->where('userId', $this->userInfo['userId'])->get()->row_array();
+            if($inviteUser==NULL)
+            {
+                $insertInviteUser['userId']=$this->userInfo['userId'];
+                $insertInviteUser['fromUserId']=$fromUserId;
+                $insertInviteUser['videoId']=$videoId;
+                $insertInviteUser['isRegister']=$this->userInfo['videoId']==$videoId?1:0;
+                $this->db->insert('inviteUser',$insertInviteUser);
+                if($fromUserId)
+                {
+                    $this->redisZSet->zincrBy(RedisKey::INVITE_RANK_DAY.date('Y-m-d'), $fromUserId);
+                }
+                
+            }
+           
             $video=$this->db->select('*')->from('video')->where('id',$videoId)->get()->result()[0];	//获取视频
             $wechatScript = new \Wechat\WechatScript($this->config->item('wx'));
             $url= strtolower('http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);

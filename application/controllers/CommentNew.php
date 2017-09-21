@@ -14,19 +14,19 @@ class CommentNew extends SczController {
      * @return type
      */
     public function commentList() {
-        $vedioId = $_GET['vedioId'];
+        $videoId = $_GET['videoId'];
         $commentId = $_GET['commentId'];
         $type = $_GET['type'];
         if ($type == 'new') {
             if ($commentId == 0) {
-                $array = array('videoId =' => $vedioId);
+                $array = array('videoId =' => $videoId);
                 $this->db->order_by('id', 'DESC');
             } else {
-                $array = array('id >' => $commentId, 'videoId =' => $vedioId);
+                $array = array('id >' => $commentId, 'videoId =' => $videoId);
                 $this->db->order_by('id', 'ASC');
             }
         } else if ($type == 'old') {
-            $array = array('id <' => $commentId, 'videoId =' => $vedioId);
+            $array = array('id <' => $commentId, 'videoId =' => $videoId);
             $this->db->order_by('id', 'DESC');
         } else if ($type != 'new' || $type != 'old') {
             $this->result['ret'] = 1001;

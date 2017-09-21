@@ -24,4 +24,12 @@ class Tool extends sczController {
         $this->result['data']['token']=$upToken;
         $this->jsonOutput();
     }
+    
+    /**
+     * 二维码生成
+     */
+    public function qrCode()
+    {
+ 
+    }
 }

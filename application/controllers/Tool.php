@@ -30,6 +30,8 @@ class Tool extends sczController {
      */
     public function qrCode()
     {
- 
+         include APPPATH . 'libraries/phpqrcode/phpqrcode.php';
+        $data="http://www.baidu.com";
+        \QRcode::png($data,false,\QR_ECLEVEL_H,6,0);
     }
 }

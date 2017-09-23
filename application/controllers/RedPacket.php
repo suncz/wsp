@@ -352,7 +352,8 @@ class RedPacket extends SczController {
         if ($isLogin == false) {
             $this->jsonOutput();
         }
-        $rewardRankKey = RedisKey::REWARD_RANK_DAY . date('Y-m-d', time());
+        $videoId=$_GET['videoId'];
+        $rewardRankKey = RedisKey::REWARD_RANK_VIDEOID_DAY .$videoId. date('-Y-m-d', time());
         $list = $this->redisZSet->zRevRange($rewardRankKey, 0, 10, true);
         $userRankList = [];
         $myselfRankInfo = new stdClass();

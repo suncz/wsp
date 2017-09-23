@@ -396,5 +396,7 @@ class RedPacket extends SczController {
         $this->result['myselfRankInfo'] = $myselfRankInfo;
         $this->jsonOutput();
     }
+    
+  
 
 }

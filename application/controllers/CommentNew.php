@@ -15,6 +15,11 @@ class CommentNew extends SczController {
      * @return type
      */
     public function commentList() {
+        $isLogin = parent::isLogin();
+        if ($isLogin == false) {
+            $this->jsonOutput();
+            return;
+        }
         $videoId = $_GET['videoId'];
         $commentId = $_GET['commentId'];
         $timeReferencePoint = isset($_GET['timeReferencePointLine'])?$_GET['timeReferencePointLine']:time();//时间参照点

@@ -397,6 +397,35 @@ class RedPacket extends SczController {
         $this->result['myselfRankInfo'] = $myselfRankInfo;
         $this->jsonOutput();
     }
-  
+    /**
+     * 用户发放红包 生成红包id
+     */
+    public function sendRedPacketToPlatform() {
+        parent::isLogin();
+        $money = $_POST['money']; //红包金额 单位分
+        if (!$money) {
+            $this->result['ret'] = 1001;
+            $this->result['msg'] = '参数错误';
+            $this->jsonOutput();
+            return;
+        }
+//        print_r($this->userInfo);exit;
+        //生成红包
+        $data = array(
+            'videoId' => $videoId,
+            'userId' => $this->userInfo['userId'],
+            'nickName' => $this->userInfo['nickName'],
+            'headImgUrl' => $this->userInfo['headimgurl'],
+            'num' => $num,
+            'receivedNum' => 0,
+            'money' => $money,
+            'codeWord' => $codeWord,
+            'type' => 3
+        );
+        $this->db->insert('redpacket', $data);
+        $redpacketId = $this->db->insert_id();
+        $this->result['data']['redpacketId'] = $redpacketId;
+        $this->jsonOutput();
+    }
 
 }

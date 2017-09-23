@@ -18,9 +18,10 @@ class Tool extends sczController {
         $secretKey = 'WI6vG6ATtmvrMBVM9lkpAML9ulTyLGJEWIetzuz4';
         $auth = new Auth($accessKey, $secretKey);
         $bucket="resource";
-        $baseKey = '/$(year)/$(mon)/$(day)/' . md5(uniqid(microtime() . mt_rand(1, 100))) . '$(ext)';
-        $saveKey = 'pic'. $baseKey;
-        $upToken = $auth->uploadToken($bucket, $saveKey);
+//        $baseKey = '/$(year)/$(mon)/$(day)/' . md5(uniqid(microtime() . mt_rand(1, 100))) . '$(ext)';
+//        $saveKey = 'pic'. $baseKey;
+//        $upToken = $auth->uploadToken($bucket, $saveKey);
+        $upToken = $auth->uploadToken($bucket);
         $this->result['data']['token']=$upToken;
         $this->jsonOutput();
     }

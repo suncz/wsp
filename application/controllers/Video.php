@@ -62,7 +62,7 @@ class Video extends SczController {
 
 //        exit;
         $userRankList = [];
-        $myselfRankInfo = new stdClass();
+        $myselfRankInfo = [];
         if (count($list) == 0) {
             $this->result['data'] = [];
         } else {

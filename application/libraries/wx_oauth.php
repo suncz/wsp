@@ -1,4 +1,4 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed'); 
+ <?php if (!defined('BASEPATH')) exit('No direct script access allowed'); 
  
 /**
 * Weixin_oauth 类库，主要是远程抓取页面，默认http请求，也可以使用https请求，
@@ -187,3 +187,8 @@ class Wx_oauth
                 return substr($temp, 0, -1);
         }
 }
+ 
+/**
+ * End fo wx_oauth.php file
+ */
+ 

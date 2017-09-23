@@ -8,7 +8,7 @@
 
 require_once (APPPATH . 'vendor/autoload.php');
 
-class Vedio extends SczController {
+class Video extends SczController {
 
     public function __construct() {
         parent::__construct();
@@ -18,11 +18,13 @@ class Vedio extends SczController {
 
     public function detail() {
         $videoId= $_GET['videoId'];
-//        $isLogin = parent::isLogin();
-//        if ($isLogin == false) {
-//            $this->jsonOutput();
-//            return;
-//        }
+        $isLogin = parent::isLogin();
+        if ($isLogin == false) {
+            $this->jsonOutput();
+            return;
+        }
+        $sql="update video set pvNum = pvNum + 1 WHERE id = $videoId";
+        $this->db->query($sql);
         $vedio = $this->db->select('*')->from('video')->where('id', $videoId)->get()->result_array()[0]; //获取视频 
         $cooperation = $this->db->select('*')->from('config')->where('key', 'cooperation')->get()->result()[0];
         $wechatScript = new \Wechat\WechatScript($this->config->item('wx'));

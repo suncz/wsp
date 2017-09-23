@@ -7,6 +7,7 @@ class CommentNew extends SczController {
     public function __construct() {
         parent::__construct();
         $this->load->model('redis/redisString');
+        $this->load->library("fn");
     }
 
     /**
@@ -16,6 +17,7 @@ class CommentNew extends SczController {
     public function commentList() {
         $videoId = $_GET['videoId'];
         $commentId = $_GET['commentId'];
+        $timeReferencePoint = isset($_GET['timeReferencePointLine'])?$_GET['timeReferencePointLine']:time();//时间参照点
         $type = $_GET['type'];
         if ($type == 'new') {
             if ($commentId == 0) {
@@ -35,7 +37,31 @@ class CommentNew extends SczController {
             return;
         }
         $comentList = $this->db->select('*')->from('comment')->where($array)->limit(10)->get()->result_array();
-        $this->result['data'] = $comentList;
+
+        $i=0;
+        $commentListNew=[];
+        foreach($comentList as $key =>$value)
+        {
+           
+            $createTime=strtotime($value['createTime']);
+            $commentListNew[$i]=$value;
+            $i++;
+//            echo $createTime."<br />";
+            //在五分钟之内
+            if(abs($createTime-$timeReferencePoint)<5*60)
+            {
+                 
+            }
+            else
+            {
+                $timeReferencePoint=$createTime;
+                $commentListNew[$i]['content']=$this->fn->getTimeFormat($createTime);
+                $commentListNew[$i]['timeReferencePointLine']=$createTime;
+                $commentListNew[$i]['type']=10;  
+                $i++;
+            }
+        } 
+        $this->result['data'] = $commentListNew;
         $this->jsonOutput();
     }
 

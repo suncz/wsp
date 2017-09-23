@@ -1,5 +1,5 @@
-<?php
-if (!defined('BASEPATH')) exit('No direct script access allowed'); 
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed'); 
+ 
 /**
 * Weixin_oauth 类库，主要是远程抓取页面，默认http请求，也可以使用https请求，
 * 可以在初始化的时候通过传入可选参数https为true，设置为https请求

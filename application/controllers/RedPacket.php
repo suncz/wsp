@@ -354,13 +354,12 @@ class RedPacket extends SczController {
         }
         $rewardRankKey = RedisKey::REWARD_RANK_DAY . date('Y-m-d', time());
         $list = $this->redisZSet->zRevRange($rewardRankKey, 0, 10, true);
-
+        $userRankList = [];
+        $myselfRankInfo = new stdClass();
 //        exit;
         if (count($list) == 0) {
             $this->result['data'] = [];
         } else {
-            $userRankList = [];
-            $myselfRankInfo = [];
             $userIds = array_keys($list);
             if (array_key_exists($this->userInfo['userId'], $list) == false) {
                 $myselfRank = $this->redisZSet->zRevRank($rewardRankKey, $this->userInfo['userId']);
@@ -397,7 +396,6 @@ class RedPacket extends SczController {
         $this->result['myselfRankInfo'] = $myselfRankInfo;
         $this->jsonOutput();
     }
-    
   
 
 }

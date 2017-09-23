@@ -60,11 +60,11 @@ class Video extends SczController {
         $list = $this->redisZSet->zRevRange($rewardRankKey, 0, 10, true);
 
 //        exit;
+        $userRankList = [];
+        $myselfRankInfo = new stdClass();
         if (count($list) == 0) {
             $this->result['data'] = [];
         } else {
-            $userRankList = [];
-            $myselfRankInfo = [];
             $userIds = array_keys($list);
             if (array_key_exists($this->userInfo['userId'], $list) == false) {
                 $myselfRank = $this->redisZSet->zRevRank($rewardRankKey, $this->userInfo['userId']);

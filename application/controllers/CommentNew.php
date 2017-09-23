@@ -46,8 +46,8 @@ class CommentNew extends SczController {
         $i=0;
         $commentListNew=[];
         foreach($comentList as $key =>$value)
-        {
-           
+        { 
+            $value['getRedPacketMoney']=$value/100;
             $createTime=strtotime($value['createTime']);
             $commentListNew[$i]=$value;
             $i++;

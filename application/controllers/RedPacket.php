@@ -303,6 +303,7 @@ class RedPacket extends SczController {
                 'userId' => $this->userInfo['userId'],
                 'userNickName' => $this->userInfo['nickName'],
                 'userHeadImgUrl' => $this->userInfo['headimgurl'],
+                'getRedPacketMoney' => $money,
                 'redPacketId' => $redPackInfo['id'],
                 'redPacketId' => $redPackInfo['id'],
                 'redPacketLogId' => $redPacketLogInsertId,

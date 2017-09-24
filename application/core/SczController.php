@@ -10,7 +10,7 @@ class SczController extends CI_Controller {
 
     static public $tokenExpire = 86400 * 7;
     public $userInfo;
-
+    public $isDebug=true;
     public function __construct() {
         parent::__construct();
         $this->load->library('session');

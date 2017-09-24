@@ -10,7 +10,6 @@ require_once (APPPATH . 'vendor/autoload.php');
 
 class RedPacket extends SczController {
 
-    public $isDebug=true;
     public function __construct() {
         parent::__construct();
         $this->load->model('redis/redisString');

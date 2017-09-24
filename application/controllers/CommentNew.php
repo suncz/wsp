@@ -41,7 +41,7 @@ class CommentNew extends SczController {
             $this->jsonOutput();
             return;
         }
-        $comentList = $this->db->select('*')->from('comment')->where($array)->limit(10)->get()->result_array();
+        $comentList = $this->db->select('*')->from('comment')->where($array)->order_by('createTime','desc')->limit(10)->get()->result_array();
 
         $i=0;
         $commentListNew=[];

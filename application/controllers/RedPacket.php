@@ -10,6 +10,7 @@ require_once (APPPATH . 'vendor/autoload.php');
 
 class RedPacket extends SczController {
 
+    public $isDebug=true;
     public function __construct() {
         parent::__construct();
         $this->load->model('redis/redisString');
@@ -193,7 +194,8 @@ class RedPacket extends SczController {
             'receivedNum' => 0,
             'money' => $money,
             'codeWord' => $codeWord,
-            'type' => $type
+            'type' => $type,
+            'payStatus' => $this->isDebug?2:0,
         );
         $this->db->insert('redpacket', $data);
         $redpacketId = $this->db->insert_id();
@@ -222,7 +224,7 @@ class RedPacket extends SczController {
             'redPacketUserId' => $this->userInfo['userId'],
             'redPacketUserNickName' => $this->userInfo['nickName'],
             'type' => 3,
-            'status' => 0,
+            'status' =>  $this->isDebug?1:0,
         ];
         $this->db->insert('comment', $insertComment);
         $this->result['data']['redpacketId'] = $redpacketId;

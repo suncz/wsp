@@ -40,7 +40,7 @@ class RedPacket extends SczController {
         $isReceived = 0;
         $tempMoney = 0;
         foreach ($redPacketLogList as $key => &$value) {
-            if ($value['ReceiverUserId'] == $userId) {
+            if ($value['receiverUserId'] == $userId) {
                 $isReceived = 1;
             } else {
                 $isReceived = 0;

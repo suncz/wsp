@@ -95,7 +95,7 @@ class RedPacket extends SczController {
                 $redPacketLogList[$key - 1]['isBestLuck'] = 0;
                 $redPacketLogList[$key]['isBestLuck'] = 1;
             }
-            if ($value['ReceiverUserId'] == $userId) {
+            if ($value['receiverUserId'] == $userId) {
                 $userReceiveMoney = $value['receiveMoney'] / 100;
             }
             //红包发放者是此登录用户

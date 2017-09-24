@@ -57,7 +57,7 @@ class Video extends SczController {
             $this->jsonOutput();
         }
         $videoId=$_GET['videoId'];
-        $rewardRankKey = RedisKey::INVITE_RANK_VIDEOID_DAY .$videoId. date('Y-m-d', time());
+        $rewardRankKey = RedisKey::INVITE_RANK_VIDEOID_DAY .$videoId. '-'.date('Y-m-d', time());
         $list = $this->redisZSet->zRevRange($rewardRankKey, 0, 10, true);
 
 //        exit;

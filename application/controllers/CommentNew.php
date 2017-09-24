@@ -91,7 +91,7 @@ class CommentNew extends SczController {
             'videoId'=>$videoId,
             'userId'=>$this->userInfo['userId'],
             'userNickName'=>$this->userInfo['nickName'],
-            'userHeadImgUrl'=>$this->userInfo['headimgurl'],
+            'userHeadImgUrl'=>$this->userInfo['headImgUrl'],
             'pic' => $pic,
             'content' => $content,
             'createTime'=> date('Y-m-d H:i:s',time()),

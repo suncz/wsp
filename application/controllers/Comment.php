@@ -29,10 +29,11 @@ class Comment extends CI_Controller{
 				$videoId=1;
 			}
 		}
-
+                 
 		$video=$this->db->select('*')->from('video')->where('id',$videoId)->get()->result()[0];	//获取视频
+               
 		$addr = $this->wx_oauth->authorize_addr($video->id);//获取微信登录地址
-             
+                
 		$data=array(
 				'video'=>$video,
 				'codeUrl'=>$addr,
@@ -94,7 +95,7 @@ class Comment extends CI_Controller{
 			$data = array(
 					'openId'=>$user->openid,
 					'nickName'=>$user->nickname,
-					'headImgUrl'=>$user->headimgurl
+					'headImgUrl'=>$user->headImgUrl
 			);
 			$bool = $this->db->insert('user',$data);
 			if($bool){

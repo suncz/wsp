@@ -188,7 +188,7 @@ class RedPacket extends SczController {
             'videoId' => $videoId,
             'userId' => $this->userInfo['userId'],
             'nickName' => $this->userInfo['nickName'],
-            'headImgUrl' => $this->userInfo['headimgurl'],
+            'headImgUrl' => $this->userInfo['headImgUrl'],
             'num' => $num,
             'receivedNum' => 0,
             'money' => $money,
@@ -217,7 +217,7 @@ class RedPacket extends SczController {
             'videoId' => $videoId,
             'userId' => $this->userInfo['userId'],
             'userNickName' => $this->userInfo['nickName'],
-            'userHeadImgUrl' => $this->userInfo['headimgurl'],
+            'userHeadImgUrl' => $this->userInfo['headImgUrl'],
             'redPacketId' => $redpacketId,
             'redPacketLogId' => 0,
             'redPacketUserId' => $this->userInfo['userId'],
@@ -289,10 +289,10 @@ class RedPacket extends SczController {
                 'redPacketId' => $redPacketId,
                 'payerUserId' => $this->userInfo['userId'],
                 'payerUserNickName' => $this->userInfo['nickName'],
-                'payerUserheadImgUrl' => $this->userInfo['headimgurl'],
+                'payerUserheadImgUrl' => $this->userInfo['headImgUrl'],
                 'receiverUserId' => $this->userInfo['userId'],
                 'receiverUserNickName' => $this->userInfo['nickName'],
-                'receiverUserheadImgUrl' => $this->userInfo['headimgurl'],
+                'receiverUserheadImgUrl' => $this->userInfo['headImgUrl'],
                 'receiveMoney' => $money,
                 'createTime' => date('Y-m-d H:i:s'),
                 'receiveTime' => date('Y-m-d H:i:s'),
@@ -306,7 +306,7 @@ class RedPacket extends SczController {
                 'videoId' => $redPackInfo['videoId'],
                 'userId' => $this->userInfo['userId'],
                 'userNickName' => $this->userInfo['nickName'],
-                'userHeadImgUrl' => $this->userInfo['headimgurl'],
+                'userHeadImgUrl' => $this->userInfo['headImgUrl'],
                 'getRedPacketMoney' => $money,
                 'redPacketId' => $redPackInfo['id'],
                 'redPacketId' => $redPackInfo['id'],
@@ -376,12 +376,12 @@ class RedPacket extends SczController {
                     $myselfRankInfo['rank'] = $myselfRank;
                     $myselfRankInfo['money'] = $money;
                     $myselfRankInfo['userId'] = $this->userInfo['userId'];
-                    $myselfRankInfo['headImgUrl'] = $this->userInfo['headimgurl'];
+                    $myselfRankInfo['headImgUrl'] = $this->userInfo['headImgUrl'];
                     $myselfRankInfo['nickname'] = $this->userInfo['nickName'];
                 }
             }
 //            print_r($userIds);exit;
-            $userInfos = $this->db->select("id as userId,headimgurl as headImgUrl,nickname")->from("user")->where_in('id', $userIds)->get()->result_array();
+            $userInfos = $this->db->select("id as userId,headImgUrl as headImgUrl,nickname")->from("user")->where_in('id', $userIds)->get()->result_array();
 
             foreach ($userInfos as $userInfo) {
                 $newUserInfos[$userInfo['userId']] = $userInfo;
@@ -421,7 +421,7 @@ class RedPacket extends SczController {
             'videoId' => $videoId,
             'userId' => $this->userInfo['userId'],
             'nickName' => $this->userInfo['nickName'],
-            'headImgUrl' => $this->userInfo['headimgurl'],
+            'headImgUrl' => $this->userInfo['headImgUrl'],
             'num' => 1,
             'receivedNum' => 0,
             'money' => $money,

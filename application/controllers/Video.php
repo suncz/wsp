@@ -77,12 +77,12 @@ class Video extends SczController {
                     $myselfRankInfo['rank'] = $myselfRank;
                     $myselfRankInfo['num'] = $num;
                     $myselfRankInfo['userId'] = $this->userInfo['userId'];
-                    $myselfRankInfo['headImgUrl'] = $this->userInfo['headimgurl'];
+                    $myselfRankInfo['headImgUrl'] = $this->userInfo['headImgUrl'];
                     $myselfRankInfo['nickname'] = $this->userInfo['nickName'];
                 }
             }
 //            print_r($userIds);exit;
-            $userInfos = $this->db->select("id as userId,headimgurl as headImgUrl,nickname")->from("user")->where_in('id', $userIds)->get()->result_array();
+            $userInfos = $this->db->select("id as userId,headImgUrl as headImgUrl,nickname")->from("user")->where_in('id', $userIds)->get()->result_array();
 
             foreach ($userInfos as $userInfo) {
                 $newUserInfos[$userInfo['userId']] = $userInfo;

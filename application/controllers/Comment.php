@@ -115,8 +115,8 @@ class Comment extends CI_Controller{
 		if($page_size==0){
 			$page_size=5;
 		}
-		$sql="select * from comment c,user u where c.userId=u.id and videoId=$videoId order by c.id desc limit $offset,$page_size";
-		$comments=$this->db->query($sql)->result();
+		$sql="select * from comment c,user u where c.userId=u.id and c.videoId=$videoId order by c.id desc limit $offset,$page_size";
+		$comments=$this->db->query($sql)->result_array();
 		echo json_encode($comments);
 	}
 	

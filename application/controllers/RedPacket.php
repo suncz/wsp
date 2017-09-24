@@ -55,7 +55,7 @@ class RedPacket extends SczController {
         else {
             $isSendEnd = 0;
         }
-        $this->result['data']['redPackInfo'] = $redPackInfo;
+        $this->result['data']['redPackInfo'] = $redPackInfo[0];
         $this->result['data']['isReceived'] = $isReceived; //是否领取 0 未领取 1：已领取
         $this->result['data']['isSendEnd'] = $isSendEnd; //是否派发完了 0 未派发完 1派发完了 
         $this->result['data']['isExpired'] = 0; //是否过期 0未过期 1 已过期

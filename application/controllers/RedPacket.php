@@ -403,12 +403,14 @@ class RedPacket extends SczController {
     public function sendRedPacketToPlatform() {
         parent::isLogin();
         $money = $_POST['money']; //红包金额 单位分
-        if (!$money) {
+         $videoId=$_GET['videoId'];
+        if (!$money||!$videoId) {
             $this->result['ret'] = 1001;
             $this->result['msg'] = '参数错误';
             $this->jsonOutput();
             return;
         }
+       
 //        print_r($this->userInfo);exit;
         //生成红包
         $data = array(
@@ -416,10 +418,10 @@ class RedPacket extends SczController {
             'userId' => $this->userInfo['userId'],
             'nickName' => $this->userInfo['nickName'],
             'headImgUrl' => $this->userInfo['headimgurl'],
-            'num' => $num,
+            'num' => 1,
             'receivedNum' => 0,
             'money' => $money,
-            'codeWord' => $codeWord,
+            'codeWord' => '',
             'type' => 3
         );
         $this->db->insert('redpacket', $data);
@@ -427,5 +429,6 @@ class RedPacket extends SczController {
         $this->result['data']['redpacketId'] = $redpacketId;
         $this->jsonOutput();
     }
+    
 
 }

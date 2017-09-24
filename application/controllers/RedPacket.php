@@ -404,7 +404,7 @@ class RedPacket extends SczController {
     public function sendRedPacketToPlatform() {
         parent::isLogin();
         $money = $_POST['money']; //红包金额 单位分
-         $videoId=$_GET['videoId'];
+         $videoId=$_POST['videoId'];
         if (!$money||!$videoId) {
             $this->result['ret'] = 1001;
             $this->result['msg'] = '参数错误';

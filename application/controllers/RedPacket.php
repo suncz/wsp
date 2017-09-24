@@ -283,6 +283,7 @@ class RedPacket extends SczController {
             return;
         }
         try {
+            $this->result['data']['grabRedPacketMoney']=$money;
             //生成红包
             $data = array(
                 'redPacketId' => $redPacketId,

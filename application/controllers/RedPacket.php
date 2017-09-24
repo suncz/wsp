@@ -293,7 +293,9 @@ class RedPacket extends SczController {
                 'receiverUserId' => $this->userInfo['userId'],
                 'receiverUserNickName' => $this->userInfo['nickName'],
                 'receiverUserheadImgUrl' => $this->userInfo['headimgurl'],
-                'receiveMoney' => $money
+                'receiveMoney' => $money,
+                'createTime' => date('Y-m-d H:i:s'),
+                'receiveTime' => date('Y-m-d H:i:s'),
             );
             $this->db->insert('redPacketLog', $data);
             $redPacketLogInsertId = $this->db->insert_id();

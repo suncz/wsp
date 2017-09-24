@@ -196,7 +196,7 @@ class RedPacket extends SczController {
             'type' => $type,
             'payStatus' => $this->isDebug?2:0,
         );
-        $this->db->insert('redpacket', $data);
+        $this->db->insert('redPacket', $data);
         $redpacketId = $this->db->insert_id();
 //        echo mt_rand(1, 5);exit;
         $redPacketAlgorithm = new redPacketAlgorithm();
@@ -425,7 +425,7 @@ class RedPacket extends SczController {
             'codeWord' => '',
             'type' => 3
         );
-        $this->db->insert('redpacket', $data);
+        $this->db->insert('redPacket', $data);
         $redpacketId = $this->db->insert_id();
         $this->result['data']['redpacketId'] = $redpacketId;
         $this->jsonOutput();

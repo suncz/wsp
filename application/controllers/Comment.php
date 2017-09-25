@@ -79,7 +79,7 @@ class Comment extends CI_Controller{
 		$res = json_decode($response);
 		//echo '<br>openid:'.$res->openid;
 		//echo '<br>nickname:'.$res->nickname;
-		//echo '<br>headimgurl:'.$res->headimgurl;
+		//echo '<br>headImgUrl:'.$res->headImgUrl;
 		return $res;
 	}
 
@@ -95,7 +95,7 @@ class Comment extends CI_Controller{
 			$data = array(
 					'openId'=>$user->openid,
 					'nickName'=>$user->nickname,
-					'headImgUrl'=>$user->headImgUrl
+					'headImgUrl'=>$user->headimgurl
 			);
 			$bool = $this->db->insert('user',$data);
 			if($bool){

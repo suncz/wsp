@@ -56,15 +56,16 @@ class Video extends SczController {
         if ($isLogin == false) {
             $this->jsonOutput();
         }
-        $rewardRankKey = RedisKey::INVITE_RANK_DAY . date('Y-m-d', time());
+        $videoId=$_GET['videoId'];
+        $rewardRankKey = RedisKey::INVITE_RANK_VIDEOID_DAY .$videoId. '-'.date('Y-m-d', time());
         $list = $this->redisZSet->zRevRange($rewardRankKey, 0, 10, true);
 
 //        exit;
+        $userRankList = [];
+        $myselfRankInfo = [];
         if (count($list) == 0) {
             $this->result['data'] = [];
         } else {
-            $userRankList = [];
-            $myselfRankInfo = [];
             $userIds = array_keys($list);
             if (array_key_exists($this->userInfo['userId'], $list) == false) {
                 $myselfRank = $this->redisZSet->zRevRank($rewardRankKey, $this->userInfo['userId']);

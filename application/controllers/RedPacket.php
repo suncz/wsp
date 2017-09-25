@@ -40,7 +40,7 @@ class RedPacket extends SczController {
         $isReceived = 0;
         $tempMoney = 0;
         foreach ($redPacketLogList as $key => &$value) {
-            if ($value['ReceiverUserId'] == $userId) {
+            if ($value['receiverUserId'] == $userId) {
                 $isReceived = 1;
             } else {
                 $isReceived = 0;
@@ -55,7 +55,7 @@ class RedPacket extends SczController {
         else {
             $isSendEnd = 0;
         }
-        $this->result['data']['redPackInfo'] = $redPackInfo;
+        $this->result['data']['redPackInfo'] = $redPackInfo[0];
         $this->result['data']['isReceived'] = $isReceived; //是否领取 0 未领取 1：已领取
         $this->result['data']['isSendEnd'] = $isSendEnd; //是否派发完了 0 未派发完 1派发完了 
         $this->result['data']['isExpired'] = 0; //是否过期 0未过期 1 已过期
@@ -95,7 +95,7 @@ class RedPacket extends SczController {
                 $redPacketLogList[$key - 1]['isBestLuck'] = 0;
                 $redPacketLogList[$key]['isBestLuck'] = 1;
             }
-            if ($value['ReceiverUserId'] == $userId) {
+            if ($value['receiverUserId'] == $userId) {
                 $userReceiveMoney = $value['receiveMoney'] / 100;
             }
             //红包发放者是此登录用户
@@ -188,14 +188,15 @@ class RedPacket extends SczController {
             'videoId' => $videoId,
             'userId' => $this->userInfo['userId'],
             'nickName' => $this->userInfo['nickName'],
-            'headImgUrl' => $this->userInfo['headimgurl'],
+            'headImgUrl' => $this->userInfo['headImgUrl'],
             'num' => $num,
             'receivedNum' => 0,
             'money' => $money,
             'codeWord' => $codeWord,
-            'type' => $type
+            'type' => $type,
+            'payStatus' => $this->isDebug?2:0,
         );
-        $this->db->insert('redpacket', $data);
+        $this->db->insert('redPacket', $data);
         $redpacketId = $this->db->insert_id();
 //        echo mt_rand(1, 5);exit;
         $redPacketAlgorithm = new redPacketAlgorithm();
@@ -216,13 +217,13 @@ class RedPacket extends SczController {
             'videoId' => $videoId,
             'userId' => $this->userInfo['userId'],
             'userNickName' => $this->userInfo['nickName'],
-            'userHeadImgUrl' => $this->userInfo['headimgurl'],
+            'userHeadImgUrl' => $this->userInfo['headImgUrl'],
             'redPacketId' => $redpacketId,
             'redPacketLogId' => 0,
             'redPacketUserId' => $this->userInfo['userId'],
             'redPacketUserNickName' => $this->userInfo['nickName'],
             'type' => 3,
-            'status' => 0,
+            'status' =>  $this->isDebug?1:0,
         ];
         $this->db->insert('comment', $insertComment);
         $this->result['data']['redpacketId'] = $redpacketId;
@@ -282,16 +283,19 @@ class RedPacket extends SczController {
             return;
         }
         try {
+            $this->result['data']['grabRedPacketMoney']=$money;
             //生成红包
             $data = array(
                 'redPacketId' => $redPacketId,
                 'payerUserId' => $this->userInfo['userId'],
                 'payerUserNickName' => $this->userInfo['nickName'],
-                'payerUserheadImgUrl' => $this->userInfo['headimgurl'],
+                'payerUserheadImgUrl' => $this->userInfo['headImgUrl'],
                 'receiverUserId' => $this->userInfo['userId'],
                 'receiverUserNickName' => $this->userInfo['nickName'],
-                'receiverUserheadImgUrl' => $this->userInfo['headimgurl'],
-                'receiveMoney' => $money
+                'receiverUserheadImgUrl' => $this->userInfo['headImgUrl'],
+                'receiveMoney' => $money,
+                'createTime' => date('Y-m-d H:i:s'),
+                'receiveTime' => date('Y-m-d H:i:s'),
             );
             $this->db->insert('redPacketLog', $data);
             $redPacketLogInsertId = $this->db->insert_id();
@@ -302,7 +306,8 @@ class RedPacket extends SczController {
                 'videoId' => $redPackInfo['videoId'],
                 'userId' => $this->userInfo['userId'],
                 'userNickName' => $this->userInfo['nickName'],
-                'userHeadImgUrl' => $this->userInfo['headimgurl'],
+                'userHeadImgUrl' => $this->userInfo['headImgUrl'],
+                'getRedPacketMoney' => $money,
                 'redPacketId' => $redPackInfo['id'],
                 'redPacketId' => $redPackInfo['id'],
                 'redPacketLogId' => $redPacketLogInsertId,
@@ -351,15 +356,15 @@ class RedPacket extends SczController {
         if ($isLogin == false) {
             $this->jsonOutput();
         }
-        $rewardRankKey = RedisKey::REWARD_RANK_DAY . date('Y-m-d', time());
+        $videoId=$_GET['videoId'];
+        $rewardRankKey = RedisKey::REWARD_RANK_VIDEOID_DAY .$videoId. date('-Y-m-d', time());
         $list = $this->redisZSet->zRevRange($rewardRankKey, 0, 10, true);
-
+        $userRankList = [];
+        $myselfRankInfo = [];
 //        exit;
         if (count($list) == 0) {
             $this->result['data'] = [];
         } else {
-            $userRankList = [];
-            $myselfRankInfo = [];
             $userIds = array_keys($list);
             if (array_key_exists($this->userInfo['userId'], $list) == false) {
                 $myselfRank = $this->redisZSet->zRevRank($rewardRankKey, $this->userInfo['userId']);
@@ -371,12 +376,12 @@ class RedPacket extends SczController {
                     $myselfRankInfo['rank'] = $myselfRank;
                     $myselfRankInfo['money'] = $money;
                     $myselfRankInfo['userId'] = $this->userInfo['userId'];
-                    $myselfRankInfo['headImgUrl'] = $this->userInfo['headimgurl'];
+                    $myselfRankInfo['headImgUrl'] = $this->userInfo['headImgUrl'];
                     $myselfRankInfo['nickname'] = $this->userInfo['nickName'];
                 }
             }
 //            print_r($userIds);exit;
-            $userInfos = $this->db->select("id as userId,headimgurl as headImgUrl,nickname")->from("user")->where_in('id', $userIds)->get()->result_array();
+            $userInfos = $this->db->select("id as userId,headImgUrl as headImgUrl,nickname")->from("user")->where_in('id', $userIds)->get()->result_array();
 
             foreach ($userInfos as $userInfo) {
                 $newUserInfos[$userInfo['userId']] = $userInfo;
@@ -396,5 +401,38 @@ class RedPacket extends SczController {
         $this->result['myselfRankInfo'] = $myselfRankInfo;
         $this->jsonOutput();
     }
+    /**
+     * 用户发放红包 生成红包id
+     */
+    public function sendRedPacketToPlatform() {
+        parent::isLogin();
+        $money = $_POST['money']; //红包金额 单位分
+         $videoId=$_POST['videoId'];
+        if (!$money||!$videoId) {
+            $this->result['ret'] = 1001;
+            $this->result['msg'] = '参数错误';
+            $this->jsonOutput();
+            return;
+        }
+       
+//        print_r($this->userInfo);exit;
+        //生成红包
+        $data = array(
+            'videoId' => $videoId,
+            'userId' => $this->userInfo['userId'],
+            'nickName' => $this->userInfo['nickName'],
+            'headImgUrl' => $this->userInfo['headImgUrl'],
+            'num' => 1,
+            'receivedNum' => 0,
+            'money' => $money,
+            'codeWord' => '',
+            'type' => 3
+        );
+        $this->db->insert('redPacket', $data);
+        $redpacketId = $this->db->insert_id();
+        $this->result['data']['redpacketId'] = $redpacketId;
+        $this->jsonOutput();
+    }
+    
 
 }

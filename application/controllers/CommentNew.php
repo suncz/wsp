@@ -15,6 +15,11 @@ class CommentNew extends SczController {
      * @return type
      */
     public function commentList() {
+        $isLogin = parent::isLogin();
+        if ($isLogin == false) {
+            $this->jsonOutput();
+            return;
+        }
         $videoId = $_GET['videoId'];
         $commentId = $_GET['commentId'];
         $timeReferencePoint = isset($_GET['timeReferencePointLine'])?$_GET['timeReferencePointLine']:time();//时间参照点
@@ -36,13 +41,13 @@ class CommentNew extends SczController {
             $this->jsonOutput();
             return;
         }
-        $comentList = $this->db->select('*')->from('comment')->where($array)->limit(10)->get()->result_array();
+        $comentList = $this->db->select('*')->from('comment')->where($array)->order_by('createTime','desc')->limit(10)->get()->result_array();
 
         $i=0;
         $commentListNew=[];
         foreach($comentList as $key =>$value)
-        {
-           
+        { 
+            $value['getRedPacketMoney']=round($value['getRedPacketMoney']/100,2);
             $createTime=strtotime($value['createTime']);
             $commentListNew[$i]=$value;
             $i++;
@@ -86,7 +91,7 @@ class CommentNew extends SczController {
             'videoId'=>$videoId,
             'userId'=>$this->userInfo['userId'],
             'userNickName'=>$this->userInfo['nickName'],
-            'userHeadImgUrl'=>$this->userInfo['headimgurl'],
+            'userHeadImgUrl'=>$this->userInfo['headImgUrl'],
             'pic' => $pic,
             'content' => $content,
             'createTime'=> date('Y-m-d H:i:s',time()),

@@ -34,7 +34,7 @@ class Home extends SczController{
                 $this->db->insert('inviteUser',$insertInviteUser);
                 if($fromUserId)
                 {
-                    $this->redisZSet->zincrBy(RedisKey::INVITE_RANK_DAY.date('Y-m-d'), $fromUserId);
+                    $this->redisZSet->zincrBy(RedisKey::INVITE_RANK_VIDEOID_DAY.date('Y-m-d'), $fromUserId);
                 }
                 
             }
@@ -51,6 +51,7 @@ class Home extends SczController{
             $data['share']['shareLink']='http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
             $data['publicityCover']=$video->publicityCover;
             $data['playUrl']='http://'.$_SERVER['HTTP_HOST']."/comment/index/".$videoId;
+            $data['playUrl']='http://hwsp.mzlicai.cn?uid='.$this->userInfo['userId'].'&token='.$this->userInfo['token'].'&videoId='.$videoId;
             $this->load->view('comment/publicity',$data);
         }
         public function testToken()

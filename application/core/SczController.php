@@ -10,7 +10,7 @@ class SczController extends CI_Controller {
 
     static public $tokenExpire = 86400 * 7;
     public $userInfo;
-
+    public $isDebug=true;
     public function __construct() {
         parent::__construct();
         $this->load->library('session');
@@ -27,6 +27,7 @@ class SczController extends CI_Controller {
         $allow_origin = array(
             'http://www.baidu.com',
             'http://localhost:8000',
+            'http://hwsp.mzlicai.cn',
             'http://192.168.1.141',
         );
         if (in_array($origin, $allow_origin)) {

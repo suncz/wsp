@@ -29,10 +29,11 @@ class Comment extends CI_Controller{
 				$videoId=1;
 			}
 		}
-
+                 
 		$video=$this->db->select('*')->from('video')->where('id',$videoId)->get()->result()[0];	//获取视频
+               
 		$addr = $this->wx_oauth->authorize_addr($video->id);//获取微信登录地址
-             
+                
 		$data=array(
 				'video'=>$video,
 				'codeUrl'=>$addr,
@@ -94,7 +95,7 @@ class Comment extends CI_Controller{
 			$data = array(
 					'openId'=>$user->openid,
 					'nickName'=>$user->nickname,
-					'headImgUrl'=>$user->headimgurl
+					'headImgUrl'=>$user->headImgUrl
 			);
 			$bool = $this->db->insert('user',$data);
 			if($bool){
@@ -115,8 +116,8 @@ class Comment extends CI_Controller{
 		if($page_size==0){
 			$page_size=5;
 		}
-		$sql="select * from comment c,user u where c.userId=u.id and videoId=$videoId order by c.id desc limit $offset,$page_size";
-		$comments=$this->db->query($sql)->result();
+		$sql="select * from comment c,user u where c.userId=u.id and c.videoId=$videoId order by c.id desc limit $offset,$page_size";
+		$comments=$this->db->query($sql)->result_array();
 		echo json_encode($comments);
 	}
 	

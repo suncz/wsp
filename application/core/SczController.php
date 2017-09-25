@@ -28,6 +28,7 @@ class SczController extends CI_Controller {
             'http://www.baidu.com',
             'http://localhost:8000',
             'http://hwsp.mzlicai.cn',
+            'http://192.168.1.141:8000',
         );
         if (in_array($origin, $allow_origin)) {
             $this->output->set_header('Access-Control-Allow-Origin:' . $origin);
@@ -48,7 +49,6 @@ class SczController extends CI_Controller {
         if ($userId) {
             log_message('error', '从redis中查找到了userId');
             $this->userInfo = $this->redisHash->all(redisKey::USER_INFO_HASH_ID . $userId);
-//            var_dump($this->userInfo);exit;
             log_message('error', print_r($this->userInfo,TRUE));
             if (time()-$this->userInfo['tokenExpire'] > self::$tokenExpire) {
                 log_message('error', 'redis的用户信息'.print_r($this->userInfo,TRUE));
@@ -102,7 +102,7 @@ class SczController extends CI_Controller {
                         'sex' => $weixinUserInfo['sex'],
                         'province' => $weixinUserInfo['province'],
                         'city' => $weixinUserInfo['city'],
-                        'headImgUrl' => $weixinUserInfo['headImgUrl'],
+                        'headImgUrl' => $weixinUserInfo['headimgurl'],
                         'unionid' => isset($weixinUserInfo['unionid']) ? $weixinUserInfo['unionid'] : '',
                         'videoId' => $videoId,
                     );
@@ -145,7 +145,7 @@ class SczController extends CI_Controller {
                     'sex' => $weixinUserInfo['sex'],
                     'province' => $weixinUserInfo['province'],
                     'city' => $weixinUserInfo['city'],
-                    'headImgUrl' => $weixinUserInfo['headImgUrl'],
+                    'headImgUrl' => $weixinUserInfo['headimgurl'],
                     'unionid' => isset($weixinUserInfo['unionid']) ? $weixinUserInfo['unionid'] : '',
                     'videoId' => $videoId,
                 );

@@ -49,7 +49,6 @@ class SczController extends CI_Controller {
         if ($userId) {
             log_message('error', '从redis中查找到了userId');
             $this->userInfo = $this->redisHash->all(redisKey::USER_INFO_HASH_ID . $userId);
-//            var_dump($this->userInfo);exit;
             log_message('error', print_r($this->userInfo,TRUE));
             if (time()-$this->userInfo['tokenExpire'] > self::$tokenExpire) {
                 log_message('error', 'redis的用户信息'.print_r($this->userInfo,TRUE));
@@ -88,7 +87,7 @@ class SczController extends CI_Controller {
                         'sex' => $dbUserInfo['sex'],
                         'province' => $dbUserInfo['province'],
                         'city' => $dbUserInfo['city'],
-                        'headimgurl' => $dbUserInfo['headimgurl'],
+                        'headImgUrl' => $dbUserInfo['headImgUrl'],
                         'unionid' => $dbUserInfo['unionid'],
                         'userId' => $dbUserInfo['id'],
                         'videoId' => $dbUserInfo['videoId'],
@@ -103,7 +102,7 @@ class SczController extends CI_Controller {
                         'sex' => $weixinUserInfo['sex'],
                         'province' => $weixinUserInfo['province'],
                         'city' => $weixinUserInfo['city'],
-                        'headimgurl' => $weixinUserInfo['headimgurl'],
+                        'headImgUrl' => $weixinUserInfo['headimgurl'],
                         'unionid' => isset($weixinUserInfo['unionid']) ? $weixinUserInfo['unionid'] : '',
                         'videoId' => $videoId,
                     );
@@ -132,7 +131,7 @@ class SczController extends CI_Controller {
                     'sex' => $userInfo['sex'],
                     'province' => $userInfo['province'],
                     'city' => $userInfo['city'],
-                    'headimgurl' => $userInfo['headimgurl'],
+                    'headImgUrl' => $userInfo['headImgUrl'],
                     'unionid' => isset($userInfo['unionid']) ? $userInfo['unionid'] : '',
                     'userId' => $userInfo['id'],
                     'videoId' => $userInfo['videoId']
@@ -146,7 +145,7 @@ class SczController extends CI_Controller {
                     'sex' => $weixinUserInfo['sex'],
                     'province' => $weixinUserInfo['province'],
                     'city' => $weixinUserInfo['city'],
-                    'headimgurl' => $weixinUserInfo['headimgurl'],
+                    'headImgUrl' => $weixinUserInfo['headimgurl'],
                     'unionid' => isset($weixinUserInfo['unionid']) ? $weixinUserInfo['unionid'] : '',
                     'videoId' => $videoId,
                 );

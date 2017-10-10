@@ -15,12 +15,12 @@ function printf_info($data)
         echo "<font color='#00ff55;'>$key</font> : $value <br/>";
     }
 }
-
+//echo 11;exit;
 //①、获取用户openid
 $tools = new JsApiPay();
-$openId = $tools->GetOpenid();
-//$openId = 'o4GSVjm7AeAe-3_8HiXzqqSczA2g';
-
+//$openId = $tools->GetOpenid();
+$openId = 'ofvZm0ezItYbPVJN1D5GKpQfbCFc';
+echo $openId;
 //②、统一下单
 $input = new WxPayUnifiedOrder();
 $input->SetBody("test");

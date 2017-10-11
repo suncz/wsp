@@ -32,7 +32,7 @@ class Pay extends SczController {
         //error_reporting(E_ERROR);
         
 //初始化日志
-        $logHandler = new CLogFileHandler("../logs/" . date('Y-m-d') . '.log');
+        $logHandler = new CLogFileHandler("../logs/" . 'pay.'.date('Y-m-d') . '.log');
         $log = Log::Init($logHandler, 15);
 
 
@@ -57,7 +57,7 @@ class Pay extends SczController {
         sleep(10);
         $order = WxPayApi::unifiedOrder($input);
         print_r($order);
-        printf_info($order);
+        //printf_info($order);
         $jsApiParameters = $tools->GetJsApiParameters($order);
         print_r($jsApiParameters);
     }

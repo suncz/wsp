@@ -117,7 +117,7 @@ class RedPacket extends SczController {
                 }
             }
             //人气红包
-            else if ($redPackInfo['type'] == 1) {
+            else if ($redPackInfo['type'] == 2) {
                 //红包派发完了
                 if ($receivedNum == $redPackInfo['num']) {
                     $displayWord = $redPackInfo['num'] . '个红包共' . ($redPackInfo['money'] / 100) . '元，已全部被抢光';
@@ -138,7 +138,7 @@ class RedPacket extends SczController {
                 }
             }
             //人气红包
-            else if ($redPackInfo['type'] == 1) {
+            else if ($redPackInfo['type'] == 2) {
                 //红包派发完了
                 if ($receivedNum == $redPackInfo['num']) {
                     $displayWord = $redPackInfo['num'] . '个红包共，已全部被抢光';

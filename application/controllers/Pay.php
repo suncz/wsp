@@ -14,21 +14,24 @@ class Pay extends SczController {
 
     //红包微信支付
     function wxHtml() {
+        $this->load->library("fn");
         ini_set('date.timezone', 'Asia/Shanghai');
-        $isLogin=parent::isLogin();
-        if ($isLogin == false) {
-            $this->jsonOutput();
-        }
+//        $isLogin=parent::isLogin();
+//        if ($isLogin == false) {
+//            $this->jsonOutput();
+//        }
         $redPacketId = $_GET['redPacketId'];
         $redPackeInfo = $this->db->from('redPacket')->where('id', $redPacketId)->get()->row();
         if ($redPackeInfo->payStatus==2) {
             $this->result['ret'] = 2008;
             $this->result['msg'] = "";
         }
-        $data = ['redPacketId' => $redPacketId, 'UserId' => $this->userInfo['userId'], 'way' => 1, 'createTime' => date('Y-m-d H:i:s')];
+        $paySn=Fn::getSn(time());
+        
+        $data = ['redPacketId' => $redPacketId, 'UserId' => $this->userInfo['userId'], 'way' => 1, 'createTime' => date('Y-m-d H:i:s'),'paySn'=>$paySn];
         $this->db->insert('pay', $data);
-        $payId = $this->db->insert_id();
-
+//        $this->db->insert_id();
+        
         //error_reporting(E_ERROR);
         
 //初始化日志
@@ -45,7 +48,7 @@ class Pay extends SczController {
         $input = new WxPayUnifiedOrder();
         $input->SetBody("直播红包");
         $input->SetAttach("直播红包");
-        $input->SetOut_trade_no($payId);
+        $input->SetOut_trade_no($paySn);
         $input->SetTotal_fee($redPackeInfo->money);
         $input->SetTime_start(date("YmdHis"));
         $input->SetTime_expire(date("YmdHis", time() + 600));
@@ -56,10 +59,11 @@ class Pay extends SczController {
         $input->SetOpenid($openId);
         sleep(10);
         $order = WxPayApi::unifiedOrder($input);
-        print_r($order);
+//        print_r($order);
         //printf_info($order);
         $jsApiParameters = $tools->GetJsApiParameters($order);
-        print_r($jsApiParameters);
+        $this->result['data']=json_decode($jsApiParameters,true);
+        $this->jsonOutput();
     }
 
 }

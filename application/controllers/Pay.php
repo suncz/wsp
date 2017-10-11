@@ -32,7 +32,7 @@ class Pay extends SczController {
         //error_reporting(E_ERROR);
         
 //初始化日志
-        $logHandler = new CLogFileHandler("../logs/" . 'pay.'.date('Y-m-d') . '.log');
+        $logHandler = new CLogFileHandler(APPPATH."logs/" . 'pay.'.date('Y-m-d') . '.log');
         $log = Log::Init($logHandler, 15);
 
 

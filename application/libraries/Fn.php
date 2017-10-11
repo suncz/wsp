@@ -60,7 +60,7 @@ class Fn{
      /**
      * 生成唯一编号 待优化  
      * @param type $time
-     * @param type $type 0:公公1:goodsSn 2 skuSn 3. orderSn
+     * @param type $type 1:goodsSn 2 skuSn 3. orderSn
      * @param orderType 和订单表里面的hh_orders type 1：嘻哈商城订单 2.演出票订单 3.转票订单 4.活动票订单', 
      * @parm buyPlatform 订单购买平台：1为PC，2为App，3为小程序，4为浏览器，5为其它
      * @return string

@@ -22,7 +22,7 @@ class Pay extends SczController {
             $this->jsonOutput();
             return;
         }
-        $redPacketId = $_GET['redPacketId'];
+        $redPacketId = $_POST['redPacketId'];
         $redPackeInfo = $this->db->from('redPacket')->where('id', $redPacketId)->get()->row();
         if ($redPackeInfo->payStatus == 2) {
             $this->result['ret'] = 2008;

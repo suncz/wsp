@@ -56,7 +56,7 @@ class Pay extends SczController {
         $input->SetOpenid($openId);
         sleep(10);
         $order = WxPayApi::unifiedOrder($input);
-        printr_r($order);
+        print_r($order);
         printf_info($order);
         $jsApiParameters = $tools->GetJsApiParameters($order);
         print_r($jsApiParameters);

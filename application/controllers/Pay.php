@@ -16,10 +16,10 @@ class Pay extends SczController {
     function wxHtml() {
         $this->load->library("fn");
         ini_set('date.timezone', 'Asia/Shanghai');
-//        $isLogin=parent::isLogin();
-//        if ($isLogin == false) {
-//            $this->jsonOutput();
-//        }
+        $isLogin=parent::isLogin();
+        if ($isLogin == false) {
+            $this->jsonOutput();
+        }
         $redPacketId = $_GET['redPacketId'];
         $redPackeInfo = $this->db->from('redPacket')->where('id', $redPacketId)->get()->row();
         if ($redPackeInfo->payStatus==2) {

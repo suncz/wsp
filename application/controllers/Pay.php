@@ -25,7 +25,8 @@ class Pay extends SczController {
         $redPackeInfo = $this->db->from('redPacket')->where('id', $redPacketId)->get()->row();
         if ($redPackeInfo->payStatus==2) {
             $this->result['ret'] = 2008;
-            $this->result['msg'] = "";
+            $this->result['msg'] = "红包已支付";
+            return ;
         }
         $paySn=Fn::getSn(time());
         

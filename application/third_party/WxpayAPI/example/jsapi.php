@@ -1,15 +1,13 @@
 <?php 
-echo 11;exit;
 ini_set('date.timezone','Asia/Shanghai');
 //error_reporting(E_ERROR);
 require_once "../lib/WxPay.Api.php";
 require_once "WxPay.JsApiPay.php";
 require_once 'log.php';
-
 //初始化日志
 $logHandler= new CLogFileHandler("../logs/".date('Y-m-d').'.log');
 $log = Log::Init($logHandler, 15);
-exit;
+
 //打印输出数组信息
 function printf_info($data)
 {
@@ -17,11 +15,12 @@ function printf_info($data)
         echo "<font color='#00ff55;'>$key</font> : $value <br/>";
     }
 }
-
+//echo 11;exit;
 //①、获取用户openid
 $tools = new JsApiPay();
-$openId = $tools->GetOpenid();
-
+//$openId = $tools->GetOpenid();
+$openId = 'ofvZm0ezItYbPVJN1D5GKpQfbCFc';
+echo $openId;
 //②、统一下单
 $input = new WxPayUnifiedOrder();
 $input->SetBody("test");
@@ -31,14 +30,16 @@ $input->SetTotal_fee("1");
 $input->SetTime_start(date("YmdHis"));
 $input->SetTime_expire(date("YmdHis", time() + 600));
 $input->SetGoods_tag("test");
-$input->SetNotify_url("http://paysdk.weixin.qq.com/example/notify.php");
+//$input->SetNotify_url("http://paysdk.weixin.qq.com/example/notify.php");
+$input->SetNotify_url("http://wsp.mzlicai.cn/WxpayAPI/example/notify.php");
 $input->SetTrade_type("JSAPI");
 $input->SetOpenid($openId);
+sleep(10);
 $order = WxPayApi::unifiedOrder($input);
 echo '<font color="#f00"><b>统一下单支付单信息</b></font><br/>';
 printf_info($order);
 $jsApiParameters = $tools->GetJsApiParameters($order);
- 
+
 //获取共享收货地址js函数参数
 $editAddress = $tools->GetEditAddressParameters();
 

@@ -1,5 +1,5 @@
 <?php
-require_once "../lib/WxPay.Api.php";
+require_once APPPATH."third_party/WxpayAPI/lib/WxPay.Api.php";
 /**
  * 
  * JSAPI支付实现类
@@ -29,6 +29,7 @@ class JsApiPay
 	 * @var array
 	 */
 	public $data = null;
+        public $curl_timeout;
 	
 	/**
 	 * 

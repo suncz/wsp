@@ -7,7 +7,7 @@ require_once '../lib/WxPay.Notify.php';
 require_once 'log.php';
 
 //初始化日志
-$logHandler= new CLogFileHandler("../logs/".date('Y-m-d').'.log');
+$logHandler= new CLogFileHandler("../logs/".date('Y-m-d').'.pay.log');
 $log = Log::Init($logHandler, 15);
 
 class PayNotifyCallBack extends WxPayNotify

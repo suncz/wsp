@@ -38,8 +38,15 @@ class Home extends SczController{
                 }
                 
             }
-           
-            $video=$this->db->select('*')->from('video')->where('id',$videoId)->get()->result()[0];	//获取视频
+            $video=$this->db->select('*')->from('video')->where('id',$videoId)->get()->result();	//获取视频
+            if(count($video)==0)
+            {
+                $this->result['ret']='1001';
+                $this->result['msg']='参数错误';
+                $this->jsonOutput();
+                return;
+            }
+            $video=$video[0];
             $wechatScript = new \Wechat\WechatScript($this->config->item('wx'));
             $url= strtolower('http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
 //            print_r($video);

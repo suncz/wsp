@@ -55,7 +55,7 @@
 <body>
 	<div align="center">
         <ul>
-            <li style="background-color:#FF7F24"><a href="http://paysdk.weixin.qq.com/WxpayAPI/example/jsapi.php">JSAPI支付</a></li>
+            <li style="background-color:#FF7F24"><a href="http://wsp.mzlicai.cn/WxpayAPI/example/jsapi.php">JSAPI支付</a></li>
             <li style="background-color:#698B22"><a href="http://paysdk.weixin.qq.com/example/micropay.php">刷卡支付</a></li>
             <li style="background-color:#8B6914"><a href="http://paysdk.weixin.qq.com/example/native.php">扫码支付</a></li>
             <li style="background-color:#CDCD00"><a href="http://paysdk.weixin.qq.com/example/orderquery.php">订单查询</a></li>

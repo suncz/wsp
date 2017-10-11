@@ -117,7 +117,7 @@ class RedPacket extends SczController {
                 }
             }
             //人气红包
-            else if ($redPackInfo['type'] == 1) {
+            else if ($redPackInfo['type'] == 2) {
                 //红包派发完了
                 if ($receivedNum == $redPackInfo['num']) {
                     $displayWord = $redPackInfo['num'] . '个红包共' . ($redPackInfo['money'] / 100) . '元，已全部被抢光';
@@ -138,7 +138,7 @@ class RedPacket extends SczController {
                 }
             }
             //人气红包
-            else if ($redPackInfo['type'] == 1) {
+            else if ($redPackInfo['type'] == 2) {
                 //红包派发完了
                 if ($receivedNum == $redPackInfo['num']) {
                     $displayWord = $redPackInfo['num'] . '个红包共，已全部被抢光';
@@ -194,7 +194,7 @@ class RedPacket extends SczController {
             'money' => $money,
             'codeWord' => $codeWord,
             'type' => $type,
-            'payStatus' => $this->isDebug?2:0,
+            'payStatus' => $this->isDebug ? 2 : 0,
         );
         $this->db->insert('redPacket', $data);
         $redpacketId = $this->db->insert_id();
@@ -212,20 +212,6 @@ class RedPacket extends SczController {
         foreach ($randomMoney as $v) {
             $this->redisList->lpush(RedisKey::RED_PACKET_RANDOM_LIST_ID . $redpacketId, $v);
         }
-        //插入comment表
-        $insertComment = [
-            'videoId' => $videoId,
-            'userId' => $this->userInfo['userId'],
-            'userNickName' => $this->userInfo['nickName'],
-            'userHeadImgUrl' => $this->userInfo['headImgUrl'],
-            'redPacketId' => $redpacketId,
-            'redPacketLogId' => 0,
-            'redPacketUserId' => $this->userInfo['userId'],
-            'redPacketUserNickName' => $this->userInfo['nickName'],
-            'type' => 3,
-            'status' =>  $this->isDebug?1:0,
-        ];
-        $this->db->insert('comment', $insertComment);
         $this->result['data']['redpacketId'] = $redpacketId;
         $this->jsonOutput();
     }
@@ -283,7 +269,7 @@ class RedPacket extends SczController {
             return;
         }
         try {
-            $this->result['data']['grabRedPacketMoney']=$money;
+            $this->result['data']['grabRedPacketMoney'] = $money;
             //生成红包
             $data = array(
                 'redPacketId' => $redPacketId,
@@ -340,10 +326,29 @@ class RedPacket extends SczController {
             $this->jsonOutput();
         }
         $redPacketId = (int) $_GET['redPacketId'];
-        $redPackeInfo = $this->db->from('redpacket')->where('id', $redPacketId)->where('payStatus', 2)->get()->row();
-        $this->result['data']['isPayed'] = 1;
-        if ($redPackeInfo == NULL) {
+        $redPackeInfo = $this->db->from('redPacket')->where('id', $redPacketId)->get()->row();
+        if ($redPackeInfo->payStatus != 2) {
             $this->result['data']['isPayed'] = 0;
+        } else {
+            $this->result['data']['isPayed'] = 1;
+            $redPacketComment = $this->db->from('comment')->where('redPacketId', $redPacketId)->get()->row();
+            //如果没有红包聊天记录
+            if ($redPacketComment == NULL) {
+                //插入comment表
+                $insertComment = [
+                    'videoId' => $redPackeInfo->videoId,
+                    'userId' => $redPackeInfo->userId,
+                    'userNickName' => $redPackeInfo->nickName,
+                    'userHeadImgUrl' => $redPackeInfo->headImgUrl,
+                    'redPacketId' => $redPacketId,
+                    'redPacketLogId' => 0,
+                    'redPacketUserId' => $redPackeInfo->userId,
+                    'redPacketUserNickName' => $redPackeInfo->nickName,
+                    'type' => 3,
+                    'status' => 1,
+                ];
+                $this->db->insert('comment', $insertComment);
+            }
         }
         $this->jsonOutput();
     }
@@ -356,8 +361,8 @@ class RedPacket extends SczController {
         if ($isLogin == false) {
             $this->jsonOutput();
         }
-        $videoId=$_GET['videoId'];
-        $rewardRankKey = RedisKey::REWARD_RANK_VIDEOID_DAY .$videoId. date('-Y-m-d', time());
+        $videoId = $_GET['videoId'];
+        $rewardRankKey = RedisKey::REWARD_RANK_VIDEOID_DAY . $videoId . date('-Y-m-d', time());
         $list = $this->redisZSet->zRevRange($rewardRankKey, 0, 10, true);
         $userRankList = [];
         $myselfRankInfo = [];
@@ -401,20 +406,21 @@ class RedPacket extends SczController {
         $this->result['myselfRankInfo'] = $myselfRankInfo;
         $this->jsonOutput();
     }
+
     /**
      * 用户发放红包 生成红包id
      */
     public function sendRedPacketToPlatform() {
         parent::isLogin();
         $money = $_POST['money']; //红包金额 单位分
-         $videoId=$_POST['videoId'];
-        if (!$money||!$videoId) {
+        $videoId = $_POST['videoId'];
+        if (!$money || !$videoId) {
             $this->result['ret'] = 1001;
             $this->result['msg'] = '参数错误';
             $this->jsonOutput();
             return;
         }
-       
+
 //        print_r($this->userInfo);exit;
         //生成红包
         $data = array(
@@ -433,6 +439,5 @@ class RedPacket extends SczController {
         $this->result['data']['redpacketId'] = $redpacketId;
         $this->jsonOutput();
     }
-    
 
 }

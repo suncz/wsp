@@ -148,6 +148,10 @@
 
                                                             //展示表情
                                                             function replace_em(str) {
+                                                                if(str==null)
+                                                                {
+                                                                    return '';
+                                                                }
                                                                 var str1 = str.substring(str.indexOf('[') + 1, str.lastIndexOf(']'));
                                                                 if (str1 != "" && dmsFaceArr2[str1] != undefined) {
                                                                     str1 = '[' + dmsFaceArr2[str1] + ']';

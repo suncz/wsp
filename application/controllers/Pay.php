@@ -60,7 +60,7 @@ class Pay extends SczController {
         $input->SetNotify_url("http://wsp.mzlicai.cn/WxpayAPI/example/notify.php");
         $input->SetTrade_type("JSAPI");
         $input->SetOpenid($openId);
-        sleep(10);
+        //sleep(10);
         $order = WxPayApi::unifiedOrder($input);
 //        print_r($order);
         //printf_info($order);

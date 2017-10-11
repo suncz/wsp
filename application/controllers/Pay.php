@@ -19,6 +19,7 @@ class Pay extends SczController {
         $isLogin=parent::isLogin();
         if ($isLogin == false) {
             $this->jsonOutput();
+            return;
         }
         $redPacketId = $_GET['redPacketId'];
         $redPackeInfo = $this->db->from('redPacket')->where('id', $redPacketId)->get()->row();

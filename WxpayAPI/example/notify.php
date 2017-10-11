@@ -47,7 +47,8 @@ class PayNotifyCallBack extends WxPayNotify
 		return true;
 	}
 }
-
+$result=file_get_contents("php://input");
 Log::DEBUG("begin notify");
+Log::DEBUG(print_r($result,true));
 $notify = new PayNotifyCallBack();
 $notify->Handle(false);

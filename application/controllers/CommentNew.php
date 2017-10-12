@@ -48,7 +48,7 @@ class CommentNew extends SczController {
         foreach($comentList as $key =>$value)
         { 
             //如果是红包类型消息，且该消息和当前用户无关，则过滤此消息
-            if($value['redPacketId']!=0&&$this->userInfo['userId']!=$value['userId']&&$this->userInfo['userId']!=$value['redPacketUserId'])
+            if(!empty($value['redPacketId'])&&$this->userInfo['userId']!=$value['userId']&&$this->userInfo['userId']!=$value['redPacketUserId'])
             {
                 continue;
             }

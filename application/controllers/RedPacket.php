@@ -224,9 +224,10 @@ class RedPacket extends SczController {
      * 抢红包
      */
     public function grabRedPacket() {
-        parent::isLogin();
-        if ($isLogin == false) {
+        $isLogin = parent::isLogin();
+        if ($isLogin === false) {
             $this->jsonOutput();
+            return;
         }
         $redPacketId = $_POST['redPacketId'];
         $userId = $this->userInfo['userId'];

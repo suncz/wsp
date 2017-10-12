@@ -35,7 +35,7 @@ class Video extends SczController {
 //        print_r($wechatScript);exit;
         $url = strtolower('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
         
-        $url='http://hwsp.mzlicai.cn/?uid=315&token=7a06a02f37a7535a1e0da2e4ad17047b&videoId=18';
+        $url='http://hwsp.mzlicai.cn/'.$_SERVER['REQUEST_URI'];
         $data['vedioInfo'] = $vedio;
         $data['cooperation'] = !empty($cooperation->value) ? $cooperation->value : '暂无信息';
         $data['jsSign'] = $wechatScript->getJsSign($url);

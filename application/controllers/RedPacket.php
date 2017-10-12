@@ -158,7 +158,10 @@ class RedPacket extends SczController {
      * 用户发放红包 生成红包id
      */
     public function sendRedPacket() {
-        parent::isLogin();
+         parent::isLogin();
+        if ($isLogin == false) {
+            $this->jsonOutput();
+        }
         $type = $_POST['type']; //红包类型 人气 普通
         $num = $_POST['num']; //红包数量
         $money = $_POST['money']; //红包金额 单位分
@@ -222,6 +225,9 @@ class RedPacket extends SczController {
      */
     public function grabRedPacket() {
         parent::isLogin();
+        if ($isLogin == false) {
+            $this->jsonOutput();
+        }
         $redPacketId = $_POST['redPacketId'];
         $userId = $this->userInfo['userId'];
         $redPackInfos = $this->db->select('*')->from('redPacket')->where('id', $redPacketId)->get()->result_array();

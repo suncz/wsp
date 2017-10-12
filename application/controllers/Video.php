@@ -33,9 +33,8 @@ class Video extends SczController {
         $wechatScript = new \Wechat\WechatScript($this->config->item('wxYD'));
 //        $wechatScript = new \Wechat\WechatScript(['appid'=>'wxcbf5123494909b33','appsecret'=>'7f2259347555e4a693246c31a4cb6d59']);
 //        print_r($wechatScript);exit;
-        $url = strtolower('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
-        
-        $url='http://hwsp.mzlicai.cn/'.$_SERVER['REQUEST_URI'];
+//        $url = strtolower('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+        $url='http://hwsp.mzlicai.cn/?uid='.$this->userInfo['userId'].'3&token='.$this->userInfo['token'].'&videoId='.$videoId;
         $data['vedioInfo'] = $vedio;
         $data['cooperation'] = !empty($cooperation->value) ? $cooperation->value : '暂无信息';
         $data['jsSign'] = $wechatScript->getJsSign($url);

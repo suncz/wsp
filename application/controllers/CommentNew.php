@@ -47,6 +47,11 @@ class CommentNew extends SczController {
         $commentListNew=[];
         foreach($comentList as $key =>$value)
         { 
+            //如果是红包类型消息，且该消息和当前用户无关，则过滤此消息
+            if($value['redPacketId']!=0&&$this->userInfo['userId']!=$value['userId']&&$this->userInfo['userId']!=$value['redPacketUserId'])
+            {
+                continue;
+            }
             $value['getRedPacketMoney']=round($value['getRedPacketMoney']/100,2);
             $createTime=strtotime($value['createTime']);
             $commentListNew[$i]=$value;
@@ -59,6 +64,7 @@ class CommentNew extends SczController {
             }
             else
             {
+                
                 $timeReferencePoint=$createTime;
                 $commentListNew[$i]['content']=$this->fn->getTimeFormat($createTime);
                 $commentListNew[$i]['timeReferencePointLine']=$createTime;

@@ -303,7 +303,8 @@ class RedPacket extends SczController {
                 'type' => 4,
             ];
             $this->db->insert('comment', $insertComment);
-
+            $accountSql = "update redPacket set account=account+$money where id=$redPacketId";
+            $rows = $this->db->query($accountSql);
             if ($rows == 0) {
                 throw new Exception("网络繁忙", 1002);
             }

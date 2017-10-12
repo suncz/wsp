@@ -29,12 +29,18 @@ class Video extends SczController {
         $vedio = $this->db->select('*')->from('video')->where('id', $videoId)->get()->result_array()[0]; //获取视频 
         $vedio['praiseNum']=$this->fn->formatNumber($vedio['praiseNum']);
         $cooperation = $this->db->select('*')->from('config')->where('key', 'cooperation')->get()->result()[0];
-        $wechatScript = new \Wechat\WechatScript($this->config->item('wx'));
+//        print_r($_SERVER);exit;
+        $wechatScript = new \Wechat\WechatScript($this->config->item('wxYD'));
+//        $wechatScript = new \Wechat\WechatScript(['appid'=>'wxcbf5123494909b33','appsecret'=>'7f2259347555e4a693246c31a4cb6d59']);
+//        print_r($wechatScript);exit;
         $url = strtolower('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+        
+        $url='http://hwsp.mzlicai.cn/?uid=315&token=7a06a02f37a7535a1e0da2e4ad17047b&videoId=18';
         $data['vedioInfo'] = $vedio;
         $data['cooperation'] = !empty($cooperation->value) ? $cooperation->value : '暂无信息';
         $data['jsSign'] = $wechatScript->getJsSign($url);
         $data['vedioInfo']['shareLink'] = 'http://' . $_SERVER['HTTP_HOST'] . "/home/publicity/" . $videoId.'/'.$this->userInfo['userId'];
+     
         $this->result['data'] = $data;
         $this->jsonOutput();
     }

@@ -158,7 +158,7 @@ class RedPacket extends SczController {
      * 用户发放红包 生成红包id
      */
     public function sendRedPacket() {
-         parent::isLogin();
+         $isLogin=parent::isLogin();
         if ($isLogin == false) {
             $this->jsonOutput();
         }
@@ -426,10 +426,13 @@ class RedPacket extends SczController {
     }
 
     /**
-     * 用户发放红包 生成红包id
+     * 用户发放红包到平台 生成红包id
      */
     public function sendRedPacketToPlatform() {
-        parent::isLogin();
+        $isLogin = parent::isLogin();
+        if ($isLogin == false) {
+            $this->jsonOutput();
+        }
         $money = $_POST['money']; //红包金额 单位分
         $videoId = $_POST['videoId'];
         if (!$money || !$videoId) {

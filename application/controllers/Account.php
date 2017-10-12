@@ -7,7 +7,7 @@
  */
 
 class Account extends SczController {
-    public $limitWithdrawalsMoney=500;
+    public $limitWithdrawalsMoney=100;
     //提现申请
     function withdrawalsApply()
     {
@@ -32,14 +32,14 @@ class Account extends SczController {
         if($money<$this->limitWithdrawalsMoney)
         {
             $this->result['ret']=2051;
-            $this->result['msg']="提现金额必须大于5元";
+            $this->result['msg']="提现金额必须大于".($this->withdrawalsApply/100)."元";
             $this->jsonOutput();
             return;
         }
         if($userInfo->account<$this->limitWithdrawalsMoney)
         {
             $this->result['ret']=2052;
-            $this->result['msg']="余额必须大于5元才可提现";
+            $this->result['msg']="提现金额必须大于".($this->withdrawalsApply/100)."元";
             $this->jsonOutput();
             return;
         }
@@ -48,5 +48,13 @@ class Account extends SczController {
         $this->result['ret']=0;
         $this->result['msg']="提现申请成功";
         $this->jsonOutput(); 
+    }
+    function userMoney()
+    {
+        $userInfo=$this->db->select('*')->from('user')->where('id',$this->userInfo['userId'])->get()->row();
+        $money=$userInfo->account;
+        $this->result['data']['money']=$money;
+        $this->result['data']['limitWithdrawalsMoney']=$this->limitWithdrawalsMoney;
+        $this->jsonOutput();
     }
 }

@@ -14,6 +14,7 @@ class Video extends SczController {
         parent::__construct();
         $this->load->model('redis/redisString');
         $this->load->model('redis/redisZSet');
+        $this->load->library("fn");
     }
 
     public function detail() {
@@ -26,6 +27,7 @@ class Video extends SczController {
         $sql="update video set pvNum = pvNum + 1 WHERE id = $videoId";
         $this->db->query($sql);
         $vedio = $this->db->select('*')->from('video')->where('id', $videoId)->get()->result_array()[0]; //获取视频 
+        $vedio['praiseNum']=$this->fn->formatNumber($vedio['praiseNum']);
         $cooperation = $this->db->select('*')->from('config')->where('key', 'cooperation')->get()->result()[0];
         $wechatScript = new \Wechat\WechatScript($this->config->item('wx'));
         $url = strtolower('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
@@ -44,7 +46,7 @@ class Video extends SczController {
         $bool=$this->db->query($sql);
         if($bool){
                 $video=$this->db->select('*')->from('video')->where('id',$videoId)->get()->result()[0];	//获取视频
-                $this->result['data']['praiseNum'] = $video->praiseNum;
+                $this->result['data']['praiseNum'] = $this->fn->formatNumber($video->praiseNum);
         }else{
                  $this->result['data']['praiseNum'] = 0;
         }

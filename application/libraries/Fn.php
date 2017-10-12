@@ -44,13 +44,13 @@ class Fn{
         //今天
          $todayTimeStart=strtotime(date('Y-m-d'));
         if ($time < ($todayTimeStart+86400)&&$time>$todayTimeStart) {
-            return date("h:ia",$time);
+            return date("H:i",$time);
             //昨天
         } elseif ($time < $todayTimeStart && $time>$todayTimeStart-86400) {
-            return '昨天'.date("h:ia",$time);
+            return '昨天'.date("H:i",$time);
         }//一周内  
         elseif ($time <$todayTimeStart-86400&&$time> $todayTimeStart-86400*7 ) {
-            return "星期".$weekarray[date("w")].date("h:ia",$time);
+            return "星期".$weekarray[date("w")].date("H:i",$time);
         }else
         {
             return date("Y-m-d H:i",$time);
@@ -93,5 +93,17 @@ class Fn{
         //唯一编码（YYYYMMDDHHIISSNNNNNNNNCC）
         $sn = $order_id_main . str_pad((100 - $order_id_sum % 100) % 100, 2, '0', STR_PAD_LEFT);
         return $sn;
+    }
+    
+    function formatNumber($num)
+    {
+        if($num<10000)
+        {
+            return $num;
+        }
+        else  
+        {
+            return round($num/10000,1)."万";
+        }
     }
 }

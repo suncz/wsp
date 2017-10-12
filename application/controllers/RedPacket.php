@@ -194,7 +194,8 @@ class RedPacket extends SczController {
             'money' => $money,
             'codeWord' => $codeWord,
             'type' => $type,
-            'payStatus' => $this->isDebug ? 2 : 0,
+//            'payStatus' => $this->isDebug ? 2 : 0,
+            'payStatus' => 0,
         );
         $this->db->insert('redPacket', $data);
         $redpacketId = $this->db->insert_id();

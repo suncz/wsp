@@ -11,7 +11,11 @@ class Account extends SczController {
     //提现申请
     function withdrawalsApply()
     {
-        parent::isLogin();
+        $isLogin = parent::isLogin();
+        if ($isLogin == false) {
+            $this->jsonOutput();
+            return;
+        }
         $money=$_POST['money'];
         $userInfo=$this->db->select('*')->from('user')->where('id',$this->userInfo['userId'])->get()->row();
         $withdrawalsLog=$this->db->select('*')->from('withdrawalsLog')->where('userId',$this->userInfo['userId'])->where('status',0)->get()->row();
@@ -51,6 +55,11 @@ class Account extends SczController {
     }
     function userMoney()
     {
+        $isLogin = parent::isLogin();
+        if ($isLogin == false) {
+            $this->jsonOutput();
+            return;
+        }
         $userInfo=$this->db->select('*')->from('user')->where('id',$this->userInfo['userId'])->get()->row();
         $money=$userInfo->account;
         $this->result['data']['money']=$money;

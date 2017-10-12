@@ -34,7 +34,7 @@ class Video extends SczController {
 //        $wechatScript = new \Wechat\WechatScript(['appid'=>'wxcbf5123494909b33','appsecret'=>'7f2259347555e4a693246c31a4cb6d59']);
 //        print_r($wechatScript);exit;
 //        $url = strtolower('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
-        $url='http://hwsp.mzlicai.cn/?uid='.$this->userInfo['userId'].'3&token='.$this->userInfo['token'].'&videoId='.$videoId;
+        $url='http://hwsp.mzlicai.cn/?uid='.$this->userInfo['userId'].'&token='.$this->userInfo['token'].'&videoId='.$videoId;
         $data['vedioInfo'] = $vedio;
         $data['cooperation'] = !empty($cooperation->value) ? $cooperation->value : '暂无信息';
         $data['jsSign'] = $wechatScript->getJsSign($url);
@@ -107,6 +107,21 @@ class Video extends SczController {
         }
         $this->result['userRankList'] = $userRankList;
         $this->result['myselfRankInfo'] = $myselfRankInfo;
+        $this->jsonOutput();
+    }
+    /**
+     * 获取邀请函信息
+     */
+    function inviteInfo()
+    {
+        $videoId=$_GET['videoId'];
+        $fromUserId=$_GET['fromUserId'];
+        $videoInfo=$this->db->select('*')->from('video')->where('id',$videoId)->get()->result()[0];	//获取视频
+        $fromUserInfo = $this->redisHash->all(redisKey::USER_INFO_HASH_ID . $fromUserId);
+        $this->result['data']['videoInfo']=$videoInfo;
+        $this->result['data']['qrCodeUrl']=$this->config->item('authRedirectUrl','weixin').'/'.$videoId.'/'.$fromUserId;
+        $this->result['data']['userInfo']['nickName']=$fromUserInfo['nickName'];
+        $this->result['data']['userInfo']['headImgUrl']=$fromUserInfo['headImgUrl'];
         $this->jsonOutput();
     }
 

@@ -32,7 +32,8 @@ class Pay extends SczController {
         }
         $paySn = Fn::getSn(time());
 
-        $data = ['redPacketId' => $redPacketId, 'UserId' => $this->userInfo['userId'], 'way' => 1, 'createTime' => date('Y-m-d H:i:s'), 'paySn' => $paySn];
+        $data = ['redPacketId' => $redPacketId, 'UserId' => $this->userInfo['userId'], 'way' => 1, 
+            'createTime' => date('Y-m-d H:i:s'), 'paySn' => $paySn,'money'=>$redPackeInfo->money];
         $this->db->insert('pay', $data);
 //        $this->db->insert_id();
         //error_reporting(E_ERROR);

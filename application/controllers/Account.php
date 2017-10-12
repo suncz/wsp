@@ -62,7 +62,7 @@ class Account extends SczController {
         }
         $userInfo=$this->db->select('*')->from('user')->where('id',$this->userInfo['userId'])->get()->row();
         $money=$userInfo->account;
-        $this->result['data']['money']=$money;
+        $this->result['data']['money']=is_null($money)?0:$money;
         $this->result['data']['limitWithdrawalsMoney']=$this->limitWithdrawalsMoney;
         $this->jsonOutput();
     }

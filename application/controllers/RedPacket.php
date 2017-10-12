@@ -162,7 +162,7 @@ class RedPacket extends SczController {
         if ($isLogin == false) {
             $this->jsonOutput();
         }
-        $type = $_POST['type']; //红包类型 人气 普通
+        $type = $_POST['type']; //红包类型 人气 普通 3打赏平台
         $num = $_POST['num']; //红包数量
         $money = $_POST['money']; //红包金额 单位分
         $codeWord = $_POST['codeWord']; //红包文案
@@ -311,7 +311,7 @@ class RedPacket extends SczController {
                 'type' => 4,
             ];
             $this->db->insert('comment', $insertComment);
-            $accountSql = "update user set account=account+$money where id=$redPacketId";
+            $accountSql = "update user set account=account+$money where id=".$this->userInfo['userId'];
             $rows = $this->db->query($accountSql);
             if ($rows == 0) {
                 throw new Exception("网络繁忙", 1002);
@@ -344,6 +344,15 @@ class RedPacket extends SczController {
             //如果没有红包聊天记录
             if ($redPacketComment == NULL) {
                 //插入comment表
+                //打赏平台红包
+                if($redPackeInfo->type==3)
+                {
+                    $commentType=5;
+                }//用户发放红包
+                else
+                {
+                    $commentType=3;
+                }
                 $insertComment = [
                     'videoId' => $redPackeInfo->videoId,
                     'userId' => $redPackeInfo->userId,
@@ -353,7 +362,7 @@ class RedPacket extends SczController {
                     'redPacketLogId' => 0,
                     'redPacketUserId' => $redPackeInfo->userId,
                     'redPacketUserNickName' => $redPackeInfo->nickName,
-                    'type' => 3,
+                    'type' => $commentType,
                     'status' => 1,
                 ];
                 $this->db->insert('comment', $insertComment);

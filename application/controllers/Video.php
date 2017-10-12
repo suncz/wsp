@@ -109,6 +109,21 @@ class Video extends SczController {
         $this->result['myselfRankInfo'] = $myselfRankInfo;
         $this->jsonOutput();
     }
+    /**
+     * 获取邀请函信息
+     */
+    function inviteInfo()
+    {
+        $videoId=$_GET['videoId'];
+        $fromUserId=$_GET['fromUserId'];
+        $videoInfo=$this->db->select('*')->from('video')->where('id',$videoId)->get()->result()[0];	//获取视频
+        $fromUserInfo = $this->redisHash->all(redisKey::USER_INFO_HASH_ID . $fromUserId);
+        $this->result['data']['videoInfo']=$videoInfo;
+        $this->result['data']['qrCodeUrl']=$this->config->item('authRedirectUrl','weixin').'/'.$videoId.'/'.$fromUserId;
+        $this->result['data']['userInfo']['nickName']=$fromUserInfo['nickName'];
+        $this->result['data']['userInfo']['headImgUrl']=$fromUserInfo['headImgUrl'];
+        $this->jsonOutput();
+    }
 
   
 

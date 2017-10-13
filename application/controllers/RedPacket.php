@@ -420,7 +420,7 @@ class RedPacket extends SczController {
                 $userInfo['userId'] = $userId;
                 $userInfo['headImgUrl'] = $newUserInfos[$userId]['headImgUrl'];
                 $userInfo['nickname'] = $newUserInfos[$userId]['nickname'];
-                $userInfo['money'] = $money;
+                $userInfo['money'] =  round($money/100,2);
                 $userInfo['rank'] = $i;
                 $userRankList[] = $userInfo;
                 $i++;

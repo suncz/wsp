@@ -99,7 +99,7 @@ class Pay extends SczController {
                         $redPacketUpdata=['payId'=>$payInfo->id,'payStatus'=>2];
                         $this->db->where('id',$payInfo->redPacketId)->update('redPacket',$redPacketUpdata);
                         //打赏排名
-                        $redPacketInfo = $this->db->select('*')->from('redPacket')->where('id', $payInfo->redPacketI)->get()->row();
+                        $redPacketInfo = $this->db->select('*')->from('redPacket')->where('id', $payInfo->redPacketId)->get()->row();
                         $redisKey= RedisKey::REWARD_RANK_VIDEOID_DAY . $redPacketInfo->videoId . date('-Y-m-d', time());
                         $this->redisZSet->zincrBy($redisKey, $redPacketInfo->userId, $redPacketInfo->money);                        
                     }

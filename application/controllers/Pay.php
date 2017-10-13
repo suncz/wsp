@@ -73,8 +73,12 @@ class Pay extends SczController {
      * 微信支付回调通知
      */
     function weChatNotice() {
+        $logHandler = new CLogFileHandler(APPPATH . "logs/" . 'pay.' . date('Y-m-d') . '.log');
+        $log = Log::Init($logHandler, 15);
+        $log::DEBUG("weChatNotice");
         $this->load->model('redis/redisZSet');
         $resultXML = file_get_contents("php://input");
+        $log::DEBUG($resultXML);
         $arrResult = json_decode(json_encode(simplexml_load_string($resultXML, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
         //如果返回正确
         try {
@@ -101,6 +105,7 @@ class Pay extends SczController {
                         //打赏排名
                         $redPacketInfo = $this->db->select('*')->from('redPacket')->where('id', $payInfo->redPacketId)->get()->row();
                         $redisKey= RedisKey::REWARD_RANK_VIDEOID_DAY . $redPacketInfo->videoId . date('-Y-m-d', time());
+                        $log::DEBUG("redis key is".$redisKey);
                         $this->redisZSet->zincrBy($redisKey, $redPacketInfo->userId, $redPacketInfo->money);                        
                     }
                 } else {

@@ -44,7 +44,14 @@ class Video extends SczController {
         $this->result['data'] = $data;
         $this->jsonOutput();
     }
-    
+    function getJsApi()
+    {
+        $url= urldecode($_GET['jsApiUrl']);
+        $wechatScript = new \Wechat\WechatScript($this->config->item('wxYD'));
+        $data['jsSign'] = $wechatScript->getJsSign($url);
+        $this->result['data'] = $data;
+        $this->jsonOutput();
+    }
     public function like()
     {
         $videoId=intval($this->input->post('videoId'));

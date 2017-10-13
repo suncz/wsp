@@ -166,7 +166,7 @@ class RedPacket extends SczController {
         if ($isLogin == false) {
             $this->jsonOutput();
         }
-        $type = $_POST['type']; //红包类型 人气 普通 3打赏平台
+        $type = $_POST['type']; //红包类型 人气 普通 
         $num = $_POST['num']; //红包数量
         $money = $_POST['money']; //红包金额 单位分
         $codeWord = $_POST['codeWord']; //红包文案
@@ -307,7 +307,7 @@ class RedPacket extends SczController {
                 'userHeadImgUrl' => $this->userInfo['headImgUrl'],
                 'getRedPacketMoney' => $money,
                 'redPacketId' => $redPackInfo['id'],
-                'redPacketId' => $redPackInfo['id'],
+                'redPacketMoney' => $redPackInfo['money'],
                 'redPacketLogId' => $redPacketLogInsertId,
                 'redPacketUserId' => $redPackInfo['userId'],
                 'redPacketUserNickName' => $redPackInfo['nickName'],
@@ -364,6 +364,7 @@ class RedPacket extends SczController {
                     'userNickName' => $redPackeInfo->nickName,
                     'userHeadImgUrl' => $redPackeInfo->headImgUrl,
                     'redPacketId' => $redPacketId,
+                    'redPacketMoney' => $redPackeInfo->redPacketMoney,
                     'redPacketLogId' => 0,
                     'redPacketUserId' => $redPackeInfo->userId,
                     'redPacketUserNickName' => $redPackeInfo->nickName,

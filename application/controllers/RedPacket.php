@@ -89,6 +89,10 @@ class RedPacket extends SczController {
         $totalReceiveMoney = 0;
         $isRedPacketHostUser = false;
         foreach ($redPacketLogList as $key => &$value) {
+            if($key==($receivedNum-1))
+            {
+                break;
+            }
             $value['isBestLuck'] = 0;
             //是否要需要体现手气最佳  人气红包 并且全部被抢了才需要显示人气最佳
             if ($redPackInfo['type'] == '2' && $receivedNum == $redPackInfo['num'] && $value['receiveMoney'] > $tempMoney) {
@@ -312,6 +316,7 @@ class RedPacket extends SczController {
             ];
             $this->db->insert('comment', $insertComment);
             $accountSql = "update user set account=account+$money where id=".$this->userInfo['userId'];
+            echo $accountSql;
             $rows = $this->db->query($accountSql);
             if ($rows == 0) {
                 throw new Exception("网络繁忙", 1002);

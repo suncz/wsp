@@ -30,6 +30,17 @@ class Tool extends sczController {
      * 二维码生成
      */
     public function qrCode() {
+        $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
+        $allow_origin = array(
+            'http://www.baidu.com',
+            'http://localhost:8000',
+            'http://hwsp.mzlicai.cn',
+            'http://192.168.1.141:8000',
+        );
+        if (in_array($origin, $allow_origin)) {
+            $this->output->set_header('Access-Control-Allow-Origin:' . $origin);
+        }
+        $this->output->set_header('Access-Control-Allow-Credentials:true');
         include APPPATH . 'libraries/phpqrcode/phpqrcode.php';
         $data = $_GET['data'];
         \QRcode::png($data, false, \QR_ECLEVEL_H, 6, 0);

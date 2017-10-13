@@ -403,7 +403,7 @@ class RedPacket extends SczController {
                 } else {
                     $money = $this->redisZSet->score($rewardRankKey, $this->userInfo['userId']);
                     $myselfRankInfo['rank'] = $myselfRank;
-                    $myselfRankInfo['money'] = $money;
+                    $myselfRankInfo['money'] = round($money/100,2);
                     $myselfRankInfo['userId'] = $this->userInfo['userId'];
                     $myselfRankInfo['headImgUrl'] = $this->userInfo['headImgUrl'];
                     $myselfRankInfo['nickname'] = $this->userInfo['nickName'];

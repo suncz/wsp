@@ -9,7 +9,7 @@
 require_once (APPPATH . 'vendor/autoload.php');
 
 class RedPacket extends SczController {
-
+    public $limitRedPacketNum=500;
     public function __construct() {
         parent::__construct();
         $this->load->model('redis/redisString');
@@ -177,15 +177,15 @@ class RedPacket extends SczController {
             $this->jsonOutput();
             return;
         }
-        if ($num > 100) {
+        if ($num > $this->limitRedPacketNum) {
             $this->result['ret'] = 2001;
-            $this->result['msg'] = '红包数量不得超过100个';
+            $this->result['msg'] = '红包数量不得超过'.$this->limitRedPacketNum.'个';
             $this->jsonOutput();
             return;
         }
         if ($money < $num) {
             $this->result['ret'] = 2002;
-            $this->result['msg'] = '金额至少为1元';
+            $this->result['msg'] = '金额至少为'.($num/100).'元';
             $this->jsonOutput();
             return;
         }

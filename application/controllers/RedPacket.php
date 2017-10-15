@@ -316,7 +316,7 @@ class RedPacket extends SczController {
             ];
             $this->db->insert('comment', $insertComment);
             $accountSql = "update user set account=account+$money where id=".$this->userInfo['userId'];
-            echo $accountSql;
+           
             $rows = $this->db->query($accountSql);
             if ($rows == 0) {
                 throw new Exception("网络繁忙", 1002);

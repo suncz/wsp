@@ -104,7 +104,7 @@ class Pay extends SczController {
                         $this->db->where('id',$payInfo->redPacketId)->update('redPacket',$redPacketUpdata);
                         //打赏排名
                         $redPacketInfo = $this->db->select('*')->from('redPacket')->where('id', $payInfo->redPacketId)->get()->row();
-                        $redisKey= RedisKey::REWARD_RANK_VIDEOID_DAY . $redPacketInfo->videoId . date('-Y-m-d', time());
+                        $redisKey= RedisKey::REWARD_RANK_VIDEOID . $redPacketInfo->videoId;
                         $log::DEBUG("redis key is".$redisKey);
                         $this->redisZSet->zincrBy($redisKey, $redPacketInfo->userId, $redPacketInfo->money);                        
                     }

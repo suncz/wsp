@@ -34,7 +34,7 @@ class Home extends SczController{
                 $this->db->insert('inviteUser',$insertInviteUser);
                 if($fromUserId)
                 {
-                    $this->redisZSet->zincrBy(RedisKey::INVITE_RANK_VIDEOID_DAY.date('Y-m-d'), $fromUserId);
+                    $this->redisZSet->zincrBy(RedisKey::INVITE_RANK_VIDEOID.$videoId, $fromUserId);
                 }
                 
             }

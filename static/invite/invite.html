@@ -65,6 +65,7 @@
             html2canvas(document.getElementById("InviteCard"), {
                 onrendered: function (canvas) {
                     try {
+                        alert(window.parent.document.getElementById("InviteCardImage").length);
                         window.parent.document.getElementById("InviteCardImage").src = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
                     } catch (e) {
                     }

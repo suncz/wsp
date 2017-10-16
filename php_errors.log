@@ -1,0 +1,30 @@
+[23-Sep-2017 15:13:49 Asia/Shanghai] PHP Fatal error:  Unsupported operand types in /data/wwwroot/wsp/application/controllers/CommentNew.php on line 50
+[23-Sep-2017 15:14:30 Asia/Shanghai] PHP Fatal error:  Unsupported operand types in /data/wwwroot/wsp/application/controllers/CommentNew.php on line 50
+[23-Sep-2017 15:14:38 Asia/Shanghai] PHP Fatal error:  Unsupported operand types in /data/wwwroot/wsp/application/controllers/CommentNew.php on line 50
+[23-Sep-2017 15:14:40 Asia/Shanghai] PHP Fatal error:  Unsupported operand types in /data/wwwroot/wsp/application/controllers/CommentNew.php on line 50
+[23-Sep-2017 15:14:41 Asia/Shanghai] PHP Fatal error:  Unsupported operand types in /data/wwwroot/wsp/application/controllers/CommentNew.php on line 50
+[23-Sep-2017 15:14:42 Asia/Shanghai] PHP Fatal error:  Unsupported operand types in /data/wwwroot/wsp/application/controllers/CommentNew.php on line 50
+[23-Sep-2017 15:14:42 Asia/Shanghai] PHP Fatal error:  Unsupported operand types in /data/wwwroot/wsp/application/controllers/CommentNew.php on line 50
+[23-Sep-2017 15:14:43 Asia/Shanghai] PHP Fatal error:  Unsupported operand types in /data/wwwroot/wsp/application/controllers/CommentNew.php on line 50
+[23-Sep-2017 15:14:43 Asia/Shanghai] PHP Fatal error:  Unsupported operand types in /data/wwwroot/wsp/application/controllers/CommentNew.php on line 50
+[23-Sep-2017 15:14:43 Asia/Shanghai] PHP Fatal error:  Unsupported operand types in /data/wwwroot/wsp/application/controllers/CommentNew.php on line 50
+[23-Sep-2017 15:14:45 Asia/Shanghai] PHP Fatal error:  Unsupported operand types in /data/wwwroot/wsp/application/controllers/CommentNew.php on line 50
+[23-Sep-2017 15:14:50 Asia/Shanghai] PHP Fatal error:  Unsupported operand types in /data/wwwroot/wsp/application/controllers/CommentNew.php on line 50
+[23-Sep-2017 15:15:02 Asia/Shanghai] PHP Fatal error:  Unsupported operand types in /data/wwwroot/wsp/application/controllers/CommentNew.php on line 50
+[23-Sep-2017 15:15:03 Asia/Shanghai] PHP Fatal error:  Unsupported operand types in /data/wwwroot/wsp/application/controllers/CommentNew.php on line 50
+[23-Sep-2017 15:15:08 Asia/Shanghai] PHP Fatal error:  Unsupported operand types in /data/wwwroot/wsp/application/controllers/CommentNew.php on line 50
+[23-Sep-2017 15:15:42 Asia/Shanghai] PHP Fatal error:  Unsupported operand types in /data/wwwroot/wsp/application/controllers/CommentNew.php on line 50
+[23-Sep-2017 16:22:58 Asia/Shanghai] PHP Fatal error:  Cannot use object of type stdClass as array in /data/wwwroot/wsp/application/controllers/RedPacket.php on line 372
+[24-Sep-2017 16:10:09 Asia/Shanghai] PHP Parse error:  syntax error, unexpected 'Y' (T_STRING) in /data/wwwroot/wsp/application/controllers/Video.php on line 60
+[24-Sep-2017 16:10:09 Asia/Shanghai] PHP Parse error:  syntax error, unexpected 'Y' (T_STRING) in /data/wwwroot/wsp/application/controllers/Video.php on line 60
+[24-Sep-2017 16:10:12 Asia/Shanghai] PHP Parse error:  syntax error, unexpected 'Y' (T_STRING) in /data/wwwroot/wsp/application/controllers/Video.php on line 60
+[24-Sep-2017 16:10:12 Asia/Shanghai] PHP Parse error:  syntax error, unexpected 'Y' (T_STRING) in /data/wwwroot/wsp/application/controllers/Video.php on line 60
+[24-Sep-2017 16:10:13 Asia/Shanghai] PHP Parse error:  syntax error, unexpected 'Y' (T_STRING) in /data/wwwroot/wsp/application/controllers/Video.php on line 60
+[24-Sep-2017 16:10:13 Asia/Shanghai] PHP Parse error:  syntax error, unexpected 'Y' (T_STRING) in /data/wwwroot/wsp/application/controllers/Video.php on line 60
+[24-Sep-2017 16:10:15 Asia/Shanghai] PHP Parse error:  syntax error, unexpected 'Y' (T_STRING) in /data/wwwroot/wsp/application/controllers/Video.php on line 60
+[24-Sep-2017 16:10:15 Asia/Shanghai] PHP Parse error:  syntax error, unexpected 'Y' (T_STRING) in /data/wwwroot/wsp/application/controllers/Video.php on line 60
+[24-Sep-2017 16:10:18 Asia/Shanghai] PHP Parse error:  syntax error, unexpected 'Y' (T_STRING) in /data/wwwroot/wsp/application/controllers/Video.php on line 60
+[24-Sep-2017 16:10:18 Asia/Shanghai] PHP Parse error:  syntax error, unexpected 'Y' (T_STRING) in /data/wwwroot/wsp/application/controllers/Video.php on line 60
+[24-Sep-2017 16:10:24 Asia/Shanghai] PHP Parse error:  syntax error, unexpected 'Y' (T_STRING) in /data/wwwroot/wsp/application/controllers/Video.php on line 60
+[24-Sep-2017 16:10:24 Asia/Shanghai] PHP Parse error:  syntax error, unexpected 'Y' (T_STRING) in /data/wwwroot/wsp/application/controllers/Video.php on line 60
+[24-Sep-2017 16:10:39 Asia/Shanghai] PHP Parse error:  syntax error, unexpected 'Y' (T_STRING) in /data/wwwroot/wsp/application/controllers/Video.php on line 60

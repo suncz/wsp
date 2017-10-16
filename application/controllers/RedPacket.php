@@ -9,7 +9,7 @@
 require_once (APPPATH . 'vendor/autoload.php');
 
 class RedPacket extends SczController {
-
+    public $limitRedPacketNum=500;
     public function __construct() {
         parent::__construct();
         $this->load->model('redis/redisString');
@@ -177,15 +177,15 @@ class RedPacket extends SczController {
             $this->jsonOutput();
             return;
         }
-        if ($num > 100) {
+        if ($num > $this->limitRedPacketNum) {
             $this->result['ret'] = 2001;
-            $this->result['msg'] = '红包数量不得超过100个';
+            $this->result['msg'] = '红包数量不得超过'.$this->limitRedPacketNum.'个';
             $this->jsonOutput();
             return;
         }
         if ($money < $num) {
             $this->result['ret'] = 2002;
-            $this->result['msg'] = '金额至少为1元';
+            $this->result['msg'] = '金额至少为'.($num/100).'元';
             $this->jsonOutput();
             return;
         }
@@ -316,7 +316,7 @@ class RedPacket extends SczController {
             ];
             $this->db->insert('comment', $insertComment);
             $accountSql = "update user set account=account+$money where id=".$this->userInfo['userId'];
-            echo $accountSql;
+           
             $rows = $this->db->query($accountSql);
             if ($rows == 0) {
                 throw new Exception("网络繁忙", 1002);
@@ -364,7 +364,7 @@ class RedPacket extends SczController {
                     'userNickName' => $redPackeInfo->nickName,
                     'userHeadImgUrl' => $redPackeInfo->headImgUrl,
                     'redPacketId' => $redPacketId,
-                    'redPacketMoney' => $redPackeInfo->redPacketMoney,
+                    'redPacketMoney' => $redPackeInfo->money,
                     'redPacketLogId' => 0,
                     'redPacketUserId' => $redPackeInfo->userId,
                     'redPacketUserNickName' => $redPackeInfo->nickName,
@@ -386,7 +386,7 @@ class RedPacket extends SczController {
             $this->jsonOutput();
         }
         $videoId = $_GET['videoId'];
-        $rewardRankKey = RedisKey::REWARD_RANK_VIDEOID_DAY . $videoId . date('-Y-m-d', time());
+        $rewardRankKey = RedisKey::REWARD_RANK_VIDEOID . $videoId;
         $list = $this->redisZSet->zRevRange($rewardRankKey, 0, 10, true);
         $userRankList = [];
         $myselfRankInfo = [];
@@ -403,7 +403,7 @@ class RedPacket extends SczController {
                 } else {
                     $money = $this->redisZSet->score($rewardRankKey, $this->userInfo['userId']);
                     $myselfRankInfo['rank'] = $myselfRank;
-                    $myselfRankInfo['money'] = $money;
+                    $myselfRankInfo['money'] = round($money/100,2);
                     $myselfRankInfo['userId'] = $this->userInfo['userId'];
                     $myselfRankInfo['headImgUrl'] = $this->userInfo['headImgUrl'];
                     $myselfRankInfo['nickname'] = $this->userInfo['nickName'];
@@ -420,7 +420,7 @@ class RedPacket extends SczController {
                 $userInfo['userId'] = $userId;
                 $userInfo['headImgUrl'] = $newUserInfos[$userId]['headImgUrl'];
                 $userInfo['nickname'] = $newUserInfos[$userId]['nickname'];
-                $userInfo['money'] = $money;
+                $userInfo['money'] =  round($money/100,2);
                 $userInfo['rank'] = $i;
                 $userRankList[] = $userInfo;
                 $i++;

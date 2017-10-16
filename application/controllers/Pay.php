@@ -73,7 +73,12 @@ class Pay extends SczController {
      * 微信支付回调通知
      */
     function weChatNotice() {
+        $logHandler = new CLogFileHandler(APPPATH . "logs/" . 'pay.' . date('Y-m-d') . '.log');
+        $log = Log::Init($logHandler, 15);
+        $log::DEBUG("weChatNotice");
+        $this->load->model('redis/redisZSet');
         $resultXML = file_get_contents("php://input");
+        $log::DEBUG($resultXML);
         $arrResult = json_decode(json_encode(simplexml_load_string($resultXML, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
         //如果返回正确
         try {
@@ -97,8 +102,11 @@ class Pay extends SczController {
                         //红包表
                         $redPacketUpdata=['payId'=>$payInfo->id,'payStatus'=>2];
                         $this->db->where('id',$payInfo->redPacketId)->update('redPacket',$redPacketUpdata);
-                        //聊天记录多一个红包记录
-                        $payInfo = $this->db->select('*')->from('comment')->where('paySn', $out_trade_no)->get()->row();
+                        //打赏排名
+                        $redPacketInfo = $this->db->select('*')->from('redPacket')->where('id', $payInfo->redPacketId)->get()->row();
+                        $redisKey= RedisKey::REWARD_RANK_VIDEOID . $redPacketInfo->videoId;
+                        $log::DEBUG("redis key is".$redisKey);
+                        $this->redisZSet->zincrBy($redisKey, $redPacketInfo->userId, $redPacketInfo->money);                        
                     }
                 } else {
                     throw new Exception("签名失败:", 3003);

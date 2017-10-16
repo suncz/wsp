@@ -19,3 +19,68 @@ Stack trace:
 #2 E:\weixinPay\WxpayAPI_php_v3\example\native.php(41): NativePay->GetPayUrl(Object(WxPayUnifiedOrder))
 #3 {main}
   thrown in E:\weixinPay\WxpayAPI_php_v3\lib\WxPay.Api.php on line 564
+[10-Oct-2017 23:55:55 Asia/Shanghai] PHP Warning:  fopen(../logs/2017-10-10.log): failed to open stream: No such file or directory in /data/wwwroot/wsp/WxpayAPI/example/log.php on line 16
+[10-Oct-2017 23:56:05 Asia/Shanghai] PHP Fatal error:  Uncaught exception 'WxPayException' with message '参数错误' in /data/wwwroot/wsp/WxpayAPI/example/WxPay.JsApiPay.php:73
+Stack trace:
+#0 /data/wwwroot/wsp/WxpayAPI/example/jsapi.php(41): JsApiPay->GetJsApiParameters(Array)
+#1 {main}
+  thrown in /data/wwwroot/wsp/WxpayAPI/example/WxPay.JsApiPay.php on line 73
+[10-Oct-2017 23:56:05 Asia/Shanghai] PHP Warning:  fopen(../logs/2017-10-10.log): failed to open stream: No such file or directory in /data/wwwroot/wsp/WxpayAPI/example/log.php on line 16
+[10-Oct-2017 23:56:15 Asia/Shanghai] PHP Fatal error:  Uncaught exception 'WxPayException' with message '参数错误' in /data/wwwroot/wsp/WxpayAPI/example/WxPay.JsApiPay.php:73
+Stack trace:
+#0 /data/wwwroot/wsp/WxpayAPI/example/jsapi.php(41): JsApiPay->GetJsApiParameters(Array)
+#1 {main}
+  thrown in /data/wwwroot/wsp/WxpayAPI/example/WxPay.JsApiPay.php on line 73
+[10-Oct-2017 23:56:15 Asia/Shanghai] PHP Warning:  fopen(../logs/2017-10-10.log): failed to open stream: No such file or directory in /data/wwwroot/wsp/WxpayAPI/example/log.php on line 16
+[10-Oct-2017 23:56:25 Asia/Shanghai] PHP Fatal error:  Uncaught exception 'WxPayException' with message '参数错误' in /data/wwwroot/wsp/WxpayAPI/example/WxPay.JsApiPay.php:73
+Stack trace:
+#0 /data/wwwroot/wsp/WxpayAPI/example/jsapi.php(41): JsApiPay->GetJsApiParameters(Array)
+#1 {main}
+  thrown in /data/wwwroot/wsp/WxpayAPI/example/WxPay.JsApiPay.php on line 73
+[10-Oct-2017 23:56:39 Asia/Shanghai] PHP Warning:  fopen(../logs/2017-10-10.log): failed to open stream: Permission denied in /data/wwwroot/wsp/WxpayAPI/example/log.php on line 16
+[10-Oct-2017 23:56:49 Asia/Shanghai] PHP Fatal error:  Uncaught exception 'WxPayException' with message '参数错误' in /data/wwwroot/wsp/WxpayAPI/example/WxPay.JsApiPay.php:73
+Stack trace:
+#0 /data/wwwroot/wsp/WxpayAPI/example/jsapi.php(41): JsApiPay->GetJsApiParameters(Array)
+#1 {main}
+  thrown in /data/wwwroot/wsp/WxpayAPI/example/WxPay.JsApiPay.php on line 73
+[10-Oct-2017 23:56:49 Asia/Shanghai] PHP Warning:  fopen(../logs/2017-10-10.log): failed to open stream: Permission denied in /data/wwwroot/wsp/WxpayAPI/example/log.php on line 16
+[10-Oct-2017 23:56:59 Asia/Shanghai] PHP Fatal error:  Uncaught exception 'WxPayException' with message '参数错误' in /data/wwwroot/wsp/WxpayAPI/example/WxPay.JsApiPay.php:73
+Stack trace:
+#0 /data/wwwroot/wsp/WxpayAPI/example/jsapi.php(41): JsApiPay->GetJsApiParameters(Array)
+#1 {main}
+  thrown in /data/wwwroot/wsp/WxpayAPI/example/WxPay.JsApiPay.php on line 73
+[10-Oct-2017 23:57:12 Asia/Shanghai] PHP Fatal error:  Uncaught exception 'WxPayException' with message '参数错误' in /data/wwwroot/wsp/WxpayAPI/example/WxPay.JsApiPay.php:73
+Stack trace:
+#0 /data/wwwroot/wsp/WxpayAPI/example/jsapi.php(41): JsApiPay->GetJsApiParameters(Array)
+#1 {main}
+  thrown in /data/wwwroot/wsp/WxpayAPI/example/WxPay.JsApiPay.php on line 73
+[10-Oct-2017 23:59:22 Asia/Shanghai] PHP Fatal error:  Uncaught exception 'WxPayException' with message '参数错误' in /data/wwwroot/wsp/WxpayAPI/example/WxPay.JsApiPay.php:73
+Stack trace:
+#0 /data/wwwroot/wsp/WxpayAPI/example/jsapi.php(41): JsApiPay->GetJsApiParameters(Array)
+#1 {main}
+  thrown in /data/wwwroot/wsp/WxpayAPI/example/WxPay.JsApiPay.php on line 73
+[11-Oct-2017 00:00:31 Asia/Shanghai] PHP Fatal error:  Uncaught exception 'WxPayException' with message '参数错误' in /data/wwwroot/wsp/WxpayAPI/example/WxPay.JsApiPay.php:73
+Stack trace:
+#0 /data/wwwroot/wsp/WxpayAPI/example/jsapi.php(41): JsApiPay->GetJsApiParameters(Array)
+#1 {main}
+  thrown in /data/wwwroot/wsp/WxpayAPI/example/WxPay.JsApiPay.php on line 73
+[11-Oct-2017 00:01:33 Asia/Shanghai] PHP Fatal error:  Uncaught exception 'WxPayException' with message '参数错误' in /data/wwwroot/wsp/WxpayAPI/example/WxPay.JsApiPay.php:73
+Stack trace:
+#0 /data/wwwroot/wsp/WxpayAPI/example/jsapi.php(41): JsApiPay->GetJsApiParameters(Array)
+#1 {main}
+  thrown in /data/wwwroot/wsp/WxpayAPI/example/WxPay.JsApiPay.php on line 73
+[11-Oct-2017 00:02:12 Asia/Shanghai] PHP Fatal error:  Uncaught exception 'WxPayException' with message '参数错误' in /data/wwwroot/wsp/WxpayAPI/example/WxPay.JsApiPay.php:73
+Stack trace:
+#0 /data/wwwroot/wsp/WxpayAPI/example/jsapi.php(41): JsApiPay->GetJsApiParameters(Array)
+#1 {main}
+  thrown in /data/wwwroot/wsp/WxpayAPI/example/WxPay.JsApiPay.php on line 73
+[11-Oct-2017 00:02:40 Asia/Shanghai] PHP Fatal error:  Uncaught exception 'WxPayException' with message '参数错误' in /data/wwwroot/wsp/WxpayAPI/example/WxPay.JsApiPay.php:73
+Stack trace:
+#0 /data/wwwroot/wsp/WxpayAPI/example/jsapi.php(41): JsApiPay->GetJsApiParameters(Array)
+#1 {main}
+  thrown in /data/wwwroot/wsp/WxpayAPI/example/WxPay.JsApiPay.php on line 73
+[11-Oct-2017 00:03:13 Asia/Shanghai] PHP Fatal error:  Uncaught exception 'WxPayException' with message '参数错误' in /data/wwwroot/wsp/WxpayAPI/example/WxPay.JsApiPay.php:73
+Stack trace:
+#0 /data/wwwroot/wsp/WxpayAPI/example/jsapi.php(41): JsApiPay->GetJsApiParameters(Array)
+#1 {main}
+  thrown in /data/wwwroot/wsp/WxpayAPI/example/WxPay.JsApiPay.php on line 73

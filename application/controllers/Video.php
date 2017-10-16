@@ -29,6 +29,7 @@ class Video extends SczController {
         $vedio = $this->db->select('*')->from('video')->where('id', $videoId)->get()->result_array()[0]; //获取视频 
         $vedio['praiseNum']=$this->fn->formatNumber($vedio['praiseNum']);
         $vedio['pvNum']=$this->fn->formatNumber($vedio['pvNum']);
+        $vedio['bannerJson']= json_decode($vedio['bannerJson']);
         $cooperation = $this->db->select('*')->from('config')->where('key', 'cooperation')->get()->result()[0];
 //        print_r($_SERVER);exit;
         $wechatScript = new \Wechat\WechatScript($this->config->item('wxYD'));

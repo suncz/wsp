@@ -133,6 +133,11 @@ class Video extends SczController {
         $this->result['data']['userInfo']['headImgUrl']=$fromUserInfo['headImgUrl'];
         $this->jsonOutput();
     }
+    
+    function inviteHtml()
+    {
+        echo file_get_contents(APPPATH.'../static/invite/invite.html');
+    }
 
   
 

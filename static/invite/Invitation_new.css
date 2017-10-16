@@ -1,0 +1,142 @@
+@charset "utf-8";
+
+html * { -webkit-tap-highlight-color: rgba(255,255,255,0); }
+
+body { background: #f2f2f2; word-wrap: break-word; word-break: break-all; color: #333; font-size: 14px; width: 640px; height: 1136px; }
+
+a { color: #333; }
+
+.basewrap { min-width: 320px; max-width: 640px; margin: 0 auto; }
+
+.none { display: none; }
+
+input { font-family: "Microsoft YaHei",Arial; }
+
+select { display: inline-block; font-size: 15px; height: auto; text-align: right; box-sizing: border-box; -webkit-appearance: none; appearance: none; background: transparent; border: none; outline: none; max-width: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: "Microsoft YaHei",Arial; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); width: 100%; direction: rtl; }
+
+/*邀请函开始*/
+.invitation-overflow { height: 100%; overflow: hidden; width: 640px; }
+
+.invitation-bg-01 { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #3edccf; z-index: 1; }
+
+.invitation-f { margin: 0 auto; width: 147px; height: 91px; background: url(../images/invitation-01.png) no-repeat -182px 0; position: relative; z-index: 10; }
+
+.pic-kuang01 { display: block; position: absolute; width: 144px; height: 132px; top: 0; left: 0; }
+
+.pic-kuang02 { display: block; position: absolute; width: 144px; height: 132px; bottom: 0; right: 0; }
+
+.pic-01 { background: url(../images/invitation-01.png) no-repeat 0 0; }
+
+.pic-02 { background: url(../images/invitation-01.png) no-repeat -34px -36px; }
+
+.pic-03 { background: url(../images/invitation-01.png) no-repeat -182px -94px; }
+
+.pic-04 { background: url(../images/invitation-01.png) no-repeat -216px -129px; }
+
+.pic-05 { background: url(../images/invitation-01.png) no-repeat -182px -267px; }
+
+.pic-06 { background: url(../images/invitation-01.png) no-repeat -215px -303px; }
+
+.pic-07 { background: url(../images/invitation-01.png) no-repeat -376px 0; }
+
+.pic-08 { background: url(../images/invitation-01.png) no-repeat -410px -35px; }
+
+.pic-09 { background: url(../images/invitation-01.png) no-repeat -376px -178px; }
+
+.pic-10 { background: url(../images/invitation-01.png) no-repeat -410px -213px; }
+
+.pic-11 { background: url(../images/invitation-01.png) no-repeat -566px 0; }
+
+.pic-12 { background: url(../images/invitation-01.png) no-repeat -600px -36px; }
+
+.pic-13 { background: url(../images/invitation-01.png) no-repeat -755px 0; }
+
+.pic-14 { background: url(../images/invitation-01.png) no-repeat -800px -35px; }
+
+.invitation-content { background: #fff; text-align: center; border-radius: 8px; padding: 40px 30px; box-shadow: 0 0 43px 0 rgba(0,0,0,.4); min-height: 590px; box-sizing: border-box; }
+
+.invitation-content li .title { font-size: 36px; margin: 10px 0; overflow: hidden; text-overflow: ellipsis; -webkit-box-orient: vertical; -webkit-line-clamp: 2; display: -webkit-box; }
+
+.invitation-content li.f01 { color: #666; font-size: 24px; padding-top: 36px; text-align: left; }
+
+.invitation-content li.f02 { color: #333; font-size: 22px; padding: 10px 0 5px; }
+
+.invitation-content li.f03 { color: #999; font-size: 20px; }
+
+.invitation-content li.f04 { color: #333; font-size: 28px; margin-bottom: 20px; }
+
+.invitation-content li.f05 { color: #666; line-height: 1.65; font-size: 22px; max-height: 72px; text-align: left; overflow: hidden; }
+
+.invitation-content li.f06 { padding-top: 30px; text-align: left; margin-top: 30px; border-top: 1px solid #e6e6e6; }
+
+.invitation-content li.f06 .head02 { width: 38px; height: 38px; border-radius: 50%; overflow: hidden; }
+
+.invitation-content li.f06 .name-f { color: #666; max-width: 200px; font-size: 22px; padding: 0 10px; overflow: hidden; text-overflow: ellipsis; -webkit-box-orient: vertical; -webkit-line-clamp: 1; display: -webkit-box; }
+
+.invitation-content li.f06 .good-f { color: #999; font-size: 22px; }
+
+.invitation-content li.f06 .head02 img { width: 100%; height: 100%; }
+
+.invitation-content li.line01 { width: 76px; height: 4px; margin: 30px auto; background: #3edccf; }
+
+.invitation-content li.head { width: 75px; height: 75px; border-radius: 50%; margin: 25px auto 0; overflow: hidden; }
+
+.invitation-content li.head img { width: 100%; height: 100%; }
+
+.zhiwen-pic { width: 180px; height: 180px; background: url(../images/invitation-01.png) no-repeat 0 -547px; }
+
+.invitation-qr { width: 180px; height: 180px; border: 10px solid #fff; border-radius: 7px; background: #fff; margin-right: 50px; }
+
+.invitation-qr img { width: 100%; }
+
+.an-qr-f { font-size: 24px; color: #fff; text-align: center; letter-spacing: 7px; }
+
+.bg-a-pic { position: absolute; bottom: 157px; left: -64px; width: 144px; height: 80px; background: url(../images/invitation-01.png) no-repeat 0 -349px; }
+
+.bg-a-pic02 { position: absolute; bottom: -50px; left: -100px; width: 130px; height: 130px; background: url(../images/invitation-02.png); background-size: 100%; }
+
+.bg-a-pic03 { position: absolute; top: -120px; right: 20px; width: 170px; height: 170px; background: url(../images/invitation-02.png); background-size: 100%; }
+
+.bg-a-pic04 { position: absolute; top: 280px; right: -120px; width: 170px; height: 170px; background: url(../images/invitation-02.png); background-size: 100%; }
+
+.bg-a-pic05 { position: absolute; bottom: -90px; right: -60px; width: 150px; height: 150px; background: url(../images/invitation-03.png); background-size: 100%; }
+
+.bg-a-pic06 { position: absolute; top: -90px; right: 20px; width: 130px; height: 130px; background: url(../images/invitation-03.png); background-size: 100%; }
+
+.bg-a-pic07 { position: absolute; bottom: 160px; left: -40px; width: 130px; height: 130px; background: url(../images/invitation-03.png); background-size: 100%; }
+
+.bg-a-pic08 { position: absolute; top: 385px; right: -100px; width: 300px; height: 300px; background: url(../images/invitation-04.png); background-size: 100%; z-index: 20; }
+
+.bg-a-pic09 { position: absolute; top: 710px; left: -110px; width: 300px; height: 300px; background: url(../images/invitation-04.png); background-size: 100%; z-index: 20; }
+
+
+.bg-a-pic10 { position: absolute; top: 385px; right: -100px; width: 300px; height: 300px; background: url(../images/invitation-05.png); background-size: 100%; z-index: 20; }
+
+.bg-a-pic11 { position: absolute; top: 710px; left: -110px; width: 300px; height: 300px; background: url(../images/invitation-05.png); background-size: 100%; z-index: 20; }
+
+
+.bg-a-pic12 { position: absolute; bottom: 157px; left: -64px; width: 144px; height: 80px; background: url(../images/invitation-01.png) no-repeat 0 -457px; z-index: 20; opacity: .75; }
+
+
+.invitation-content li.neirong { height: 144px; position: relative; z-index: 25; text-align: justify; margin: 30px 0; font-size: 22px; color: #666; line-height: 1.65; overflow: hidden; text-overflow: ellipsis; -webkit-box-orient: vertical; -webkit-line-clamp: 4; display: -webkit-box; }
+
+.avatar { width: 88px; height: 88px; border-radius: 50%; overflow: hidden; margin-right: 20px; }
+
+.avatar img { width: 100%; height: 100%; }
+
+.invitation-content .p01 { color: #333; text-align: left; font-size: 28px; margin-bottom: 8px; }
+
+.invitation-content .p02 { color: #999; font-size: 22px; }
+
+.invitation-kuang { width: 410px; margin: 40px auto 25px; }
+
+.big-title-position { margin-top: 14px; width: 100%; height: 170px; box-sizing: border-box; position: relative }
+
+.invitation-content .big-title { box-sizing: border-box; top: 50%; left: 50%; width: 100%; font-size: 36px; max-height: 100%; padding: 0 30px;  overflow: hidden; }
+
+.invitation-content .big-title span { overflow: hidden; text-overflow: ellipsis; -webkit-box-orient: vertical; -webkit-line-clamp: 2; display: -webkit-box; }
+
+.invitation-content .head03 { width: 85px; height: 85px; border: 3px solid #fff; margin: -90px auto 0; border-radius: 50%; overflow: hidden; }
+
+.invitation-content .head03 img { width: 100%; height: 100%; }
+/*邀请函结束*/

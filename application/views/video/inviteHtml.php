@@ -23,7 +23,7 @@
 <body>
     <div id="InviteCard" class="rel invitation-overflow">
         <div class="invitation-bg-01" style="background: #00a8ff;">
-            <img src="/static/invite/invitation-bg-03.jpg" style="width: 100%;">
+            <img src="/static/invite/invitation-bg-04.jpg" style="width: 100%;">
         </div>
         <div class="rel" style="z-index: 2;">
             <div style="padding: 45px 0;">

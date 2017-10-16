@@ -138,6 +138,10 @@ class Video extends SczController {
     {
         echo file_get_contents(APPPATH.'../static/invite/invite.html');
     }
+    function inviteHtml1()
+    {
+         
+    }
 
   
 

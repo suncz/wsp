@@ -22,6 +22,7 @@
 
 <body>
     <div id="InviteCard" class="rel invitation-overflow">
+         <iframe id="childframe" name="childframe" ref="childframe" src="" style="display:none;"></iframe> 
         <div class="invitation-bg-01" style="background: #00a8ff;">
             <img src="/static/invite/invitation-bg-03.jpg" style="width: 100%;">
         </div>
@@ -64,9 +65,9 @@
         window.onload = function () {
             html2canvas(document.getElementById("InviteCard"), {
                 onrendered: function (canvas) {
-                    try {
-                        alert(window.parent.document.getElementById("InviteCardImage").length);
-                        window.parent.document.getElementById("InviteCardImage").src = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+                    try {                        
+                        //window.parent.document.getElementById("InviteCardImage").src = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+                        document.getElementById('childframe').src = "http://hwsp.heyhou.com/interface?src="+canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
                     } catch (e) {
                     }
                 }

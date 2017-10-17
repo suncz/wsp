@@ -80,6 +80,7 @@
                                 xhr.open("POST", url, true);
                                 xhr.setRequestHeader("Content-Type", "application/octet-stream");
                                 xhr.setRequestHeader("Authorization", "UpToken " + token);
+                                pic=pic.replace('data:image/png;base64,','');
                                 console.log(pic)
                                 xhr.send(pic);
                             }

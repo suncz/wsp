@@ -73,6 +73,7 @@
                                 var obj;
                                 xhr.onreadystatechange = function () {
                                     if (xhr.readyState == 4) {
+                                        console.log('result:'+xhr.responseText);
                                         document.getElementById('childframe').src="http://hwsp.mzlicai.cn/interface?src=" + encodeURIComponent(xhr.responseText);
                                     }
                                 }

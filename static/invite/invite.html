@@ -88,7 +88,7 @@
                                 data: {
                                 },
                                 success: function (res) {
-                                    res = JSON.parse(res);
+//                                    res = JSON.parse(res);
                                     var token = res.data.token;
                                     putb64(canvas.toDataURL("image/png"), token);
                                 },

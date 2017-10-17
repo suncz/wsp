@@ -10,6 +10,7 @@ require_once (APPPATH . 'vendor/autoload.php');
 
 class Video extends SczController {
 
+    public $menu=['互动','介绍','榜单','合作','关注'];
     public function __construct() {
         parent::__construct();
         $this->load->model('redis/redisString');
@@ -30,6 +31,8 @@ class Video extends SczController {
         $vedio['praiseNum']=$this->fn->formatNumber($vedio['praiseNum']);
         $vedio['pvNum']=$this->fn->formatNumber($vedio['pvNum']);
         $vedio['bannerJson']= json_decode($vedio['bannerJson']);
+        $vedio['menuJson']= strlen($vedio['menuJson'])<5?$this->menu:json_decode($vedio['menuJson']);
+        
         $cooperation = $this->db->select('*')->from('config')->where('key', 'cooperation')->get()->result()[0];
 //        print_r($_SERVER);exit;
         $wechatScript = new \Wechat\WechatScript($this->config->item('wxYD'));

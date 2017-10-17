@@ -8,12 +8,12 @@ use Qiniu\Storage\UploadManager;
 class Tool extends sczController {
     function getQiniuToken()
     {
-        $isLogin=parent::isLogin();
-        if($isLogin===false)
-        {
-            $this->jsonOutput();
-            return;
-        }
+//        $isLogin=parent::isLogin();
+//        if($isLogin===false)
+//        {
+//            $this->jsonOutput();
+//            return;
+//        }
         $accessKey = 'Nvn2WQOsP8jUF8b7rXCaj9Td1V8yUrAZxZoL2X6c';
         $secretKey = 'WI6vG6ATtmvrMBVM9lkpAML9ulTyLGJEWIetzuz4';
         $auth = new Auth($accessKey, $secretKey);

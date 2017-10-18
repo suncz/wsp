@@ -137,13 +137,17 @@ class Video extends SczController {
         $this->jsonOutput();
     }
     
-    function inviteHtml()
+    function inviteHtml2()
     {
         echo file_get_contents(APPPATH.'../static/invite/invite.html');
     }
-    function inviteHtml1()
+    function inviteHtml()
     {
-         
+        $videoId=$_GET['videoId'];
+        $userId=$_GET['userId'];
+        $videoInfo=$this->db->select('*')->from('video')->where('id',$videoId)->get()->row();//获取视频
+        $data['videoInfo']=$videoInfo;
+        $this-> load -> view('video/inviteHtml',$data);
     }
 
   

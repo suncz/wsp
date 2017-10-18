@@ -73,7 +73,7 @@
                                 var obj;
                                 xhr.onreadystatechange = function () {
                                     if (xhr.readyState == 4) {
-                                        console.log('result:'+xhr.responseText);
+                                        //console.log('result:'+xhr.responseText);
                                         var result = JSON.parse(xhr.response);                        
                                         var imgUrl ='http://resource.mzlicai.cn/'+result.key;
                                         document.getElementById('childframe').src="http://hwsp.mzlicai.cn/interface?src=" + encodeURIComponent(imgUrl);
@@ -84,7 +84,7 @@
                                 xhr.setRequestHeader("Content-Type", "application/octet-stream");
                                 xhr.setRequestHeader("Authorization", "UpToken " + token);
                                 pic=pic.replace('data:image/png;base64,','');
-                                console.log(pic)
+                                //console.log(pic)
                                 xhr.send(pic);
                             }
                             $.ajax({
@@ -98,7 +98,7 @@
                                     putb64(canvas.toDataURL("image/png"), token);
                                 },
                                 error: function () {
-                                    console.log("上传base64至七牛失败");
+                                    //console.log("上传base64至七牛失败");
                                 }
                             })                            
                         } catch (e) {

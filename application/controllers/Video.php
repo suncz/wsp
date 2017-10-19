@@ -139,7 +139,13 @@ class Video extends SczController {
     
     function inviteHtml()
     {
-        echo file_get_contents(APPPATH.'../static/invite/invite.html');
+        $videoId=$_GET['videoId'];
+        $userId=$_GET['userId'];
+        $videoInfo=$this->db->select('*')->from('video')->where('id',$videoId)->get()->row();//获取视频
+        $data['videoInfo']=$videoInfo;
+        $content= file_get_contents(APPPATH.'../static/invite/invite.html');
+        $content= str_replace('{{title}}', $videoInfo->name, $content);
+        echo $content= str_replace('{{introduce}}', $videoInfo->introduce, $content);
     }
     function inviteHtml2()
     {

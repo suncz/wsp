@@ -137,11 +137,11 @@ class Video extends SczController {
         $this->jsonOutput();
     }
     
-    function inviteHtml2()
+    function inviteHtml()
     {
         echo file_get_contents(APPPATH.'../static/invite/invite.html');
     }
-    function inviteHtml()
+    function inviteHtml2()
     {
         $videoId=$_GET['videoId'];
         $userId=$_GET['userId'];

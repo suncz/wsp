@@ -94,7 +94,7 @@
                                     var token = res.data.token;
 //                                    putb64(canvas.toDataURL("image/png"), token);
                                     putb64(canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"), token);
-                                    console.log(canvas.toDataURL("image/png"));
+                                    console.log(canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
                                 },
                                 error: function () {
                                     //console.log("上传base64至七牛失败");

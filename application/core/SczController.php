@@ -29,6 +29,7 @@ class SczController extends CI_Controller {
             'http://localhost:8000',
             'http://hwsp.mzlicai.cn',
             'http://192.168.1.141:8000',
+            'http://wsp.me',
         );
         if (in_array($origin, $allow_origin)) {
             $this->output->set_header('Access-Control-Allow-Origin:' . $origin);

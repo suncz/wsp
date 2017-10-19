@@ -147,6 +147,14 @@ class Video extends SczController {
         $content= str_replace('{{title}}', $videoInfo->name, $content);
         echo $content= str_replace('{{introduce}}', $videoInfo->introduce, $content);
     }
+    function inviteHtml1()
+    {
+        $videoId=$_GET['videoId'];
+        $userId=$_GET['userId'];
+      
+        $content= file_get_contents(APPPATH.'../static/invite/invite.html');
+        echo $content ;
+    }
     function inviteHtml2()
     {
         $videoId=$_GET['videoId'];

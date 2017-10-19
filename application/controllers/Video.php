@@ -147,7 +147,7 @@ class Video extends SczController {
         $userId=$_GET['userId'];
         $videoInfo=$this->db->select('*')->from('video')->where('id',$videoId)->get()->row();//获取视频
         $data['videoInfo']=$videoInfo;
-        $this-> load -> view('video/inviteHtml',$data);
+        echo $this-> load -> view('video/inviteHtml',$data,true);
     }
 
   

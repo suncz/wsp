@@ -146,6 +146,7 @@ class Video extends SczController {
         $content= file_get_contents(APPPATH.'../static/invite/invite.html');
         $content= str_replace('{{title}}', $videoInfo->name, $content);
         echo $content= str_replace('{{introduce}}', $videoInfo->introduce, $content);
+        exit;
     }
     function inviteHtml1()
     {
@@ -154,6 +155,7 @@ class Video extends SczController {
       
         $content= file_get_contents(APPPATH.'../static/invite/invite.html');
         echo $content ;
+        exit;
     }
     function inviteHtml2()
     {

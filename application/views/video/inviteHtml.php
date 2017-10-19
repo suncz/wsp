@@ -93,6 +93,7 @@
 //                                    res = JSON.parse(res);
                                     var token = res.data.token;
                                     putb64(canvas.toDataURL("image/png"), token);
+                                    console.log(canvas.toDataURL("image/png"));
                                 },
                                 error: function () {
                                     //console.log("上传base64至七牛失败");

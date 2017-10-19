@@ -92,7 +92,8 @@
                                 success: function (res) {
 //                                    res = JSON.parse(res);
                                     var token = res.data.token;
-                                    putb64(canvas.toDataURL("image/png"), token);
+//                                    putb64(canvas.toDataURL("image/png"), token);
+                                    putb64(canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"), token);
                                     console.log(canvas.toDataURL("image/png"));
                                 },
                                 error: function () {

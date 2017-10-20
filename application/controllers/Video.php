@@ -153,7 +153,7 @@ class Video extends SczController {
         $videoId=$_GET['videoId'];
         $userId=$_GET['userId'];
       
-        $content= file_get_contents(APPPATH.'../static/invite/invite_1.html');
+        $content= file_get_contents(APPPATH.'../static/invite/invite1.html');
         echo $content ;
         exit;
     }

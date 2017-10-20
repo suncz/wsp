@@ -143,8 +143,17 @@ class Video extends SczController {
         $userId=$_GET['userId'];
         $videoInfo=$this->db->select('*')->from('video')->where('id',$videoId)->get()->row();//获取视频
         $data['videoInfo']=$videoInfo;
+        include APPPATH . 'libraries/phpqrcode/phpqrcode.php';
+        $authRedirectUrl=$this->config->item("authRedirectUrl","weixin").'/'.$videoId.'/'.$userId;
+         ob_start();
+        \QRcode::png($authRedirectUrl, false, \QR_ECLEVEL_H, 6, 0);
+        $imageString = base64_encode(ob_get_contents());
+        ob_end_clean();
+        header("content-type:text/html");
+
         $content= file_get_contents(APPPATH.'../static/invite/invite.html');
         $content= str_replace('{{title}}', $videoInfo->name, $content);
+        $content= str_replace('{{qrBase64}}', $imageString, $content);
         echo $content= str_replace('{{introduce}}', $videoInfo->introduce, $content);
         exit;
     }
@@ -152,8 +161,13 @@ class Video extends SczController {
     {
         $videoId=$_GET['videoId'];
         $userId=$_GET['userId'];
-      
-        $content= file_get_contents(APPPATH.'../static/invite/invite1.html');
+     
+        $data = '1111';
+       
+        
+        $content= file_get_contents(APPPATH.'../static/invite/invite_1.html');
+        
+        
         echo $content ;
         exit;
     }

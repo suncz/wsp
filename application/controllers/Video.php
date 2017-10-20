@@ -10,7 +10,7 @@ require_once (APPPATH . 'vendor/autoload.php');
 
 class Video extends SczController {
 
-    public $menu=[1=>'互动12',2=>'介绍',3=>'榜单',4=>'合作',5=>'关注'];
+    public $menu=['a'=>'互动12','b'=>'介绍','c'=>'榜单','d'=>'合作','e'=>'关注'];
     public function __construct() {
         parent::__construct();
         $this->load->model('redis/redisString');
@@ -20,11 +20,11 @@ class Video extends SczController {
 
     public function detail() {
         $videoId= $_GET['videoId'];
-        $isLogin = parent::isLogin();
-        if ($isLogin == false) {
-            $this->jsonOutput();
-            return;
-        }
+//        $isLogin = parent::isLogin();
+//        if ($isLogin == false) {
+//            $this->jsonOutput();
+//            return;
+//        }
         $sql="update video set pvNum = pvNum + 1 WHERE id = $videoId";
         $this->db->query($sql);
         $vedio = $this->db->select('*')->from('video')->where('id', $videoId)->get()->result_array()[0]; //获取视频 

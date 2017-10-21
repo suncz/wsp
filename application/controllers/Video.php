@@ -10,7 +10,7 @@ require_once (APPPATH . 'vendor/autoload.php');
 
 class Video extends SczController {
 
-    public $menu=['a'=>'互动12','b'=>'介绍','c'=>'榜单','d'=>'合作','e'=>'关注'];
+    public $menu=['a'=>'互动','b'=>'介绍','c'=>'榜单','d'=>'合作','e'=>'关注'];
     public function __construct() {
         parent::__construct();
         $this->load->model('redis/redisString');

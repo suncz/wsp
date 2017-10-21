@@ -89,15 +89,15 @@ class RedPacket extends SczController {
         $totalReceiveMoney = 0;
         $isRedPacketHostUser = false;
         foreach ($redPacketLogList as $key => &$value) {
-            if($key==($receivedNum-1))
-            {
-                break;
-            }
             $value['isBestLuck'] = 0;
             //是否要需要体现手气最佳  人气红包 并且全部被抢了才需要显示人气最佳
             if ($redPackInfo['type'] == '2' && $receivedNum == $redPackInfo['num'] && $value['receiveMoney'] > $tempMoney) {
-                $redPacketLogList[$key - 1]['isBestLuck'] = 0;
+                if($key)
+                {
+                    $redPacketLogList[$key - 1]['isBestLuck'] = 0;
+                }
                 $redPacketLogList[$key]['isBestLuck'] = 1;
+                $tempMoney = $value['receiveMoney'];
             }
             if ($value['receiverUserId'] == $userId) {
                 $userReceiveMoney = $value['receiveMoney'] / 100;
@@ -106,7 +106,6 @@ class RedPacket extends SczController {
             if ($redPackInfo['userId'] == $userId) {
                 $isRedPacketHostUser = true;
             }
-            $tempMoney = $value['receiveMoney'];
             $totalReceiveMoney += $value['receiveMoney'];
         }
         //红包发放者是此登录用户

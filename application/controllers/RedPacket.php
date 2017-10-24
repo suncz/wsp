@@ -42,8 +42,6 @@ class RedPacket extends SczController {
         foreach ($redPacketLogList as $key => &$value) {
             if ($value['receiverUserId'] == $userId) {
                 $isReceived = 1;
-            } else {
-                $isReceived = 0;
             }
             $tempMoney = $value['receiveMoney'];
         }
@@ -117,7 +115,7 @@ class RedPacket extends SczController {
                 if ($receivedNum == $redPackInfo['num']) {
                     $displayWord = $redPackInfo['num'] . '个红包共' . ($redPackInfo['money'] / 100) . '元';
                 } else {
-                    $displayWord = '已领取' . $receivedNum . '/' . $redPackInfo['num'] . '个红包共' . ($totalReceiveMoney / 100) . '/' . ($redPackInfo['money'] / 100) . '元';
+                    $displayWord = '已领取' . $receivedNum . '/' . $redPackInfo['num'] . '个红包共' . ($totalReceiveMoney / 100) . 'yuan/' . ($redPackInfo['money'] / 100) . '元';
                 }
             }
             //人气红包
@@ -145,7 +143,7 @@ class RedPacket extends SczController {
             else if ($redPackInfo['type'] == 2) {
                 //红包派发完了
                 if ($receivedNum == $redPackInfo['num']) {
-                    $displayWord = $redPackInfo['num'] . '个红包共'.($redPackInfo['money'] / 100).'元，已全部被抢光';
+                    $displayWord = $redPackInfo['num'] . '个红包共'.($redPackInfo['money'] / 100).'，已全部被抢光';
                 } else {
                     $displayWord = '已领取' . $receivedNum . '/' . $redPackInfo['num'] . '个红包';
                 }

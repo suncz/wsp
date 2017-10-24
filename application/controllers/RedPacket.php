@@ -100,7 +100,7 @@ class RedPacket extends SczController {
                 $tempMoney = $value['receiveMoney'];
             }
             if ($value['receiverUserId'] == $userId) {
-                $userReceiveMoney = $value['receiveMoney'] / 100;
+                $userReceiveMoney = $value['receiveMoney'];
             }
             //红包发放者是此登录用户
             if ($redPackInfo['userId'] == $userId) {
@@ -108,6 +108,7 @@ class RedPacket extends SczController {
             }
             $totalReceiveMoney += $value['receiveMoney'];
         }
+
         //红包发放者是此登录用户
         if ($isRedPacketHostUser) {
             //普通红包
@@ -144,7 +145,7 @@ class RedPacket extends SczController {
             else if ($redPackInfo['type'] == 2) {
                 //红包派发完了
                 if ($receivedNum == $redPackInfo['num']) {
-                    $displayWord = $redPackInfo['num'] . '个红包共，已全部被抢光';
+                    $displayWord = $redPackInfo['num'] . '个红包共'.($redPackInfo['money'] / 100).'元，已全部被抢光';
                 } else {
                     $displayWord = '已领取' . $receivedNum . '/' . $redPackInfo['num'] . '个红包';
                 }

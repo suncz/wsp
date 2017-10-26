@@ -93,7 +93,6 @@ class RedPacket extends SczController {
             $value['isBestLuck'] = 0;
             //是否要需要体现手气最佳  人气红包 并且全部被抢了才需要显示人气最佳
             if ($redPackInfo['type'] == '2' && $receivedNum == $redPackInfo['num'] && $value['receiveMoney'] > $tempMoney) {
-                echo "a";
                 $tempMoney = $value['receiveMoney'];
                 $value['isBestLuck'] = 1;
                 if ($key > 0) {

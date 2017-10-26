@@ -77,7 +77,7 @@ class Video extends SczController {
         }
         $videoId=$_GET['videoId'];
         $rewardRankKey = RedisKey::INVITE_RANK_VIDEOID .$videoId;
-        $list = $this->redisZSet->zRevRange($rewardRankKey, 0, 10, true);
+        $list = $this->redisZSet->zRevRange($rewardRankKey, 0, 9, true);
 
 //        exit;
         $userRankList = [];

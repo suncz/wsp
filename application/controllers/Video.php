@@ -10,7 +10,7 @@ require_once (APPPATH . 'vendor/autoload.php');
 
 class Video extends SczController {
 
-    public $menu=['a'=>'互动12','b'=>'介绍','c'=>'榜单','d'=>'合作','e'=>'关注'];
+    public $menu=['a'=>'互动','b'=>'介绍','c'=>'榜单','d'=>'合作','e'=>'关注'];
     public function __construct() {
         parent::__construct();
         $this->load->model('redis/redisString');
@@ -129,11 +129,13 @@ class Video extends SczController {
         $videoId=$_GET['videoId'];
         $fromUserId=$_GET['fromUserId'];
         $videoInfo=$this->db->select('*')->from('video')->where('id',$videoId)->get()->result()[0];	//获取视频
+        $invitePicUrlInfo=$this->db->select('*')->from('invitePicUrl')->where('videoId',$videoId)->where('UserId',$fromUserId)->get()->row();
         $fromUserInfo = $this->redisHash->all(redisKey::USER_INFO_HASH_ID . $fromUserId);
         $this->result['data']['videoInfo']=$videoInfo;
         $this->result['data']['qrCodeUrl']=$this->config->item('authRedirectUrl','weixin').'/'.$videoId.'/'.$fromUserId;
         $this->result['data']['userInfo']['nickName']=$fromUserInfo['nickName'];
         $this->result['data']['userInfo']['headImgUrl']=$fromUserInfo['headImgUrl'];
+        $this->result['data']['qiNiuUrl']=$invitePicUrlInfo===NULL?'':$invitePicUrlInfo->url;
         $this->jsonOutput();
     }
     
@@ -143,8 +145,17 @@ class Video extends SczController {
         $userId=$_GET['userId'];
         $videoInfo=$this->db->select('*')->from('video')->where('id',$videoId)->get()->row();//获取视频
         $data['videoInfo']=$videoInfo;
+        include APPPATH . 'libraries/phpqrcode/phpqrcode.php';
+        $authRedirectUrl=$this->config->item("authRedirectUrl","weixin").'/'.$videoId.'/'.$userId;
+         ob_start();
+        \QRcode::png($authRedirectUrl, false, \QR_ECLEVEL_H, 6, 0);
+        $imageString = base64_encode(ob_get_contents());
+        ob_end_clean();
+        header("content-type:text/html");
+
         $content= file_get_contents(APPPATH.'../static/invite/invite.html');
         $content= str_replace('{{title}}', $videoInfo->name, $content);
+        $content= str_replace('{{qrBase64}}', $imageString, $content);
         echo $content= str_replace('{{introduce}}', $videoInfo->introduce, $content);
         exit;
     }
@@ -152,8 +163,13 @@ class Video extends SczController {
     {
         $videoId=$_GET['videoId'];
         $userId=$_GET['userId'];
-      
+     
+        $data = '1111';
+       
+        
         $content= file_get_contents(APPPATH.'../static/invite/invite_1.html');
+        
+        
         echo $content ;
         exit;
     }
@@ -164,6 +180,26 @@ class Video extends SczController {
         $videoInfo=$this->db->select('*')->from('video')->where('id',$videoId)->get()->row();//获取视频
         $data['videoInfo']=$videoInfo;
         echo $this-> load -> view('video/inviteHtml',$data,true);
+    }
+    
+    function saveQiNiuUrl()
+    {
+        $videoId=$_POST['videoId'];
+        $userId=$_POST['userId'];
+        $qiNiuUrl=$_POST['qiNiuUrl'];
+        $invitePicUrlInfo=$this->db->select('*')->from('invitePicUrl')->where('videoId',$videoId)->where('UserId',$userId)->get()->row();
+        if($invitePicUrlInfo===NULL)
+        {
+            $inertData=['videoId'=>$videoId,'userId'=>$userId,'createTime'=> date("Y-m-d H:i:s"),'url'=>$qiNiuUrl];
+            $this->db->insert('invitePicUrl',$inertData); 
+        
+        }
+        else
+        {
+            $this->result['ret']="3011";
+            $this->result['ret']="数据已经存在";
+        }
+        $this->jsonOutput();
     }
 
   

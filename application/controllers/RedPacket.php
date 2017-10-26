@@ -42,8 +42,6 @@ class RedPacket extends SczController {
         foreach ($redPacketLogList as $key => &$value) {
             if ($value['receiverUserId'] == $userId) {
                 $isReceived = 1;
-            } else {
-                $isReceived = 0;
             }
             $tempMoney = $value['receiveMoney'];
         }
@@ -90,10 +88,6 @@ class RedPacket extends SczController {
         $isRedPacketHostUser = false;
         $bestKey=false;
         foreach ($redPacketLogList as $key => &$value) {
-            if($key==($receivedNum-1))
-            {
-                break;
-            }
             $value['isBestLuck'] = 0;
             //是否要需要体现手气最佳  人气红包 并且全部被抢了才需要显示人气最佳
             if ($redPackInfo['type'] == '2' && $receivedNum == $redPackInfo['num'] && $value['receiveMoney'] > $tempMoney) { 
@@ -103,13 +97,12 @@ class RedPacket extends SczController {
             }
             
             if ($value['receiverUserId'] == $userId) {
-                $userReceiveMoney = $value['receiveMoney'] / 100;
+                $userReceiveMoney = $value['receiveMoney'];
             }
             //红包发放者是此登录用户
             if ($redPackInfo['userId'] == $userId) {
                 $isRedPacketHostUser = true;
             }
-            $tempMoney = $value['receiveMoney'];
             $totalReceiveMoney += $value['receiveMoney'];
         }
         
@@ -121,7 +114,7 @@ class RedPacket extends SczController {
                 if ($receivedNum == $redPackInfo['num']) {
                     $displayWord = $redPackInfo['num'] . '个红包共' . ($redPackInfo['money'] / 100) . '元';
                 } else {
-                    $displayWord = '已领取' . $receivedNum . '/' . $redPackInfo['num'] . '个红包共' . ($totalReceiveMoney / 100) . '/' . ($redPackInfo['money'] / 100) . '元';
+                    $displayWord = '已领取' . $receivedNum . '/' . $redPackInfo['num'] . '个红包共' . ($totalReceiveMoney / 100) . 'yuan/' . ($redPackInfo['money'] / 100) . '元';
                 }
             }
             //人气红包
@@ -149,7 +142,7 @@ class RedPacket extends SczController {
             else if ($redPackInfo['type'] == 2) {
                 //红包派发完了
                 if ($receivedNum == $redPackInfo['num']) {
-                    $displayWord = $redPackInfo['num'] . '个红包共，已全部被抢光';
+                    $displayWord = $redPackInfo['num'] . '个红包共'.($redPackInfo['money'] / 100).'，已全部被抢光';
                 } else {
                     $displayWord = '已领取' . $receivedNum . '/' . $redPackInfo['num'] . '个红包';
                 }

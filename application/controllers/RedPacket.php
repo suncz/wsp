@@ -9,7 +9,9 @@
 require_once (APPPATH . 'vendor/autoload.php');
 
 class RedPacket extends SczController {
-    public $limitRedPacketNum=500;
+
+    public $limitRedPacketNum = 500;
+
     public function __construct() {
         parent::__construct();
         $this->load->model('redis/redisString');
@@ -86,26 +88,27 @@ class RedPacket extends SczController {
         $userReceiveMoney = 0;
         $totalReceiveMoney = 0;
         $isRedPacketHostUser = false;
+        $bestKey = 0;
         foreach ($redPacketLogList as $key => &$value) {
             $value['isBestLuck'] = 0;
             //是否要需要体现手气最佳  人气红包 并且全部被抢了才需要显示人气最佳
             if ($redPackInfo['type'] == '2' && $receivedNum == $redPackInfo['num'] && $value['receiveMoney'] > $tempMoney) {
-                if($key)
-                {
-                    $redPacketLogList[$key - 1]['isBestLuck'] = 0;
-                }
-                $redPacketLogList[$key]['isBestLuck'] = 1;
                 $tempMoney = $value['receiveMoney'];
+                $value['isBestLuck'] = 1;
+                if ($key > 0) {
+                    $redPacketLogList[$bestKey]['isBestLuck'] = 0;
+                }
+                $bestKey = $key;
             }
-            if ($value['receiverUserId'] == $userId) {
-                $userReceiveMoney = $value['receiveMoney'];
-            }
-            //红包发放者是此登录用户
-            if ($redPackInfo['userId'] == $userId) {
-                $isRedPacketHostUser = true;
-            }
-            $totalReceiveMoney += $value['receiveMoney'];
         }
+        if ($value['receiverUserId'] == $userId) {
+            $userReceiveMoney = $value['receiveMoney'];
+        }
+        //红包发放者是此登录用户
+        if ($redPackInfo['userId'] == $userId) {
+            $isRedPacketHostUser = true;
+        }
+        $totalReceiveMoney += $value['receiveMoney'];
 
         //红包发放者是此登录用户
         if ($isRedPacketHostUser) {
@@ -160,7 +163,7 @@ class RedPacket extends SczController {
      * 用户发放红包 生成红包id
      */
     public function sendRedPacket() {
-         $isLogin=parent::isLogin();
+        $isLogin = parent::isLogin();
         if ($isLogin == false) {
             $this->jsonOutput();
         }
@@ -177,13 +180,13 @@ class RedPacket extends SczController {
         }
         if ($num > $this->limitRedPacketNum) {
             $this->result['ret'] = 2001;
-            $this->result['msg'] = '红包数量不得超过'.$this->limitRedPacketNum.'个';
+            $this->result['msg'] = '红包数量不得超过' . $this->limitRedPacketNum . '个';
             $this->jsonOutput();
             return;
         }
         if ($money < $num) {
             $this->result['ret'] = 2002;
-            $this->result['msg'] = '金额至少为'.($num/100).'元';
+            $this->result['msg'] = '金额至少为' . ($num / 100) . '元';
             $this->jsonOutput();
             return;
         }
@@ -313,8 +316,8 @@ class RedPacket extends SczController {
                 'type' => 4,
             ];
             $this->db->insert('comment', $insertComment);
-            $accountSql = "update user set account=account+$money where id=".$this->userInfo['userId'];
-           
+            $accountSql = "update user set account=account+$money where id=" . $this->userInfo['userId'];
+
             $rows = $this->db->query($accountSql);
             if ($rows == 0) {
                 throw new Exception("网络繁忙", 1002);
@@ -348,13 +351,11 @@ class RedPacket extends SczController {
             if ($redPacketComment == NULL) {
                 //插入comment表
                 //打赏平台红包
-                if($redPackeInfo->type==3)
-                {
-                    $commentType=5;
+                if ($redPackeInfo->type == 3) {
+                    $commentType = 5;
                 }//用户发放红包
-                else
-                {
-                    $commentType=3;
+                else {
+                    $commentType = 3;
                 }
                 $insertComment = [
                     'videoId' => $redPackeInfo->videoId,
@@ -401,7 +402,7 @@ class RedPacket extends SczController {
                 } else {
                     $money = $this->redisZSet->score($rewardRankKey, $this->userInfo['userId']);
                     $myselfRankInfo['rank'] = $myselfRank;
-                    $myselfRankInfo['money'] = round($money/100,2);
+                    $myselfRankInfo['money'] = round($money / 100, 2);
                     $myselfRankInfo['userId'] = $this->userInfo['userId'];
                     $myselfRankInfo['headImgUrl'] = $this->userInfo['headImgUrl'];
                     $myselfRankInfo['nickname'] = $this->userInfo['nickName'];
@@ -418,7 +419,7 @@ class RedPacket extends SczController {
                 $userInfo['userId'] = $userId;
                 $userInfo['headImgUrl'] = $newUserInfos[$userId]['headImgUrl'];
                 $userInfo['nickname'] = $newUserInfos[$userId]['nickname'];
-                $userInfo['money'] =  round($money/100,2);
+                $userInfo['money'] = round($money / 100, 2);
                 $userInfo['rank'] = $i;
                 $userRankList[] = $userInfo;
                 $i++;

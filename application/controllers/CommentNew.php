@@ -22,7 +22,7 @@ class CommentNew extends SczController {
         }
         $videoId = $_GET['videoId'];
         $commentId = $_GET['commentId'];
-        $timeReferencePoint = isset($_GET['timeReferencePointLine'])?$_GET['timeReferencePointLine']:time();//时间参照点
+        $timeReferencePoint = isset($_GET['timeReferencePointLine']) ? $_GET['timeReferencePointLine'] : time(); //时间参照点
         $type = $_GET['type'];
         if ($type == 'new') {
             if ($commentId == 0) {
@@ -41,37 +41,50 @@ class CommentNew extends SczController {
             $this->jsonOutput();
             return;
         }
-        $comentList = $this->db->select('*')->from('comment')->where($array)->order_by('createTime','desc')->limit(10)->get()->result_array();
-
-        $i=0;
-        $commentListNew=[];
-        foreach($comentList as $key =>$value)
-        { 
-            //如果是红包类型消息，且该消息和当前用户无关，则过滤此消息
-            if($value['type']==4&&$this->userInfo['userId']!=$value['userId']&&$this->userInfo['userId']!=$value['redPacketUserId'])
+        $commentListNew = [];
+         $i = 0;
+        while (true) { 
+            $comentList = $this->db->select('*')->from('comment')->where($array)->order_by('createTime', 'desc')->limit(10)->get()->result_array();
+            if(count($comentList)==0)
             {
-                continue;
+                break;
             }
-            $value['getRedPacketMoney']=round($value['getRedPacketMoney']/100,2);
-            $createTime=strtotime($value['createTime']);
-            $commentListNew[$i]=$value;
-            $i++;
+            foreach ($comentList as $key => $value) {
+                $lastCommentId=$value['id'];
+                //如果是红包类型消息，且该消息和当前用户无关，则过滤此消息
+                if ($value['type'] == 4 && $this->userInfo['userId'] != $value['userId'] && $this->userInfo['userId'] != $value['redPacketUserId']) {
+                    continue;
+                }
+                $value['getRedPacketMoney'] = round($value['getRedPacketMoney'] / 100, 2);
+                $createTime = strtotime($value['createTime']);
+                $commentListNew[$i] = $value;
+                $i++;
 //            echo $createTime."<br />";
-            //在五分钟之内
-            if(abs($createTime-$timeReferencePoint)<5*60)
+                //在五分钟之内
+                if (abs($createTime - $timeReferencePoint) < 5 * 60) {
+                    
+                } else {
+
+                    $timeReferencePoint = $createTime;
+                    $commentListNew[$i]['content'] = $this->fn->getTimeFormat($createTime);
+                    $commentListNew[$i]['timeReferencePointLine'] = $createTime;
+                    $commentListNew[$i]['type'] = 10;
+                    $i++;
+                }
+                if($i==10)
+                {
+                    break;
+                }
+            }
+            if(count($commentListNew)<10)
             {
-                 
+                $array['id<']=$lastCommentId;
             }
             else
             {
-                
-                $timeReferencePoint=$createTime;
-                $commentListNew[$i]['content']=$this->fn->getTimeFormat($createTime);
-                $commentListNew[$i]['timeReferencePointLine']=$createTime;
-                $commentListNew[$i]['type']=10;  
-                $i++;
+                break;
             }
-        } 
+        }
         $this->result['data'] = $commentListNew;
         $this->jsonOutput();
     }
@@ -84,27 +97,26 @@ class CommentNew extends SczController {
         }
 //        print_r($this->userInfo);exit;
         $content = $_POST['content'];
-        if(mb_strlen($content)>500)
-        {
-            $this->result['ret']=3001;
-            $this->result['msg']='评论字数过多';
+        if (mb_strlen($content) > 500) {
+            $this->result['ret'] = 3001;
+            $this->result['msg'] = '评论字数过多';
             $this->jsonOutput();
-            return ;
+            return;
         }
         $pic = $_POST['pic'];
         $videoId = $_POST['videoId'];
         $data = array(
-            'videoId'=>$videoId,
-            'userId'=>$this->userInfo['userId'],
-            'userNickName'=>$this->userInfo['nickName'],
-            'userHeadImgUrl'=>$this->userInfo['headImgUrl'],
+            'videoId' => $videoId,
+            'userId' => $this->userInfo['userId'],
+            'userNickName' => $this->userInfo['nickName'],
+            'userHeadImgUrl' => $this->userInfo['headImgUrl'],
             'pic' => $pic,
             'content' => $content,
-            'createTime'=> date('Y-m-d H:i:s',time()),
-            'type'=> strlen($pic)>1?2:1
+            'createTime' => date('Y-m-d H:i:s', time()),
+            'type' => strlen($pic) > 1 ? 2 : 1
         );
-        
-        $this->db->insert('comment', $data); 
+
+        $this->db->insert('comment', $data);
         $this->jsonOutput();
     }
 

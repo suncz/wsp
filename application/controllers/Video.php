@@ -25,6 +25,7 @@ class Video extends SczController {
             $this->jsonOutput();
             return;
         }
+        $followQRCodeUrl=$this->config->item('followQRCodeUrl');
         $sql="update video set pvNum = pvNum + 1 WHERE id = $videoId";
         $this->db->query($sql);
         $vedio = $this->db->select('*')->from('video')->where('id', $videoId)->get()->result_array()[0]; //获取视频 
@@ -32,7 +33,7 @@ class Video extends SczController {
         $vedio['pvNum']=$this->fn->formatNumber($vedio['pvNum']);
         $vedio['bannerJson']= json_decode($vedio['bannerJson']);
         $vedio['menuJson']= strlen($vedio['menuJson'])<5?$this->menu:json_decode($vedio['menuJson']);
-        
+        $vedio['followQRCodeUrl']=strlen($vedio['followQRCodeUrl'])<5?$followQRCodeUrl:$vedio['followQRCodeUrl'];
         $cooperation = $this->db->select('*')->from('config')->where('key', 'cooperation')->get()->result()[0];
 //        print_r($_SERVER);exit;
         $wechatScript = new \Wechat\WechatScript($this->config->item('wxYD'));

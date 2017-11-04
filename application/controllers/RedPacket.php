@@ -362,6 +362,7 @@ class RedPacket extends SczController {
                     'userId' => $redPackeInfo->userId,
                     'userNickName' => $redPackeInfo->nickName,
                     'userHeadImgUrl' => $redPackeInfo->headImgUrl,
+                    'content' => $redPackeInfo->codeWord,
                     'redPacketId' => $redPacketId,
                     'redPacketMoney' => $redPackeInfo->money,
                     'redPacketLogId' => 0,

@@ -46,7 +46,7 @@ class SczController extends CI_Controller {
      */
     public function snsapiWeixin() {
         log_message('error', 'session Id is:'.session_id());
-        $userId = $this->redisHash->get(redisKey::USER_SESSION_ID_HASH, session_id());
+        $userId = $this->redisHash->get(redisKey::USER_SESSION_ID_HASH, session_id());  
         if ($userId) {
             log_message('error', '从redis中查找到了userId');
             $this->userInfo = $this->redisHash->all(redisKey::USER_INFO_HASH_ID . $userId);

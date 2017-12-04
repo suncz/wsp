@@ -37,6 +37,7 @@ class Video extends SczController {
         $vedio['followQRCodeUrl']=strlen($vedio['followQRCodeUrl'])<5?$followQRCodeUrl:$vedio['followQRCodeUrl'];
         $vedio['wechatSubscriptionName']=strlen($vedio['wechatSubscriptionName'])<5?$wechatSubscriptionName:$vedio['wechatSubscriptionName'];
         $cooperation = $this->db->select('*')->from('config')->where('key', 'cooperation')->get()->result()[0];
+        $cooperation->value= strlen($vedio['cooperationUrl'])>2?$vedio['cooperationUrl']:$cooperation->value;
 //        print_r($_SERVER);exit;
         $wechatScript = new \Wechat\WechatScript($this->config->item('wxYD'));
 //        $wechatScript = new \Wechat\WechatScript(['appid'=>'wxcbf5123494909b33','appsecret'=>'7f2259347555e4a693246c31a4cb6d59']);

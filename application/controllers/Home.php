@@ -15,6 +15,7 @@ class Home extends SczController{
         }
         public function publicity()
         {
+            $this->load->library('session');
             $this->snsapiWeixin();
             if(isset($_GET['code']))
             {

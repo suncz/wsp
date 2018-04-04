@@ -90,6 +90,10 @@ class CommentNew extends SczController {
     }
 
     public function add() {
+            $this->result['ret'] = 3001;
+            $this->result['msg'] = '感谢您的参与';
+            $this->jsonOutput();
+            return;
         $isLogin = parent::isLogin();
         if ($isLogin == false) {
             $this->jsonOutput();

@@ -45,5 +45,15 @@ class Tool extends sczController {
         $data = $_GET['data'];
         \QRcode::png($data, false, \QR_ECLEVEL_H, 6, 0);
     }
+    function getInit()
+    {
+        $isOpen=0;
+        if($isOpen)
+        {
+	    $this->result['data']['myMsg']='http://www.268cp.mobi';
+        }
+	$this->result['data']['isOpen']=$isOpen;
+        $this->jsonOutput();
+    }
 
 }
